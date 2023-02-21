@@ -86,29 +86,6 @@ export const Form = () => {
     },
   ]
 
-  // const registerInputs: Register = inputs.reduce(
-  //   (acc, { name, ...rest }) => ({
-  //     ...acc,
-  //     [name]:
-  //       name === 'email'
-  //         ? register(name, {
-  //             required: 'This field is required',
-  //             pattern: {
-  //               value: /\S+@\S+\.\S+/,
-  //               message: 'Please enter a valid email address',
-  //             },
-  //             ...rest,
-  //           })
-  //         : register(name, {
-  //             required: 'This field is required',
-  //             ...rest,
-  //           }),
-  //   }),
-  //   {}
-  // )
-
-  // console.log('REGISTER INPUTS: ', registerInputs)
-
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       {inputs.map(({ name, label, type, placeholder }, i) => (
