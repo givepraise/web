@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { ConnectButton } from '@rainbow-me/rainbowkit'
 import { SITE_NAME } from '@/utils/config'
+import { SignOutButton } from '../ui/buttons/SignOutButton'
 
 export function Header() {
   return (
@@ -11,6 +12,7 @@ export function Header() {
         </h1>
       </Link>
       <ConnectButton />
+      <SignOutButton />
     </header>
   )
 }
