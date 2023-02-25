@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react'
+import { FunctionComponent, ChangeEvent } from 'react'
 import { UseFormRegister } from 'react-hook-form'
 
 interface FormInputProps {
@@ -6,6 +6,7 @@ interface FormInputProps {
   label: string
   type: string
   placeholder: string
+  onChange?: (e: ChangeEvent<HTMLInputElement>) => void
   register: UseFormRegister<any>
   validationRules?: Record<any, any>
   error?: { message?: string }
@@ -16,6 +17,7 @@ export const FormInput: FunctionComponent<FormInputProps> = ({
   label,
   type,
   placeholder,
+  onChange,
   register,
   validationRules,
   error,
@@ -31,8 +33,12 @@ export const FormInput: FunctionComponent<FormInputProps> = ({
         type={type}
         placeholder={placeholder}
         {...register(name, { ...validationRules })}
+        onChange={(e) => {
+          register(name, { ...validationRules })?.onChange?.(e)
+          onChange?.(e)
+        }}
       />
-      {error && <p className="mt-1 text-xs text-red-500">{error?.message}</p>}
+      {/* {error && <p className="mt-1 text-xs text-red-500">{error?.message}</p>} */}
     </div>
   )
 }

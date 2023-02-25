@@ -4,13 +4,14 @@ import { MainLayout } from '@/components/layout/MainLayout'
 import { Seo } from '@/components/layout/Seo'
 import { Web3Provider } from '@/providers/Web3'
 import { SessionProvider } from 'next-auth/react'
+import { RecoilRoot } from 'recoil'
 
 export default function App({
   Component,
   pageProps: { session, ...pageProps },
 }: AppProps) {
   return (
-    <>
+    <RecoilRoot>
       <Seo />
       <Web3Provider>
         <SessionProvider session={session}>
@@ -19,6 +20,6 @@ export default function App({
           </MainLayout>
         </SessionProvider>
       </Web3Provider>
-    </>
+    </RecoilRoot>
   )
 }

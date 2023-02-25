@@ -1,47 +1,38 @@
-import { FunctionComponent, useState } from 'react'
+import { FunctionComponent, useState, ChangeEvent } from 'react'
 import { UseFormRegister } from 'react-hook-form'
 
 interface FormSelectProps {
   name: string
   label: string
-  placeholder: string
   register: UseFormRegister<any>
   options: { value: string; label: string }[]
   error?: { message?: string }
-  onClick?: () => void
+  onChange?: (e: ChangeEvent<HTMLSelectElement>) => void
 }
 
 export const FormSelect: FunctionComponent<FormSelectProps> = ({
   name,
   label,
-  placeholder,
   register,
   options,
   error,
-  onClick,
+  onChange,
 }) => {
   const [loading, setLoading] = useState(false)
 
-  const handleSelectClick = async () => {
-    if (onClick) {
-      setLoading(true)
-      await onClick()
-      setLoading(false)
-    }
-  }
-
   return (
     <div className="mb-4">
-      <label className="mb-2 block font-bold text-gray-700" htmlFor={name}>
+      <label className="block mb-2 font-bold text-gray-700" htmlFor={name}>
         {label}
       </label>
       <select
-        className="w-full appearance-none rounded border px-3 py-2 leading-tight text-gray-700 shadow focus:outline-none"
+        className="w-full px-3 py-2 leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none"
         id={name}
         {...register(name, { required: 'This field is required' })}
-        // onClick={handleSelectClick}
-      >
-        {/* <option value="">{placeholder}</option> */}
+        onChange={(e) => {
+          register(name)?.onChange?.(e)
+          onChange?.(e)
+        }}>
         {loading && <option disabled>Loading...</option>}
         {!loading &&
           options.map(({ value, label }) => (
