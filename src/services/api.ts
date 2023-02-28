@@ -6,6 +6,7 @@ export const fetchDiscordGuilds = async (accessToken: string) => {
       Authorization: `Bearer ${accessToken}`,
     },
   })
+
   return await response.json()
 }
 

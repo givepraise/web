@@ -1,14 +1,20 @@
 import DiscordProvider from 'next-auth/providers/discord'
 import NextAuth from 'next-auth'
+import {
+  DISCORD_CLIENT_ID,
+  DISCORD_CLIENT_SECRET,
+  NEXTAUTH_SECRET,
+} from '@/utils/config'
 
 // https://discord.com/developers/docs/topics/oauth2#shared-resources-oauth2-scopes
 const scopes = ['identify', 'guilds'].join(' ')
 
 export default NextAuth({
+  secret: NEXTAUTH_SECRET,
   providers: [
     DiscordProvider({
-      clientId: '993566544279896114',
-      clientSecret: 'Q0Z25vsGWid8F4UaZx9YoW3QcwR4akOI',
+      clientId: DISCORD_CLIENT_ID,
+      clientSecret: DISCORD_CLIENT_SECRET,
       authorization: { params: { scope: scopes } },
     }),
   ],

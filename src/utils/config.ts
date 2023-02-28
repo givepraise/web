@@ -8,3 +8,8 @@ export const SOCIAL_TWITTER = 'generalmagicio'
 export const SOCIAL_GITHUB = 'GeneralMagicio/next-web3-starter'
 
 export const WEB3_CHAINS = [mainnet, goerli]
+
+export const DISCORD_CLIENT_ID = process.env.DISCORD_CLIENT_ID as string
+export const DISCORD_CLIENT_SECRET = process.env.DISCORD_CLIENT_SECRET as string
+
+export const NEXTAUTH_SECRET = process.env.NEXTAUTH_SECRET as string
