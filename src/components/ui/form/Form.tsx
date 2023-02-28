@@ -7,9 +7,11 @@ import { formDataState } from '@/services/form'
 import { useRecoilState } from 'recoil'
 import { fetchDiscordGuilds, saveComunnityData } from '@/services/api'
 import { FormData } from '@/types/formData.type'
+import { useAccount } from 'wagmi'
 
 export const Form = () => {
   const { data: session } = useSession()
+  const { address, isConnected } = useAccount()
 
   const [formData, setFormData] = useRecoilState(formDataState)
   const [submitting, setSubmitting] = useState(false)
@@ -25,11 +27,15 @@ export const Form = () => {
   })
 
   const onSubmit: SubmitHandler<FormData> = async (data) => {
+    if (!isConnected || !address) {
+      throw new Error('Not connected to wallet')
+    }
+
     setSubmitting(true)
     setFormData(data)
 
     try {
-      const response = await saveComunnityData(data)
+      const response = await saveComunnityData(data, address)
       console.log(response)
       reset()
     } catch (error) {
@@ -64,7 +70,6 @@ export const Form = () => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      FORM DATA: {JSON.stringify(formData)}
       <div className="mb-4">
         <FormInput
           name="name"
