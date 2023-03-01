@@ -13,3 +13,9 @@ export const formDataState = atom({
   },
   effects_UNSTABLE: [persistAtom],
 })
+
+export const guildOptionsState = atom({
+  key: 'guildOptions',
+  default: [],
+  effects_UNSTABLE: [persistAtom],
+})
