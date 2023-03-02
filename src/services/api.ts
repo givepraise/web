@@ -1,5 +1,5 @@
 import { FormData } from '@/types/formData.type'
-import { useAccount } from 'wagmi'
+import { API_KEY, API_URL, NEXTAUTH_SECRET } from '@/utils/config'
 
 export const fetchDiscordGuilds = async (accessToken: string) => {
   const response = await fetch('https://discord.com/api/users/@me/guilds', {
@@ -13,15 +13,21 @@ export const fetchDiscordGuilds = async (accessToken: string) => {
 
 export const saveComunnityData = async (data: FormData, creator: string) => {
   const postData = {
-    ...data,
+    hostname: `http://${data.name
+      .toLowerCase()
+      .replace(/ /g, '-')}.givepraise.xyz`,
+    name: data.name,
     owners: data.owners.split(', ').concat(creator).join(', '),
     creator,
   }
 
-  const response = await fetch('https://example.com/api/endpoint', {
+  console.log(' process.env.API_URL', API_URL)
+
+  const response = await fetch(`${API_URL}/communities`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
+      'x-api-key': API_KEY,
     },
     body: JSON.stringify(postData),
   })

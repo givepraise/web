@@ -10,6 +10,7 @@ import { FormData } from '@/types/formData.type'
 import { useAccount } from 'wagmi'
 import { toast } from 'react-toastify'
 import { ConditionalDisableWrapper } from '../wrappers/ConditionalDisableWrapper'
+import { communityState } from '@/services/community'
 
 export const Form = () => {
   const { data: session } = useSession()
@@ -18,6 +19,7 @@ export const Form = () => {
   const [formData, setFormData] = useRecoilState(formDataState)
   const [submitting, setSubmitting] = useState(false)
   const [guildOptions, setGuildOptions] = useRecoilState(guildOptionsState)
+  const [community, setCommunity] = useRecoilState(communityState)
 
   const {
     register,
@@ -39,12 +41,16 @@ export const Form = () => {
         console.log(response)
         reset()
         toast.success('Form submitted successfully')
+        setSubmitting(false)
+
+        setCommunity({
+          name: response.name,
+          hostname: response.hostname,
+        })
       } catch (error) {
         console.error(error)
         toast.error('There was an error submitting the form')
       }
-
-      setSubmitting(false)
     } else {
       toast.error('Please connect your wallet before you submit the form')
     }
@@ -165,18 +171,21 @@ export const Form = () => {
           <>
             <div className="mb-4">
               <FormSelect
-                name="guild"
+                name="discordGuildId"
                 label="Guild"
                 options={guildOptions}
                 register={register}
                 onChange={(event) =>
-                  setFormData({ ...formData, guild: event.target.value })
+                  setFormData({
+                    ...formData,
+                    discordGuildId: event.target.value,
+                  })
                 }
               />
             </div>
             <button
               type="submit"
-              className="px-4 py-2 text-sm font-medium text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
+              className="rounded-md bg-blue-500 px-4 py-2 text-sm font-medium text-white hover:bg-blue-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
               disabled={submitting}>
               {submitting ? 'Submitting...' : 'Submit'}
             </button>
@@ -184,7 +193,7 @@ export const Form = () => {
         ) : (
           <button
             type="button"
-            className="px-4 py-2 text-sm font-medium text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
+            className="rounded-md bg-blue-500 px-4 py-2 text-sm font-medium text-white hover:bg-blue-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
             onClick={() => signIn('discord')}>
             Sign in with Discord
           </button>

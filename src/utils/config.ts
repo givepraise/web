@@ -13,3 +13,6 @@ export const DISCORD_CLIENT_ID = process.env.DISCORD_CLIENT_ID as string
 export const DISCORD_CLIENT_SECRET = process.env.DISCORD_CLIENT_SECRET as string
 
 export const NEXTAUTH_SECRET = process.env.NEXTAUTH_SECRET as string
+
+export const API_URL = process.env.NEXT_PUBLIC_API_URL as string
+export const API_KEY = process.env.NEXT_PUBLIC_API_KEY as string

@@ -1,8 +1,14 @@
 import NoSSR from '@/components/layout/NoSSR'
 import { Head } from '@/components/layout/Head'
 import { Form } from '@/components/ui/form/Form'
+import { useState } from 'react'
+import { CommunitySuccessPage } from '../components/community-success'
+import { useRecoilState } from 'recoil'
+import { communityState } from '@/services/community'
 
 export default function Home() {
+  const [community] = useRecoilState(communityState)
+
   return (
     <NoSSR>
       <Head />
@@ -12,8 +18,11 @@ export default function Home() {
           Powered by General Magic
         </h3>
       </main>
-
-      <Form />
+      {community.name && community.hostname ? (
+        <CommunitySuccessPage />
+      ) : (
+        <Form />
+      )}
     </NoSSR>
   )
 }
