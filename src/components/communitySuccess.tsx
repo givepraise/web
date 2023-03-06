@@ -14,6 +14,16 @@ export const CommunitySuccessPage = () => {
         Community {name} has been created!
       </h3>
       <a href={hostname}>{hostname}</a>
+      <h3>DISCORD</h3>
+      <p>
+        To get started praising, invite the Praise Bot to your Discord server
+      </p>
+
+      <a
+        href="https://discord.com/api/oauth2/authorize?client_id=993566544279896114&permissions=0&scope=bot"
+        className='className="rounded-md focus-visible:ring-opacity-75" bg-blue-500 px-4 py-2 text-sm font-medium text-white hover:bg-blue-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-white'>
+        Invite
+      </a>
     </>
   )
 }

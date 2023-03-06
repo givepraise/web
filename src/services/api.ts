@@ -12,16 +12,17 @@ export const fetchDiscordGuilds = async (accessToken: string) => {
 }
 
 export const saveComunnityData = async (data: FormData, creator: string) => {
+  const ownersString = data.owners.split(', ').concat(creator).join(', ')
+
   const postData = {
     hostname: `http://${data.name
       .toLowerCase()
       .replace(/ /g, '-')}.givepraise.xyz`,
     name: data.name,
-    owners: data.owners.split(', ').concat(creator).join(', '),
+    // owners: ownersString.split(/,\s*/),
+    owners: ownersString,
     creator,
   }
-
-  console.log(' process.env.API_URL', API_URL)
 
   const response = await fetch(`${API_URL}/communities`, {
     method: 'POST',
@@ -31,6 +32,31 @@ export const saveComunnityData = async (data: FormData, creator: string) => {
     },
     body: JSON.stringify(postData),
   })
+
+  if (!response.ok) {
+    throw new Error(`HTTP error! status: ${response.status}`)
+  }
+
+  return await response.json()
+}
+
+export const linkBotToCommunity = async (
+  signedMessage: string,
+  communityId: string
+) => {
+  const response = await fetch(
+    `${API_URL}/community/${communityId}/discord/link`,
+    {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': API_KEY,
+      },
+      body: JSON.stringify({
+        signed_message: signedMessage,
+      }),
+    }
+  )
 
   if (!response.ok) {
     throw new Error(`HTTP error! status: ${response.status}`)

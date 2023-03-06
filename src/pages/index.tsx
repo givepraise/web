@@ -1,8 +1,7 @@
 import NoSSR from '@/components/layout/NoSSR'
 import { Head } from '@/components/layout/Head'
 import { Form } from '@/components/ui/form/Form'
-import { useState } from 'react'
-import { CommunitySuccessPage } from '../components/community-success'
+import { CommunitySuccessPage } from '../components/communitySuccess'
 import { useRecoilState } from 'recoil'
 import { communityState } from '@/services/community'
 
