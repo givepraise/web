@@ -1,5 +1,5 @@
 import { FormData } from '@/types/formData.type'
-import { API_KEY, API_URL, NEXTAUTH_SECRET } from '@/utils/config'
+import { API_KEY, API_URL } from '@/utils/config'
 
 export const fetchDiscordGuilds = async (accessToken: string) => {
   const response = await fetch('https://discord.com/api/users/@me/guilds', {
@@ -19,8 +19,7 @@ export const saveComunnityData = async (data: FormData, creator: string) => {
       .toLowerCase()
       .replace(/ /g, '-')}.givepraise.xyz`,
     name: data.name,
-    // owners: ownersString.split(/,\s*/),
-    owners: ownersString,
+    owners: ownersString.split(/,\s*/),
     creator,
   }
 

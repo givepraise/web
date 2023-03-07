@@ -60,23 +60,21 @@ export default function LinkBot() {
   }, [query])
 
   return (
-    <NoSSR>
-      <SignMessageLayout
-        onSignSuccess={(signature): void => void onSignSuccess(signature)}
-        message={message}
-        buttonText="Sign login message">
-        <div className="flex w-full justify-center">
-          <div>
-            <div className="mb-2 text-center text-xl font-semibold">
-              Link Praise Discord Bot to Community
-            </div>
-            <div className="text-center">Cool Community</div>
-            <div className="text-center">
-              Collect wallet and sign a message to link bot.
-            </div>
+    <SignMessageLayout
+      onSignSuccess={(signature): void => void onSignSuccess(signature)}
+      message={message}
+      buttonText="Sign login message">
+      <div className="flex w-full justify-center">
+        <div>
+          <div className="mb-2 text-center text-xl font-semibold">
+            Link Praise Discord Bot to Community
+          </div>
+          <div className="text-center">Cool Community</div>
+          <div className="text-center">
+            Collect wallet and sign a message to link bot.
           </div>
         </div>
-      </SignMessageLayout>
-    </NoSSR>
+      </div>
+    </SignMessageLayout>
   )
 }

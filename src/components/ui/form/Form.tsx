@@ -37,11 +37,15 @@ export const Form = () => {
 
       try {
         const response = await saveComunnityData(data, address)
-
-        console.log('RESPONSE', response)
         reset()
         toast.success('Form submitted successfully')
         setSubmitting(false)
+        setFormData({
+          name: '',
+          email: '',
+          owners: '',
+          guild: '',
+        })
 
         setCommunity({
           name: response.name,
