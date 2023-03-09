@@ -8,20 +8,25 @@ export default function Home() {
   const [community] = useRecoilState(communityState)
 
   return (
-    <>
-      {' '}
+    <div className="w-full max-w-2xl p-6">
       <Head />
-      <main>
-        <h1 className="mt-10 text-4xl font-bold">Next.js Web3 Starter</h1>
-        <h3 className="mt-1 mb-6 text-lg font-medium">
-          Powered by General Magic
-        </h3>
-      </main>
       {community.name && community.hostname ? (
         <CommunitySuccessPage />
       ) : (
-        <Form />
+        <div className="">
+          <main className="justify-center">
+            <h1 className="mt-10 text-center text-4xl font-bold">
+              Create Praise community
+            </h1>
+            <div className="text-center">
+              There is no question about it. Praise can be one of the simplest
+              ways to make the world a better place. Praise feels good.
+              Let&apos;s do it together.
+            </div>
+          </main>
+          <Form />
+        </div>
       )}
-    </>
+    </div>
   )
 }

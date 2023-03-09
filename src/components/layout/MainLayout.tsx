@@ -1,7 +1,7 @@
 import { ReactNode } from 'react'
 import { Footer } from './Footer'
-import { Header } from './Header'
 import NoSSR from './NoSSR'
+import { Web3Provider } from '@/providers/Web3'
 
 interface MainLayoutProps {
   children: ReactNode
@@ -10,13 +10,14 @@ interface MainLayoutProps {
 export function MainLayout({ children }: MainLayoutProps) {
   return (
     <NoSSR>
-      <div className="min-h-screen bg-zinc-800 text-white">
-        <Header />
-        <div className="mx-auto min-h-screen-content max-w-7xl p-8">
-          {children}
+      <Web3Provider>
+        <div className="flex flex-col h-full font-sans">
+          <div className="flex items-center justify-center flex-grow">
+            {children}
+          </div>
+          <Footer />
         </div>
-        <Footer />
-      </div>
+      </Web3Provider>
     </NoSSR>
   )
 }

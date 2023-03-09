@@ -26,7 +26,7 @@ export const FormSelect: FunctionComponent<FormSelectProps> = ({
         {label}
       </label>
       <select
-        className="w-full px-3 py-2 leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none"
+        className="w-full px-3 py-2 rounded-md form-select"
         id={name}
         {...register(name, { required: 'This field is required' })}
         onChange={(e) => {

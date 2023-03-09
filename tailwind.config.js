@@ -7,6 +7,9 @@ module.exports = {
         'screen-content': 'calc(100vh - 176px)',
       },
     },
+    fontFamily: {
+      sans: ['Helvetica'],
+    },
   },
-  plugins: [],
+  plugins: [require('@tailwindcss/forms')],
 }

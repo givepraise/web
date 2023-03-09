@@ -4,7 +4,7 @@ import { SOCIAL_GITHUB, SOCIAL_TWITTER } from '@/utils/config'
 
 export function Footer() {
   return (
-    <footer className="flex h-20 items-center justify-center bg-zinc-900 px-5 text-center text-lg">
+    <footer className="mt-auto bg-gray-200 p-4 text-center">
       <h4 className="mr-2">
         Made with ❤️ by{' '}
         <a
