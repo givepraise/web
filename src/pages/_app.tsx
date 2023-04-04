@@ -1,12 +1,10 @@
 import '@/styles/globals.css'
+import '@/styles/landing.css'
 import 'react-toastify/dist/ReactToastify.css'
 import type { AppProps } from 'next/app'
-import { MainLayout } from '@/components/layout/MainLayout'
-import { Seo } from '@/components/layout/Seo'
+
 import { SessionProvider } from 'next-auth/react'
 import { RecoilRoot } from 'recoil'
-import { Web3Provider } from '@/providers/Web3'
-import { ToastContainer } from 'react-toastify'
 
 export default function App({
   Component,
@@ -14,15 +12,9 @@ export default function App({
 }: AppProps) {
   return (
     <RecoilRoot>
-      <Seo />
-      <ToastContainer />
-      <Web3Provider>
-        <SessionProvider session={session}>
-          <MainLayout>
-            <Component {...pageProps} />
-          </MainLayout>
-        </SessionProvider>
-      </Web3Provider>
+      <SessionProvider session={session}>
+        <Component {...pageProps} />
+      </SessionProvider>
     </RecoilRoot>
   )
 }

@@ -11,8 +11,8 @@ export function MainLayout({ children }: MainLayoutProps) {
   return (
     <NoSSR>
       <Web3Provider>
-        <div className="flex flex-col h-full font-sans">
-          <div className="flex items-center justify-center flex-grow">
+        <div className="flex h-full flex-col font-sans">
+          <div className="flex flex-grow items-center justify-center">
             {children}
           </div>
           <Footer />
