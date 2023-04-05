@@ -13,44 +13,18 @@
   src: url('/font/HelveticaNeue-Regular.otf');
 }
 
-/* You can override the default Infima variables here. */
-:root {
-  --ifm-color-secondary: #846464;
-  --ifm-color-primary: #e6007e;
-  --ifm-color-primary-dark: #a87d7d;
-  --ifm-color-primary-darker: #906c6c;
-  --ifm-color-primary-darkest: #846464;
-  --ifm-color-primary-light: #c08f8f;
-  --ifm-color-primary-lighter: #d9a1a1;
-  --ifm-color-primary-lightest: #f3b3b3;
-  --ifm-code-font-size: 95%;
-  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
-  --ifm-font-family-base: 'HelveticaNeue-Regular';
-  --ifm-leading: 2rem;
-  --ifm-heading-margin-bottom: 2rem;
-  --ifm-paragraph-margin-bottom: 1rem;
-  --ifm-menu-color: #000;
-}
-
-.markdown {
-  --ifm-h2-vertical-rhythm-top: 1;
-}
-
-/* For readability concerns, you should choose a lighter palette in dark mode. */
-[data-theme='dark'] {
-  --ifm-color-primary: #ec8787;
-  --ifm-color-primary-dark: #a87d7d;
-  --ifm-color-primary-darker: #906c6c;
-  --ifm-color-primary-darkest: #846464;
-  --ifm-color-primary-light: #c08f8f;
-  --ifm-color-primary-lighter: #d9a1a1;
-  --ifm-color-primary-lightest: #f3b3b3;
-  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
-  --ifm-menu-color: #fff;
-}
-
 .footer .container {
   max-width: 600px;
+}
+
+.headerGroupIcons:hover > *:not(:last-child) {
+  transform: translateX(-5px);
+  transition: 300ms;
+}
+
+.headerGroupIcons:hover > *:first-child {
+  transform: translateX(-10px);
+  transition: 300ms;
 }
 
 .hash-link {
@@ -63,6 +37,8 @@
   color: #fff;
   text-decoration: none;
   @apply rounded-full;
+  padding: 0.5rem 1.2rem;
+  font-weight: 500;
 }
 
 svg {

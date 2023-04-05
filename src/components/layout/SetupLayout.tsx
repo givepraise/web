@@ -1,13 +1,12 @@
 import { ReactNode } from 'react'
-import { Footer } from './Footer'
 import NoSSR from './NoSSR'
 import { Web3Provider } from '@/providers/Web3'
 
-interface MainLayoutProps {
+interface SetupLayoutProps {
   children: ReactNode
 }
 
-export function MainLayout({ children }: MainLayoutProps) {
+export function SetupLayout({ children }: SetupLayoutProps) {
   return (
     <NoSSR>
       <Web3Provider>
@@ -15,7 +14,6 @@ export function MainLayout({ children }: MainLayoutProps) {
           <div className="flex flex-grow items-center justify-center">
             {children}
           </div>
-          <Footer />
         </div>
       </Web3Provider>
     </NoSSR>

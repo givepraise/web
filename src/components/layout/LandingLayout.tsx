@@ -6,8 +6,8 @@ interface LandingLayoutProps {
   children: ReactNode
 }
 
-const LandingContainer = (props: LandingLayoutProps) => {
+const LandingLayout = (props: LandingLayoutProps) => {
   return <div className={styles.landingContainer}>{props.children}</div>
 }
 
-export default LandingContainer
+export default LandingLayout

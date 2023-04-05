@@ -8,7 +8,7 @@ const PraiseHands = ({ size }: PraiseHandsProps) => {
   const sizeClass = size === 'small' ? 'w-5' : 'w-7'
 
   return (
-    <div className="mt-12 mb-12 flex h-full w-full flex-col items-center justify-center">
+    <div className="flex w-full flex-col items-center justify-center">
       <div className={sizeClass}>
         <svg
           viewBox="0 0 224 179"
