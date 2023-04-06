@@ -48,6 +48,7 @@ export default function Home() {
                   Invite Discord Bot to your server
                 </div>
               </main>
+
               <Form />
             </div>
           )}

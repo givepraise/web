@@ -9,6 +9,7 @@ interface FormInputProps {
   onChange?: (e: ChangeEvent<HTMLInputElement>) => void
   register: UseFormRegister<any>
   validationRules?: Record<any, any>
+  disabled?: boolean
 }
 
 export const FormInput: FunctionComponent<FormInputProps> = ({
@@ -19,6 +20,7 @@ export const FormInput: FunctionComponent<FormInputProps> = ({
   onChange,
   register,
   validationRules,
+  disabled,
 }) => {
   return (
     <div className="relative w-full">
@@ -34,6 +36,7 @@ export const FormInput: FunctionComponent<FormInputProps> = ({
             register(name, { ...validationRules })?.onChange?.(e)
             onChange?.(e)
           }}
+          disabled={disabled}
         />
       </div>
       <div className="absolute bottom-0 left-0 w-full border-b border-gray-400 " />

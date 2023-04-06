@@ -7,6 +7,7 @@ import { SessionProvider } from 'next-auth/react'
 import { RecoilRoot } from 'recoil'
 import Footer from '@/components/Footer'
 import Header from '@/components/Header'
+import { Web3Provider } from '@/providers/Web3'
 
 export default function App({
   Component,

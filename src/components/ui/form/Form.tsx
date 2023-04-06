@@ -2,23 +2,16 @@ import { useEffect, useState } from 'react'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import { FormSelect } from './FormSelect'
 import { FormInput } from './FormInput'
-import { signIn, useSession } from 'next-auth/react'
+import { signIn, signOut, useSession } from 'next-auth/react'
 import { formDataState, guildOptionsState } from '@/services/form'
 import { useRecoilState } from 'recoil'
 import { fetchDiscordGuilds, saveComunnityData } from '@/services/api'
 import { FormData } from '@/types/formData.type'
 import { useAccount } from 'wagmi'
 import { toast } from 'react-toastify'
-import { ConditionalDisableWrapper } from '../wrappers/ConditionalDisableWrapper'
 import { communityState } from '@/services/community'
 import { ConnectButton } from '@rainbow-me/rainbowkit'
-import {
-  FaDiscord,
-  FaEnvelope,
-  FaPeopleCarry,
-  FaUser,
-  FaUsers,
-} from 'react-icons/fa'
+import { FaDiscord, FaEnvelope, FaUser, FaUsers } from 'react-icons/fa'
 
 export const Form = () => {
   const { data: session } = useSession()
@@ -76,7 +69,6 @@ export const Form = () => {
 
       try {
         const data = await fetchDiscordGuilds(session.accessToken)
-
         if (data && data.length > 0) {
           setGuildOptions(
             data.map((guild: any) => ({
@@ -84,9 +76,13 @@ export const Form = () => {
               label: guild.name,
             }))
           )
+
+          toast.success('Discord guilds fetched successfully')
+        } else if (data.message && data.message === '401: Unauthorized') {
+          toast.error('Your Discord token has expired')
         }
 
-        toast.success('Discord guilds fetched successfully')
+        await signOut()
       } catch (error) {
         console.error(error)
         toast.error('There was an error fetching your Discord guilds')
@@ -105,153 +101,158 @@ export const Form = () => {
         <p>Connect wallet to begin creating Praise community</p>
       </div>
 
-      <ConditionalDisableWrapper condition={isConnected}>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="mb-4">
-            <FormInput
-              name="name"
-              type="text"
-              placeholder="Name"
-              onChange={(event) =>
-                setFormData({ ...formData, name: event.target.value })
-              }
-              register={register}
-              validationRules={{
-                required: 'This field is required',
-              }}
-              icon={<FaUser />}
-            />
-            {errors['name'] && (
-              <p className="mt-1 text-xs text-red-500">
-                {errors['name']?.message}
-              </p>
-            )}
-
-            <label className="mt-6 mb-2 block font-bold" htmlFor="name">
-              Creator
-            </label>
-            <p>
-              Praise uses ETH for identification, connect a wallet to get
-              started.
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <div className="mb-4">
+          <FormInput
+            name="name"
+            type="text"
+            placeholder="Name"
+            onChange={(event) =>
+              setFormData({ ...formData, name: event.target.value })
+            }
+            register={register}
+            validationRules={{
+              required: 'This field is required',
+            }}
+            icon={<FaUser />}
+            disabled={!isConnected}
+          />
+          {errors['name'] && (
+            <p className="mt-1 text-xs text-red-500">
+              {errors['name']?.message}
             </p>
-          </div>
+          )}
 
-          <div className="flex h-full items-center justify-center">
-            <ConnectButton />
-          </div>
+          <label className="mt-6 mb-2 block font-bold" htmlFor="name">
+            Creator
+          </label>
+          <p>
+            Praise uses ETH for identification, connect a wallet to get started.
+          </p>
+        </div>
 
-          <div className="mb-4">
-            <label className="mt-6 mb-4 block font-bold" htmlFor="name">
-              Owners
-            </label>
-            <p>
-              Owners have administrative access to this Praise instance. Enter
-              one or more Ethereum addresses separated by commas.
-            </p>
+        <div className="flex h-full items-center justify-center">
+          <ConnectButton />
+        </div>
 
-            <FormInput
-              name="owners"
-              type="text"
-              placeholder="0x123, 0x123"
-              onChange={(event) =>
-                setFormData({ ...formData, owners: event.target.value })
-              }
-              register={register}
-              validationRules={{
-                required: 'This field is required',
-                validate: {
-                  areValidEthAddresses: async (value: any) => {
-                    const addresses = value.split(',')
-                    const regex = /^0x([A-Fa-f0-9]{40})$/
+        <div className="mb-4">
+          <label className="mt-6 mb-4 block font-bold" htmlFor="name">
+            Owners
+          </label>
+          <p>
+            Owners have administrative access to this Praise instance. Enter one
+            or more Ethereum addresses separated by commas.
+          </p>
 
-                    for (const address of addresses) {
-                      if (!regex.test(address.trim())) {
-                        return 'Please enter valid Ethereum addresses'
-                      }
+          <FormInput
+            name="owners"
+            type="text"
+            placeholder="0x123, 0x123"
+            onChange={(event) =>
+              setFormData({ ...formData, owners: event.target.value })
+            }
+            register={register}
+            validationRules={{
+              required: 'This field is required',
+              validate: {
+                areValidEthAddresses: async (value: any) => {
+                  const addresses = value.split(',')
+                  const regex = /^0x([A-Fa-f0-9]{40})$/
+
+                  for (const address of addresses) {
+                    if (!regex.test(address.trim())) {
+                      return 'Please enter valid Ethereum addresses'
                     }
-
-                    return true
-                  },
-                },
-              }}
-              icon={<FaUsers />}
-            />
-            {errors['owners'] && (
-              <p className="mt-1 text-xs text-red-500">
-                {errors['owners']?.message}
-              </p>
-            )}
-          </div>
-          <div className="mb-4">
-            <label className="mt-6 mb-4 block font-bold" htmlFor="name">
-              Email
-            </label>
-            <p>Where can we reach you for occasional updates?</p>
-
-            <FormInput
-              name="email"
-              type="email"
-              placeholder="spam.please@address.com"
-              onChange={(event) =>
-                setFormData({ ...formData, email: event.target.value })
-              }
-              register={register}
-              validationRules={{
-                required: 'This field is required',
-                pattern: {
-                  value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-                  message: 'Please enter a valid email address',
-                },
-              }}
-              icon={<FaEnvelope />}
-            />
-            {errors['email'] && (
-              <p className="mt-1 text-xs text-red-500">
-                {errors['email']?.message}
-              </p>
-            )}
-          </div>
-          {session && session.accessToken ? (
-            <>
-              <div className="mb-4">
-                <label className="mt-6 mb-4 block font-bold" htmlFor="name">
-                  Discord
-                </label>
-                <p>
-                  Which Discord server do you want to use Praise in? Discord
-                  login required
-                </p>
-
-                <FormSelect
-                  name="discordGuildId"
-                  options={guildOptions}
-                  register={register}
-                  onChange={(event) =>
-                    setFormData({
-                      ...formData,
-                      discordGuildId: event.target.value,
-                    })
                   }
-                  icon={<FaDiscord />}
-                />
-              </div>
+
+                  return true
+                },
+              },
+            }}
+            icon={<FaUsers />}
+            disabled={!isConnected}
+          />
+          {errors['owners'] && (
+            <p className="mt-1 text-xs text-red-500">
+              {errors['owners']?.message}
+            </p>
+          )}
+        </div>
+        <div className="mb-4">
+          <label className="mt-6 mb-4 block font-bold" htmlFor="name">
+            Email
+          </label>
+          <p>Where can we reach you for occasional updates?</p>
+
+          <FormInput
+            name="email"
+            type="email"
+            placeholder="spam.please@address.com"
+            onChange={(event) =>
+              setFormData({ ...formData, email: event.target.value })
+            }
+            register={register}
+            validationRules={{
+              required: 'This field is required',
+              pattern: {
+                value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+                message: 'Please enter a valid email address',
+              },
+            }}
+            icon={<FaEnvelope />}
+            disabled={!isConnected}
+          />
+          {errors['email'] && (
+            <p className="mt-1 text-xs text-red-500">
+              {errors['email']?.message}
+            </p>
+          )}
+        </div>
+        {session && session.accessToken ? (
+          <>
+            <div className="mb-4">
+              <label className="mt-6 mb-4 block font-bold" htmlFor="name">
+                Discord
+              </label>
+              <p>
+                Which Discord server do you want to use Praise in? Discord login
+                required
+              </p>
+
+              <FormSelect
+                name="discordGuildId"
+                options={guildOptions}
+                register={register}
+                onChange={(event) =>
+                  setFormData({
+                    ...formData,
+                    discordGuildId: event.target.value,
+                  })
+                }
+                icon={<FaDiscord />}
+                disabled={!isConnected}
+              />
+            </div>
+            <div className="flex justify-center">
               <button
                 type="submit"
-                className="rounded-md bg-blue-500 px-4 py-2 text-sm font-medium text-white hover:bg-blue-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
-                disabled={submitting}>
-                {submitting ? 'Submitting...' : 'Submit'}
+                className="mt-12 rounded-3xl bg-pink-600 px-4 py-2 text-sm font-medium text-white hover:bg-pink-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
+                disabled={submitting || !isConnected}>
+                {submitting ? 'Submitting...' : 'Create'}
               </button>
-            </>
-          ) : (
+            </div>
+          </>
+        ) : (
+          <div className="flex justify-center">
             <button
               type="button"
-              className="rounded-md bg-blue-500 px-4 py-2 text-sm font-medium text-white hover:bg-blue-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
+              className="mt-12 rounded-3xl bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
               onClick={() => signIn('discord')}>
               Sign in with Discord
             </button>
-          )}
-        </form>
-      </ConditionalDisableWrapper>
+          </div>
+        )}
+      </form>
     </div>
   )
 }
