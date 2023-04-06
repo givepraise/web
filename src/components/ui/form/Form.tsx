@@ -12,6 +12,13 @@ import { toast } from 'react-toastify'
 import { ConditionalDisableWrapper } from '../wrappers/ConditionalDisableWrapper'
 import { communityState } from '@/services/community'
 import { ConnectButton } from '@rainbow-me/rainbowkit'
+import {
+  FaDiscord,
+  FaEnvelope,
+  FaPeopleCarry,
+  FaUser,
+  FaUsers,
+} from 'react-icons/fa'
 
 export const Form = () => {
   const { data: session } = useSession()
@@ -92,12 +99,10 @@ export const Form = () => {
   }, [session, guildOptions, setGuildOptions])
 
   return (
-    <>
-      <div className="justify-center mt-10 text-center">
+    <div className="black-section">
+      <div className="mt-2 justify-center text-center">
+        <h1>Create Community</h1>
         <p>Connect wallet to begin creating Praise community</p>
-        <div className="flex items-center justify-center h-full">
-          <ConnectButton />
-        </div>
       </div>
 
       <ConditionalDisableWrapper condition={isConnected}>
@@ -105,9 +110,8 @@ export const Form = () => {
           <div className="mb-4">
             <FormInput
               name="name"
-              label="Name"
               type="text"
-              placeholder="Enter your name"
+              placeholder="Name"
               onChange={(event) =>
                 setFormData({ ...formData, name: event.target.value })
               }
@@ -115,19 +119,40 @@ export const Form = () => {
               validationRules={{
                 required: 'This field is required',
               }}
+              icon={<FaUser />}
             />
             {errors['name'] && (
               <p className="mt-1 text-xs text-red-500">
                 {errors['name']?.message}
               </p>
             )}
+
+            <label className="mt-6 mb-2 block font-bold" htmlFor="name">
+              Creator
+            </label>
+            <p>
+              Praise uses ETH for identification, connect a wallet to get
+              started.
+            </p>
           </div>
+
+          <div className="flex h-full items-center justify-center">
+            <ConnectButton />
+          </div>
+
           <div className="mb-4">
+            <label className="mt-6 mb-4 block font-bold" htmlFor="name">
+              Owners
+            </label>
+            <p>
+              Owners have administrative access to this Praise instance. Enter
+              one or more Ethereum addresses separated by commas.
+            </p>
+
             <FormInput
               name="owners"
-              label="Owners"
               type="text"
-              placeholder="Enter owners separated by commas"
+              placeholder="0x123, 0x123"
               onChange={(event) =>
                 setFormData({ ...formData, owners: event.target.value })
               }
@@ -149,6 +174,7 @@ export const Form = () => {
                   },
                 },
               }}
+              icon={<FaUsers />}
             />
             {errors['owners'] && (
               <p className="mt-1 text-xs text-red-500">
@@ -157,11 +183,15 @@ export const Form = () => {
             )}
           </div>
           <div className="mb-4">
+            <label className="mt-6 mb-4 block font-bold" htmlFor="name">
+              Email
+            </label>
+            <p>Where can we reach you for occasional updates?</p>
+
             <FormInput
               name="email"
-              label="Email"
               type="email"
-              placeholder="Enter your email"
+              placeholder="spam.please@address.com"
               onChange={(event) =>
                 setFormData({ ...formData, email: event.target.value })
               }
@@ -173,6 +203,7 @@ export const Form = () => {
                   message: 'Please enter a valid email address',
                 },
               }}
+              icon={<FaEnvelope />}
             />
             {errors['email'] && (
               <p className="mt-1 text-xs text-red-500">
@@ -183,9 +214,16 @@ export const Form = () => {
           {session && session.accessToken ? (
             <>
               <div className="mb-4">
+                <label className="mt-6 mb-4 block font-bold" htmlFor="name">
+                  Discord
+                </label>
+                <p>
+                  Which Discord server do you want to use Praise in? Discord
+                  login required
+                </p>
+
                 <FormSelect
                   name="discordGuildId"
-                  label="Guild"
                   options={guildOptions}
                   register={register}
                   onChange={(event) =>
@@ -194,11 +232,12 @@ export const Form = () => {
                       discordGuildId: event.target.value,
                     })
                   }
+                  icon={<FaDiscord />}
                 />
               </div>
               <button
                 type="submit"
-                className="px-4 py-2 text-sm font-medium text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
+                className="rounded-md bg-blue-500 px-4 py-2 text-sm font-medium text-white hover:bg-blue-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
                 disabled={submitting}>
                 {submitting ? 'Submitting...' : 'Submit'}
               </button>
@@ -206,13 +245,13 @@ export const Form = () => {
           ) : (
             <button
               type="button"
-              className="px-4 py-2 text-sm font-medium text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
+              className="rounded-md bg-blue-500 px-4 py-2 text-sm font-medium text-white hover:bg-blue-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
               onClick={() => signIn('discord')}>
               Sign in with Discord
             </button>
           )}
         </form>
       </ConditionalDisableWrapper>
-    </>
+    </div>
   )
 }
