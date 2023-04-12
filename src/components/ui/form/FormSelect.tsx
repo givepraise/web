@@ -1,3 +1,4 @@
+import { SignInResponse } from 'next-auth/react'
 import { FunctionComponent, useState, ChangeEvent, ReactNode } from 'react'
 import { UseFormRegister } from 'react-hook-form'
 
@@ -9,6 +10,7 @@ interface FormSelectProps {
   error?: { message?: string }
   onChange?: (e: ChangeEvent<HTMLSelectElement>) => void
   disabled?: boolean
+  onClick?: () => void
 }
 
 export const FormSelect: FunctionComponent<FormSelectProps> = ({
@@ -18,8 +20,17 @@ export const FormSelect: FunctionComponent<FormSelectProps> = ({
   onChange,
   icon,
   disabled,
+  onClick,
 }) => {
   const [loading, setLoading] = useState(false)
+
+  const handleSelectFocus = async () => {
+    if (onClick) {
+      setLoading(true)
+      await onClick()
+      setLoading(false)
+    }
+  }
 
   return (
     <div className="relative w-full">
@@ -29,12 +40,10 @@ export const FormSelect: FunctionComponent<FormSelectProps> = ({
           className="form-select w-full rounded-none border-none bg-transparent px-3 py-2 text-white placeholder-gray-400 focus:border-transparent focus:placeholder-white focus:outline-none focus:ring-0"
           id={name}
           {...register(name, { required: 'This field is required' })}
+          onFocus={handleSelectFocus} // Call handleSelectFocus on focus
           onChange={(e) => {
             register(name)?.onChange?.(e)
             onChange?.(e)
-          }}
-          onClick={(e) => {
-            alert('TeST')
           }}
           disabled={disabled}>
           {loading && <option disabled>Loading...</option>}

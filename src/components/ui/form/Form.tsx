@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import { FormSelect } from './FormSelect'
 import { FormInput } from './FormInput'
-import { signIn, signOut, useSession } from 'next-auth/react'
+import { SignInResponse, signIn, signOut, useSession } from 'next-auth/react'
 import { formDataState, guildOptionsState } from '@/services/form'
 import { useRecoilState } from 'recoil'
 import { fetchDiscordGuilds, saveComunnityData } from '@/services/api'
@@ -95,6 +95,12 @@ export const Form = () => {
       fetchGuilds()
     }
   }, [session, guildOptions, setGuildOptions])
+
+  const handleSelectClick = () => {
+    if (!session?.accessToken) {
+      return signIn('discord')
+    }
+  }
 
   return (
     <div className="black-section">
@@ -242,6 +248,7 @@ export const Form = () => {
                   discordGuildId: event.target.value,
                 })
               }
+              onClick={handleSelectClick}
               icon={<FaDiscord />}
               disabled={!isConnected}
             />
