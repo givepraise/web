@@ -12,6 +12,8 @@ import { toast } from 'react-toastify'
 import { communityState } from '@/services/community'
 import { ConnectButton } from '@rainbow-me/rainbowkit'
 import { FaDiscord, FaEnvelope, FaUser, FaUsers } from 'react-icons/fa'
+import { EthAccount } from '../account/EthAccount'
+import { classNames } from '@/utils'
 
 export const Form = () => {
   const { data: session } = useSession()
@@ -96,13 +98,12 @@ export const Form = () => {
 
   return (
     <div className="black-section">
-      <div className="mt-2 justify-center text-center">
-        <h1>Create Community</h1>
-        <p>Connect wallet to begin creating Praise community</p>
+      <div className="mt-2 mb-12 justify-center text-center">
+        <h1 className="text-4xl">Create Community</h1>
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="mb-4">
+        <div className="mb-4 text-xl">
           <FormInput
             name="name"
             type="text"
@@ -132,10 +133,23 @@ export const Form = () => {
         </div>
 
         <div className="flex h-full items-center justify-center">
-          <ConnectButton />
+          {address ? (
+            <div>
+              <div className="mb-2 text-center text-lg font-semibold">
+                Connected as
+              </div>
+              <EthAccount className="w-36" />
+            </div>
+          ) : (
+            <ConnectButton
+              accountStatus="address"
+              showBalance={false}
+              chainStatus={'none'}
+            />
+          )}
         </div>
 
-        <div className="mb-4">
+        <div className="mb-4 text-xl">
           <label className="mt-6 mb-4 block font-bold" htmlFor="name">
             Owners
           </label>
@@ -178,7 +192,7 @@ export const Form = () => {
             </p>
           )}
         </div>
-        <div className="mb-4">
+        <div className="mb-4 text-xl">
           <label className="mt-6 mb-4 block font-bold" htmlFor="name">
             Email
           </label>
@@ -208,50 +222,39 @@ export const Form = () => {
             </p>
           )}
         </div>
-        {session && session.accessToken ? (
-          <>
-            <div className="mb-4">
-              <label className="mt-6 mb-4 block font-bold" htmlFor="name">
-                Discord
-              </label>
-              <p>
-                Which Discord server do you want to use Praise in? Discord login
-                required
-              </p>
+        <>
+          <div className="mb-4">
+            <label className="mt-6 mb-4 block font-bold" htmlFor="name">
+              Discord
+            </label>
+            <p>
+              Which Discord server do you want to use Praise in? Discord login
+              required
+            </p>
 
-              <FormSelect
-                name="discordGuildId"
-                options={guildOptions}
-                register={register}
-                onChange={(event) =>
-                  setFormData({
-                    ...formData,
-                    discordGuildId: event.target.value,
-                  })
-                }
-                icon={<FaDiscord />}
-                disabled={!isConnected}
-              />
-            </div>
-            <div className="flex justify-center">
-              <button
-                type="submit"
-                className="mt-12 rounded-3xl bg-pink-600 px-4 py-2 text-sm font-medium text-white hover:bg-pink-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
-                disabled={submitting || !isConnected}>
-                {submitting ? 'Submitting...' : 'Create'}
-              </button>
-            </div>
-          </>
-        ) : (
+            <FormSelect
+              name="discordGuildId"
+              options={guildOptions}
+              register={register}
+              onChange={(event) =>
+                setFormData({
+                  ...formData,
+                  discordGuildId: event.target.value,
+                })
+              }
+              icon={<FaDiscord />}
+              disabled={!isConnected}
+            />
+          </div>
           <div className="flex justify-center">
             <button
-              type="button"
-              className="mt-12 rounded-3xl bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
-              onClick={() => signIn('discord')}>
-              Sign in with Discord
+              type="submit"
+              className="mt-12 rounded-3xl bg-pink-600 px-4 py-2 text-sm font-medium text-white hover:bg-pink-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
+              disabled={submitting || !isConnected}>
+              {submitting ? 'Submitting...' : 'Create'}
             </button>
           </div>
-        )}
+        </>
       </form>
     </div>
   )

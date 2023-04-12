@@ -96,6 +96,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@babel/polyfill@npm:^7.12.1":
+  version: 7.12.1
+  resolution: "@babel/polyfill@npm:7.12.1"
+  dependencies:
+    core-js: ^2.6.5
+    regenerator-runtime: ^0.13.4
+  checksum: 3f59a9d85a41b390b044a1be13e11ae6d8efbfcf4e07217964585c7cef337b828eecfc5e164083227189146d2b6efc1affae8f59c831438eb40b848ab6fe5f39
+  languageName: node
+  linkType: hard
+
 "@babel/runtime@npm:^7.12.5, @babel/runtime@npm:^7.16.3, @babel/runtime@npm:^7.17.2, @babel/runtime@npm:^7.20.7, @babel/runtime@npm:^7.5.5":
   version: 7.21.0
   resolution: "@babel/runtime@npm:7.21.0"
@@ -626,6 +636,18 @@ __metadata:
   version: 1.1.3
   resolution: "@gar/promisify@npm:1.1.3"
   checksum: 4059f790e2d07bf3c3ff3e0fec0daa8144fe35c1f6e0111c9921bd32106adaa97a4ab096ad7dab1e28ee6a9060083c4d1a4ada42a7f5f3f7a96b8812e2b757c1
+  languageName: node
+  linkType: hard
+
+"@headlessui/react@npm:^1.7.13":
+  version: 1.7.13
+  resolution: "@headlessui/react@npm:1.7.13"
+  dependencies:
+    client-only: ^0.0.1
+  peerDependencies:
+    react: ^16 || ^17 || ^18
+    react-dom: ^16 || ^17 || ^18
+  checksum: 132e5fce86978b9a6fd9d669fb556acec783debcd8f510c99226b3b3229dad50a13aeed69fc9af66465fc7029487ecfc46e6226f14218b760d5a309e08c0d059
   languageName: node
   linkType: hard
 
@@ -1567,6 +1589,18 @@ __metadata:
     "@typescript-eslint/types": 5.53.0
     eslint-visitor-keys: ^3.3.0
   checksum: 090695883c15364c6f401e97f56b13db0f31c1114f3bd22562bd41734864d27f6a3c80de33957e9dedab2d5f94b0f4480ba3fde1d4574e74dca4593917b7b54a
+  languageName: node
+  linkType: hard
+
+"@ukstv/jazzicon-react@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "@ukstv/jazzicon-react@npm:1.0.0"
+  dependencies:
+    color: ^3.1.2
+    mersenne-twister: ^1.1.0
+  peerDependencies:
+    react: ">=16"
+  checksum: d91eeda0dad3abfdd7d523edca8e5b6d56cfd8a10ee5d7aac6901834e7ef7eb430c1d82493e250b15e097edd9e74604c9afd2e74ae0de0118434db7722d10aa2
   languageName: node
   linkType: hard
 
@@ -2962,7 +2996,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"client-only@npm:0.0.1":
+"client-only@npm:0.0.1, client-only@npm:^0.0.1":
   version: 0.0.1
   resolution: "client-only@npm:0.0.1"
   checksum: 0c16bf660dadb90610553c1d8946a7fdfb81d624adea073b8440b7d795d5b5b08beb3c950c6a2cf16279365a3265158a236876d92bce16423c485c322d7dfaf8
@@ -3016,7 +3050,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"color-convert@npm:^1.9.0":
+"color-convert@npm:^1.9.0, color-convert@npm:^1.9.3":
   version: 1.9.3
   resolution: "color-convert@npm:1.9.3"
   dependencies:
@@ -3041,10 +3075,20 @@ __metadata:
   languageName: node
   linkType: hard
 
-"color-name@npm:^1.1.4, color-name@npm:~1.1.4":
+"color-name@npm:^1.0.0, color-name@npm:^1.1.4, color-name@npm:~1.1.4":
   version: 1.1.4
   resolution: "color-name@npm:1.1.4"
   checksum: b0445859521eb4021cd0fb0cc1a75cecf67fceecae89b63f62b201cca8d345baf8b952c966862a9d9a2632987d4f6581f0ec8d957dfacece86f0a7919316f610
+  languageName: node
+  linkType: hard
+
+"color-string@npm:^1.6.0":
+  version: 1.9.1
+  resolution: "color-string@npm:1.9.1"
+  dependencies:
+    color-name: ^1.0.0
+    simple-swizzle: ^0.2.2
+  checksum: c13fe7cff7885f603f49105827d621ce87f4571d78ba28ef4a3f1a104304748f620615e6bf065ecd2145d0d9dad83a3553f52bb25ede7239d18e9f81622f1cc5
   languageName: node
   linkType: hard
 
@@ -3054,6 +3098,16 @@ __metadata:
   bin:
     color-support: bin.js
   checksum: 9b7356817670b9a13a26ca5af1c21615463b500783b739b7634a0c2047c16cef4b2865d7576875c31c3cddf9dd621fa19285e628f20198b233a5cfdda6d0793b
+  languageName: node
+  linkType: hard
+
+"color@npm:^3.1.2":
+  version: 3.2.1
+  resolution: "color@npm:3.2.1"
+  dependencies:
+    color-convert: ^1.9.3
+    color-string: ^1.6.0
+  checksum: f81220e8b774d35865c2561be921f5652117638dcda7ca4029262046e37fc2444ac7bbfdd110cf1fd9c074a4ee5eda8f85944ffbdda26186b602dd9bb05f6400
   languageName: node
   linkType: hard
 
@@ -3100,6 +3154,13 @@ __metadata:
   dependencies:
     browserslist: ^4.21.5
   checksum: 41d1d58c99ce7ee7abd8cf070f4c07a8f2655dbed1777d90a26246dddd7fac68315d53d2192584c8621a5328e6fe1a10da39b6bf2666e90fd5c2ff3b8f24e874
+  languageName: node
+  linkType: hard
+
+"core-js@npm:^2.6.5":
+  version: 2.6.12
+  resolution: "core-js@npm:2.6.12"
+  checksum: 44fa9934a85f8c78d61e0c8b7b22436330471ffe59ec5076fe7f324d6e8cf7f824b14b1c81ca73608b13bdb0fef035bd820989bf059767ad6fa13123bb8bd016
   languageName: node
   linkType: hard
 
@@ -4795,6 +4856,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"is-arrayish@npm:^0.3.1":
+  version: 0.3.2
+  resolution: "is-arrayish@npm:0.3.2"
+  checksum: 977e64f54d91c8f169b59afcd80ff19227e9f5c791fa28fa2e5bce355cbaf6c2c356711b734656e80c9dd4a854dd7efcf7894402f1031dfc5de5d620775b4d5f
+  languageName: node
+  linkType: hard
+
 "is-bigint@npm:^1.0.1":
   version: 1.0.4
   resolution: "is-bigint@npm:1.0.4"
@@ -5444,6 +5512,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"mersenne-twister@npm:^1.1.0":
+  version: 1.1.0
+  resolution: "mersenne-twister@npm:1.1.0"
+  checksum: 7de1940ded117f2aad9320ae4d21d647b0ecf0667abbadcfe6a2835c669feb674ef46cb7a72da7af69a56d8b19e50e95e2fb7ef6d780efab7a6acd4d87f4cb2d
+  languageName: node
+  linkType: hard
+
 "micromatch@npm:^4.0.4, micromatch@npm:^4.0.5":
   version: 4.0.5
   resolution: "micromatch@npm:4.0.5"
@@ -5740,6 +5815,7 @@ __metadata:
     "@fortawesome/free-brands-svg-icons": ^6.1.1
     "@fortawesome/free-solid-svg-icons": ^6.0.0
     "@fortawesome/react-fontawesome": ^0.1.17
+    "@headlessui/react": ^1.7.13
     "@next/font": 13.1.6
     "@rainbow-me/rainbowkit": ^0.11.0
     "@tailwindcss/forms": ^0.5.3
@@ -5748,6 +5824,7 @@ __metadata:
     "@types/node": 18.14.0
     "@types/react": 18.0.28
     "@types/react-dom": 18.0.11
+    "@ukstv/jazzicon-react": ^1.0.0
     autoprefixer: ^10.4.13
     classnames: ^2.3.2
     d3-force: ^3.0.0
@@ -5765,6 +5842,7 @@ __metadata:
     react-dom: 18.2.0
     react-hook-form: ^7.43.1
     react-icons: ^4.7.1
+    react-overlap: ^0.0.7
     react-toastify: ^9.1.1
     react-twitter-embed: ^4.0.4
     recoil: ^0.7.6
@@ -6723,6 +6801,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-overlap@npm:^0.0.7":
+  version: 0.0.7
+  resolution: "react-overlap@npm:0.0.7"
+  dependencies:
+    "@babel/polyfill": ^7.12.1
+  peerDependencies:
+    react: ^18.2.0
+  checksum: eab275ce9779ca30cdaebfba92eb9c888061803eb0bc0b87b450760983f0cad743ca2fa33e4f86e9c716680aa4a00a50a8899c394bb7bb0074e76e54f57f3c1d
+  languageName: node
+  linkType: hard
+
 "react-remove-scroll-bar@npm:^2.3.3":
   version: 2.3.4
   resolution: "react-remove-scroll-bar@npm:2.3.4"
@@ -6869,7 +6958,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"regenerator-runtime@npm:^0.13.11":
+"regenerator-runtime@npm:^0.13.11, regenerator-runtime@npm:^0.13.4":
   version: 0.13.11
   resolution: "regenerator-runtime@npm:0.13.11"
   checksum: 27481628d22a1c4e3ff551096a683b424242a216fee44685467307f14d58020af1e19660bf2e26064de946bad7eff28950eae9f8209d55723e2d9351e632bbb4
@@ -7179,6 +7268,15 @@ __metadata:
   version: 3.0.7
   resolution: "signal-exit@npm:3.0.7"
   checksum: a2f098f247adc367dffc27845853e9959b9e88b01cb301658cfe4194352d8d2bb32e18467c786a7fe15f1d44b233ea35633d076d5e737870b7139949d1ab6318
+  languageName: node
+  linkType: hard
+
+"simple-swizzle@npm:^0.2.2":
+  version: 0.2.2
+  resolution: "simple-swizzle@npm:0.2.2"
+  dependencies:
+    is-arrayish: ^0.3.1
+  checksum: a7f3f2ab5c76c4472d5c578df892e857323e452d9f392e1b5cf74b74db66e6294a1e1b8b390b519fa1b96b5b613f2a37db6cffef52c3f1f8f3c5ea64eb2d54c0
   languageName: node
   linkType: hard
 

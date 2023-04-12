@@ -27,7 +27,7 @@ export const FormInput: FunctionComponent<FormInputProps> = ({
       <div className="flex items-center">
         {icon && <span className="mr-2">{icon}</span>}
         <input
-          className="form-input w-full rounded-none border-none bg-transparent px-3 py-2 placeholder-gray-400 focus:placeholder-white focus:outline-none"
+          className="form-input w-full rounded-none border-none border-transparent bg-transparent px-3 py-2 placeholder-gray-400 focus:border-transparent focus:outline-none focus:ring-0"
           id={name}
           type={type}
           placeholder={placeholder}

@@ -25,10 +25,10 @@ export default function Home() {
                 <h1 className="mt-10 text-center text-9xl font-normal">
                   Get Praise!
                 </h1>
-                <div className="mt-6 mb-8">
+                <div className="my-12">
                   <PraiseHands />
                 </div>
-                <div className="text-center">
+                <div className="text-center text-xl">
                   Start building a culture of giving and gratitude, give your
                   community its memory back! Who did{' '}
                   <span className="font-bold underline">what</span>,{' '}
@@ -39,12 +39,14 @@ export default function Home() {
                 <div className="mt-12 mb-6 flex justify-center">
                   <CircleNumber number={1} />
                 </div>
-                <div className="text-center">Create Praise community</div>
+                <div className="text-center text-xl">
+                  Create Praise community
+                </div>
 
                 <div className="mt-12 mb-6 flex justify-center">
                   <CircleNumber number={2} />
                 </div>
-                <div className="text-center">
+                <div className="text-center text-xl">
                   Invite Discord Bot to your server
                 </div>
               </main>

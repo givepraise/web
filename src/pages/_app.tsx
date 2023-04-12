@@ -14,7 +14,7 @@ export default function App({
   pageProps: { session, ...pageProps },
 }: AppProps) {
   return (
-    <div className="flex h-screen flex-col">
+    <div className="flex h-screen flex-col font-normal">
       <RecoilRoot>
         <Header />
         <SessionProvider session={session}>

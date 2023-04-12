@@ -84,13 +84,11 @@ export default function Landing() {
         <PraiseHands size="small" />
       </div>
       <h2 className="py-6">3. Rewards</h2>
-      <p>
+      <p className="mb-24">
         Positive feelings** and **strengthen bonds** between people. In online
         communities, this can be especially important for creating a sense of
         community and fostering cooperation.
       </p>
-      <h1>Who uses Praise?</h1>
-      <ForceDirectedLogos />
     </LandingLayout>
   )
 }

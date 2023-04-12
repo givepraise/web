@@ -26,12 +26,15 @@ export const FormSelect: FunctionComponent<FormSelectProps> = ({
       <div className="flex items-center">
         {icon && <span className="mr-2">{icon}</span>}
         <select
-          className="form-select w-full rounded-none border-none bg-transparent px-3 py-2 text-white placeholder-gray-400 focus:placeholder-white focus:outline-none"
+          className="form-select w-full rounded-none border-none bg-transparent px-3 py-2 text-white placeholder-gray-400 focus:border-transparent focus:placeholder-white focus:outline-none focus:ring-0"
           id={name}
           {...register(name, { required: 'This field is required' })}
           onChange={(e) => {
             register(name)?.onChange?.(e)
             onChange?.(e)
+          }}
+          onClick={(e) => {
+            alert('TeST')
           }}
           disabled={disabled}>
           {loading && <option disabled>Loading...</option>}

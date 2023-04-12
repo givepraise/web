@@ -89,14 +89,19 @@ const WaitlistForm: React.FC = () => {
         <label className="mb-2 block text-left" htmlFor="company">
           Community name
         </label>
-        <input
-          type="text"
-          id="company"
-          name="company"
-          value={formData.company}
-          onChange={handleChange}
-          className="focus:shadow-outline w-full appearance-none border px-3 py-2 text-lg text-black focus:outline-none"
-        />
+        <div className="relative w-full">
+          <div className="flex items-center">
+            <input
+              type="text"
+              id="company"
+              name="company"
+              value={formData.company}
+              onChange={handleChange}
+              className="w-full rounded-none border-none border-transparent bg-transparent px-3 py-2 placeholder-gray-400 focus:border-transparent focus:outline-none focus:ring-0"
+            />
+          </div>
+          <div className="absolute bottom-0 left-0 w-full border-b border-gray-400 " />
+        </div>
         {errors.company && (
           <p className="text-xs text-red-500">{errors.company}</p>
         )}
@@ -105,14 +110,19 @@ const WaitlistForm: React.FC = () => {
         <label className="mb-2 block text-left" htmlFor="website">
           Link to your community
         </label>
-        <input
-          type="text"
-          id="website"
-          name="website"
-          value={formData.website}
-          onChange={handleChange}
-          className="focus:shadow-outline w-full appearance-none border px-3 py-2 text-lg text-black focus:outline-none"
-        />
+        <div className="relative w-full">
+          <div className="flex items-center">
+            <input
+              type="text"
+              id="website"
+              name="website"
+              value={formData.website}
+              onChange={handleChange}
+              className="form-input w-full rounded-none border-none border-transparent bg-transparent px-3 py-2 placeholder-gray-400 focus:border-transparent focus:outline-none focus:ring-0"
+            />
+          </div>
+          <div className="absolute bottom-0 left-0 w-full border-b border-gray-400 " />
+        </div>
         {errors.website && (
           <p className="text-xs text-red-500">{errors.website}</p>
         )}
@@ -121,14 +131,19 @@ const WaitlistForm: React.FC = () => {
         <label className="mb-2 block text-left" htmlFor="firstname">
           Contact name
         </label>
-        <input
-          type="text"
-          id="firstname"
-          name="firstname"
-          value={formData.firstname}
-          onChange={handleChange}
-          className="focus:shadow-outline w-full appearance-none border px-3 py-2 text-lg text-black focus:outline-none"
-        />
+        <div className="relative w-full">
+          <div className="flex items-center">
+            <input
+              type="text"
+              id="firstname"
+              name="firstname"
+              value={formData.firstname}
+              onChange={handleChange}
+              className="form-input w-full rounded-none border-none border-transparent bg-transparent px-3 py-2 placeholder-gray-400 focus:border-transparent focus:outline-none focus:ring-0"
+            />
+          </div>
+          <div className="absolute bottom-0 left-0 w-full border-b border-gray-400 " />
+        </div>
         {errors.firstname && (
           <p className="text-xs text-red-500">{errors.firstname}</p>
         )}
@@ -137,14 +152,19 @@ const WaitlistForm: React.FC = () => {
         <label className="mb-2 block text-left" htmlFor="email">
           Contact email
         </label>
-        <input
-          type="email"
-          id="email"
-          name="email"
-          value={formData.email}
-          onChange={handleChange}
-          className="focus:shadow-outline w-full appearance-none border px-3 py-2 text-lg text-black focus:outline-none"
-        />
+        <div className="relative w-full">
+          <div className="flex items-center">
+            <input
+              type="email"
+              id="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              className="form-input w-full rounded-none border-none border-transparent bg-transparent px-3 py-2 placeholder-gray-400 focus:border-transparent focus:outline-none focus:ring-0"
+            />
+          </div>
+          <div className="absolute bottom-0 left-0 w-full border-b border-gray-400 " />
+        </div>
         {errors.email && <p className="text-xs text-red-500">{errors.email}</p>}
       </div>
       <div className="flex justify-center">

@@ -3,6 +3,7 @@ import { FaGithub, FaDiscord, FaTwitter } from 'react-icons/fa'
 import { useEffect, useState } from 'react'
 import Image from 'next/image'
 import GetPraiseButton from './landing/GetPraiseButton'
+import { OverlapHover, OverlapHoverImage } from 'react-overlap'
 
 const Header = () => {
   const [isSticky, setIsSticky] = useState(false)
@@ -20,19 +21,37 @@ const Header = () => {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
+  const logoData = [
+    {
+      svg: FaGithub,
+      href: 'https://github.com/givepraise/praise',
+      alt: 'Github',
+    },
+    {
+      svg: FaDiscord,
+      href: 'https://discord.gg/U2ydzXBG6C',
+      alt: 'Discord',
+    },
+    {
+      svg: FaTwitter,
+      href: 'https://twitter.com/givepraise',
+      alt: 'Twitter',
+    },
+  ]
+
   return (
     <header
       className={`${
-        isSticky ? 'fixed top-0 left-0 z-50 w-full bg-white shadow-lg' : ''
+        isSticky ? 'fixed top-0 left-0 z-50 w-full bg-white ' : ''
       }`}>
       <nav className="mx-auto flex items-center px-4 py-4">
         <div className="flex items-center">
-          <Link href="/" target="_blank">
+          <Link href="/">
             <Image src="/img/icon.png" alt="Your Logo" width={32} height={32} />
           </Link>
         </div>
         <div className="ml-2 hidden items-center space-x-4 md:flex">
-          <Link href="/" target="_blank">
+          <Link href="/">
             <span className="font-bold text-gray-800 hover:text-pink-600">
               Praise
             </span>
@@ -45,6 +64,17 @@ const Header = () => {
           </Link>
           <GetPraiseButton />
         </div>
+        {/* <OverlapHover size={30} spacing={10} overlap={0.4} direction="left">
+          {logoData.map((data, index) => (
+            <OverlapHoverImage
+              key={index}
+              alt={data.alt}
+              href={data.href}
+              className="opacity-100 hover:opacity-70" // Optional, tailwind example
+              svg={data.svg}
+            />
+          ))}
+        </OverlapHover> */}
         <div className="headerGroupIcons ml-auto flex items-center space-x-4">
           <Link
             href="https://twitter.com/givepraise"
