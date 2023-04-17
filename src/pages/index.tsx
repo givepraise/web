@@ -1,7 +1,7 @@
 import Footer from '@/components/Footer'
-import LandingLayout from '@/components/layout/LandingLayout'
 import ForceDirectedLogos from '@/components/landing/ForceDirectedLogos'
 import GetPraiseButton from '@/components/landing/GetPraiseButton'
+import LandingLayout from '@/components/layout/LandingLayout'
 import PraiseHands from '@/components/landing/PraiseHands'
 import { TwitterTweetEmbed } from 'react-twitter-embed'
 
@@ -46,7 +46,7 @@ export default function Landing() {
       reward each other’s contributions.
       <div className="black-section">
         <h2>How does it work?</h2>
-        <div className="mt-6 mb-12 rounded-md bg-white p-3 text-slate-700">
+        <div className="p-3 mt-6 mb-12 bg-white rounded-md text-slate-700">
           <code>/praise @vitalik.eth for &quot;inventing Ethereum&ldquo;</code>
         </div>
         <p>
@@ -67,27 +67,38 @@ export default function Landing() {
       <h2 className="py-6">1. Community Intelligence</h2>
       <p>
         Use Praise for insight into how your community works. Praise provides
-        all kinds of data analysis and reports. We call it **community
-        intelligence**.
+        all kinds of data analysis and reports. We call it{' '}
+        <strong>community intelligence</strong>.
       </p>
-      <div className="my-12">
+      <div className="mt-12 mb-1">
         <PraiseHands size="small" />
       </div>
-      <h2 className="py-6">
-        2. Reputation Use Praise to build reputation scores.
-      </h2>
+      <h2 className="py-6">2. Reputation</h2>
       <p>
-        The Praise contribution graph represents a verifiable record of
-        community contributions - **who did what, when and to what impact?!**
+        Use Praise to build reputation scores. The Praise contribution graph
+        represents a verifiable record of community contributions -{' '}
+        <strong>who did what, when and to what impact?!</strong>
       </p>
-      <div className="my-12">
+      <div className="mt-12 mb-1">
         <PraiseHands size="small" />
       </div>
       <h2 className="py-6">3. Rewards</h2>
+      <p>
+        Use Praise to reward contributors based on actual contributions and
+        impact. Praise integrates with a number of{' '}
+        <strong>token distribution platforms</strong>.
+      </p>
+      <div className="mt-12 mb-1">
+        <PraiseHands size="small" />
+      </div>
+      <h2 className="py-6">4. Culture of giving and gratitude</h2>
       <p className="mb-24">
-        Positive feelings** and **strengthen bonds** between people. In online
-        communities, this can be especially important for creating a sense of
-        community and fostering cooperation.
+        Use Praise to build a culture of cooperation, giving, and gratitude
+        within your community. Research has shown that praise can{' '}
+        <strong>reinforce positive feelings</strong> and{' '}
+        <strong>strengthen bonds</strong> between people. In online communities,
+        this can be especially important for creating a sense of community and
+        fostering cooperation.
       </p>
     </LandingLayout>
   )
