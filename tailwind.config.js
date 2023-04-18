@@ -10,6 +10,6 @@ module.exports = {
     fontFamily: {
       sans: ['Helvetica'],
     },
+    plugins: [require('@tailwindcss/forms')],
   },
-  plugins: [require('@tailwindcss/forms')],
 }

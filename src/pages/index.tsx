@@ -39,11 +39,13 @@ export default function Landing() {
       <div className="my-12">
         <PraiseHands />
       </div>
-      Praise is a community intelligence system that promotes active
-      participation and collaboration through peer recognition and rewards. We
-      help communities become more intelligent, productive and inclusive by
-      providing a simple way for community members to acknowledge, praise and
-      reward each other’s contributions.
+      <p className="px-4">
+        Praise is a community intelligence system that promotes active
+        participation and collaboration through peer recognition and rewards. We
+        help communities become more intelligent, productive and inclusive by
+        providing a simple way for community members to acknowledge, praise and
+        reward each other’s contributions.
+      </p>
       <div className="black-section">
         <h2>How does it work?</h2>
         <div className="mt-6 mb-12 rounded-md bg-white p-3 text-slate-700">
@@ -65,7 +67,7 @@ export default function Landing() {
       </div>
       <h1>Four reasons to use Praise</h1>
       <h2 className="py-6">1. Community Intelligence</h2>
-      <p>
+      <p className="px-4">
         Use Praise for insight into how your community works. Praise provides
         all kinds of data analysis and reports. We call it **community
         intelligence**.
@@ -76,7 +78,7 @@ export default function Landing() {
       <h2 className="py-6">
         2. Reputation Use Praise to build reputation scores.
       </h2>
-      <p>
+      <p className="px-4">
         The Praise contribution graph represents a verifiable record of
         community contributions - **who did what, when and to what impact?!**
       </p>
@@ -84,7 +86,7 @@ export default function Landing() {
         <PraiseHands size="small" />
       </div>
       <h2 className="py-6">3. Rewards</h2>
-      <p className="mb-24">
+      <p className="mb-24 px-4">
         Positive feelings** and **strengthen bonds** between people. In online
         communities, this can be especially important for creating a sense of
         community and fostering cooperation.

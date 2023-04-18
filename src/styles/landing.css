@@ -62,7 +62,7 @@ h2 {
 }
 
 .black-section {
-  @apply my-20 bg-black p-12 pb-12 text-white;
+  @apply text-white bg-black my-20 p-12 pb-12;
 }
 
 .black-section h2 {
@@ -74,7 +74,7 @@ h2 {
 }
 
 [data-theme='dark'] .black-section {
-  @apply bg-white text-black;
+  @apply text-black bg-white;
 }
 
 .hbspt-form {
@@ -87,7 +87,7 @@ h2 {
 
 .navbar__items .navbar-get-praise {
   background-color: #e6007e;
-  @apply rounded-full text-white hover:text-white;
+  @apply text-white hover:text-white rounded-full;
 }
 
 .markdown a {
@@ -115,7 +115,7 @@ h2 {
 }
 
 .menu__list-item {
-  @apply text-xl text-black;
+  @apply text-black text-xl;
 }
 
 .navbar,

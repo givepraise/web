@@ -1,6 +1,5 @@
 import { ReactNode } from 'react'
-import { Seo } from './Seo'
-import styles from './LandingLayout.module.css'
+import styles from './Layout.module.css'
 
 interface LandingLayoutProps {
   children: ReactNode

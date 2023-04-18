@@ -256,7 +256,7 @@ export const Form = () => {
           <div className="flex justify-center">
             <button
               type="submit"
-              className="mt-12 rounded-3xl bg-pink-600 px-4 py-2 text-sm font-medium text-white hover:bg-pink-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
+              className="button button--secondary button--lg mt-12"
               disabled={submitting || !isConnected}>
               {submitting ? 'Submitting...' : 'Create'}
             </button>

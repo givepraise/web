@@ -71,17 +71,12 @@ const Header = () => {
         <div
           className={`${
             isMenuOpen ? 'flex' : 'hidden'
-          } fixed inset-0 z-50 bg-white `}
+          } fixed inset-0 z-50 justify-center bg-white`}
           style={{ overflowY: isMenuOpen ? 'auto' : 'hidden' }}>
-          <div className="mt-2 ml-6 flex">
+          <div className="absolute top-2 left-4 flex">
             <div className="mt-2">
               <Link href="/" onClick={handleMenuToggle}>
-                <Image
-                  src="/img/icon.png"
-                  alt="Your Logo"
-                  width={32}
-                  height={32}
-                />
+                <Image src="/img/icon.png" alt="Logo" width={32} height={32} />
               </Link>
             </div>
             <div className="mt-2.5">
@@ -117,9 +112,9 @@ const Header = () => {
               </div>
               <div className="flex justify-center">
                 <Link href="/waitlist" onClick={handleMenuToggle}>
-                  <span className="text-gray-800 hover:text-pink-600">
+                  <button className="text-gray-800 hover:text-pink-600">
                     Get Praise!
-                  </span>
+                  </button>
                 </Link>
               </div>
             </div>

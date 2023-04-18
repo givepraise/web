@@ -15,7 +15,7 @@ export default function Home() {
     <>
       <ToastContainer />
       <SetupLayout>
-        <div className="w-full max-w-xl p-6">
+        <div className="w-full py-6">
           <Head />
           {community.name && community.hostname ? (
             <CommunitySuccessPage />
@@ -28,7 +28,7 @@ export default function Home() {
                 <div className="my-12">
                   <PraiseHands />
                 </div>
-                <div className="text-center text-xl">
+                <div className="px-2 text-center text-xl">
                   Start building a culture of giving and gratitude, give your
                   community its memory back! Who did{' '}
                   <span className="font-bold underline">what</span>,{' '}
