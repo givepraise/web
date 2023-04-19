@@ -28,7 +28,7 @@ export default function Landing() {
   return (
     <LandingLayout>
       <div className="heroContainer">
-        <div className="heroHeader">Praise</div>
+        <div className="heroHeader">Praise - Staging</div>
         <div className="text-3xl">
           Unlock the full potential of your community with reputation scores,
           rewards and deep insights.
