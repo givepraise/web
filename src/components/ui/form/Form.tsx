@@ -5,7 +5,6 @@ import { FormInput } from './FormInput'
 import { signIn, signOut, useSession } from 'next-auth/react'
 import { formDataState, guildOptionsState } from '@/services/form'
 import { useRecoilState } from 'recoil'
-import { fetchDiscordGuilds, saveComunnityData } from '@/services/api'
 import { FormData } from '@/types/formData.type'
 import { useAccount } from 'wagmi'
 import { toast } from 'react-toastify'
@@ -13,6 +12,8 @@ import { communityState } from '@/services/community'
 import { ConnectButton } from '@rainbow-me/rainbowkit'
 import { FaDiscord, FaEnvelope, FaUser, FaUsers } from 'react-icons/fa'
 import { EthAccount } from '../account/EthAccount'
+import { saveComunnityData } from '@/pages/api/community'
+import { fetchDiscordGuilds } from '@/pages/api/discord'
 
 export const Form = () => {
   const { data: session } = useSession()
@@ -56,6 +57,7 @@ export const Form = () => {
       } catch (error) {
         console.error(error)
         toast.error('There was an error submitting the form')
+        setSubmitting(false)
       }
     } else {
       toast.error('Please connect your wallet before you submit the form')
