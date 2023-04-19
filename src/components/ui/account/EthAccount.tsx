@@ -31,17 +31,17 @@ export const EthAccount = ({
         )}
         onClick={(): void => setIsDialogOpen(true)}>
         <div className="flex items-center space-x-2">
-          <div className="inline-block h-5">
+          <div className="mb-2 inline-block h-5">
             <Jazzicon address={address} className="h-4 w-4" />
           </div>
           <span>{shortenEthAddress(address)}</span>
         </div>
         <div>
           {showDownCaret && (
-            <FontAwesomeIcon icon={faAngleDown} className="h-4 w-4" />
+            <FontAwesomeIcon icon={faAngleDown} className="ml-1 h-4 w-4" />
           )}
           {showRightCaret && (
-            <FontAwesomeIcon icon={faAngleRight} className="h-4 w-4" />
+            <FontAwesomeIcon icon={faAngleRight} className="ml-1 h-4 w-4" />
           )}
         </div>
       </div>

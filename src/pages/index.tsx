@@ -1,5 +1,3 @@
-import Footer from '@/components/Footer'
-import ForceDirectedLogos from '@/components/landing/ForceDirectedLogos'
 import GetPraiseButton from '@/components/landing/GetPraiseButton'
 import LandingLayout from '@/components/layout/LandingLayout'
 import PraiseHands from '@/components/landing/PraiseHands'

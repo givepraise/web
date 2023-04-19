@@ -109,7 +109,7 @@ export const Form = () => {
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="mb-4 text-xl">
+        <div className="mb-4 text-left text-xl">
           <FormInput
             name="name"
             type="text"
@@ -130,33 +130,37 @@ export const Form = () => {
             </p>
           )}
 
-          <label className="mt-6 mb-2 block font-bold" htmlFor="name">
+          <label className="mt-8 mb-6 block font-bold" htmlFor="name">
             Creator
           </label>
-          <p>
-            Praise uses ETH for identification, connect a wallet to get started.
-          </p>
+          {!address ? (
+            <p>
+              Praise uses ETH for identification, connect a wallet to get
+              started.
+            </p>
+          ) : (
+            <></>
+          )}
         </div>
 
-        <div className="flex h-full items-center justify-center">
-          {address ? (
-            <div>
-              <div className="mb-2 text-center text-lg font-semibold">
-                Connected as
-              </div>
-              <EthAccount className="w-36" />
-            </div>
-          ) : (
+        {/* <div className="flex items-center justify-center h-full"> */}
+        {address ? (
+          <div className="flex h-full text-left">
+            <EthAccount className="w-36" />
+          </div>
+        ) : (
+          <div className="flex h-full items-center justify-center">
             <ConnectButton
               accountStatus="address"
               showBalance={false}
               chainStatus={'none'}
             />
-          )}
-        </div>
+          </div>
+        )}
+        {/* </div> */}
 
-        <div className="mb-4 text-xl">
-          <label className="mt-6 mb-4 block font-bold" htmlFor="name">
+        <div className="mb-4 text-left text-xl">
+          <label className="mt-8 mb-6 block text-left font-bold" htmlFor="name">
             Owners
           </label>
           <p>
@@ -198,8 +202,8 @@ export const Form = () => {
             </p>
           )}
         </div>
-        <div className="mb-4 text-xl">
-          <label className="mt-6 mb-4 block font-bold" htmlFor="name">
+        <div className="mb-4 text-left text-xl">
+          <label className="mt-8 mb-6 block font-bold" htmlFor="name">
             Email
           </label>
           <p>Where can we reach you for occasional updates?</p>
@@ -229,8 +233,8 @@ export const Form = () => {
           )}
         </div>
         <>
-          <div className="mb-4">
-            <label className="mt-6 mb-4 block font-bold" htmlFor="name">
+          <div className="mb-4 text-left">
+            <label className="mt-8 mb-6 block font-bold" htmlFor="name">
               Discord
             </label>
             <p>
