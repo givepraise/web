@@ -1,7 +1,7 @@
 import Footer from '@/components/Footer'
-import LandingLayout from '@/components/layout/LandingLayout'
 import ForceDirectedLogos from '@/components/landing/ForceDirectedLogos'
 import GetPraiseButton from '@/components/landing/GetPraiseButton'
+import LandingLayout from '@/components/layout/LandingLayout'
 import PraiseHands from '@/components/landing/PraiseHands'
 import { TwitterTweetEmbed } from 'react-twitter-embed'
 
@@ -69,10 +69,10 @@ export default function Landing() {
       <h2 className="py-6">1. Community Intelligence</h2>
       <p className="px-4">
         Use Praise for insight into how your community works. Praise provides
-        all kinds of data analysis and reports. We call it **community
-        intelligence**.
+        all kinds of data analysis and reports. We call it{' '}
+        <strong>community intelligence</strong>.
       </p>
-      <div className="my-12">
+      <div className="mt-12 mb-1">
         <PraiseHands size="small" />
       </div>
       <h2 className="py-6">
@@ -82,7 +82,7 @@ export default function Landing() {
         The Praise contribution graph represents a verifiable record of
         community contributions - **who did what, when and to what impact?!**
       </p>
-      <div className="my-12">
+      <div className="mt-12 mb-1">
         <PraiseHands size="small" />
       </div>
       <h2 className="py-6">3. Rewards</h2>
