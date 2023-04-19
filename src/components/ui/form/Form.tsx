@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import { FormSelect } from './FormSelect'
 import { FormInput } from './FormInput'
-import { SignInResponse, signIn, signOut, useSession } from 'next-auth/react'
+import { signIn, signOut, useSession } from 'next-auth/react'
 import { formDataState, guildOptionsState } from '@/services/form'
 import { useRecoilState } from 'recoil'
 import { fetchDiscordGuilds, saveComunnityData } from '@/services/api'
@@ -13,7 +13,6 @@ import { communityState } from '@/services/community'
 import { ConnectButton } from '@rainbow-me/rainbowkit'
 import { FaDiscord, FaEnvelope, FaUser, FaUsers } from 'react-icons/fa'
 import { EthAccount } from '../account/EthAccount'
-import { classNames } from '@/utils'
 
 export const Form = () => {
   const { data: session } = useSession()
@@ -143,7 +142,6 @@ export const Form = () => {
           )}
         </div>
 
-        {/* <div className="flex items-center justify-center h-full"> */}
         {address ? (
           <div className="flex h-full text-left">
             <EthAccount className="w-36" />
@@ -157,7 +155,6 @@ export const Form = () => {
             />
           </div>
         )}
-        {/* </div> */}
 
         <div className="mb-4 text-left text-xl">
           <label className="mt-8 mb-6 block text-left font-bold" htmlFor="name">
