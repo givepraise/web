@@ -1,5 +1,4 @@
 import { FormData } from '@/types/formData.type'
-import { API_KEY, API_URL } from '@/utils/config'
 
 import type { NextApiRequest, NextApiResponse } from 'next'
 
@@ -9,6 +8,9 @@ interface ISaveCommunityRequest extends NextApiRequest {
     creator: string
   }
 }
+
+const API_URL = process.env.API_URL
+const API_KEY = process.env.API_KEY
 
 export default async function handler(
   req: ISaveCommunityRequest,

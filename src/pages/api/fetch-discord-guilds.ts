@@ -13,8 +13,6 @@ export default async function handler(
   if (req.method === 'GET') {
     const { accessToken } = req.query
 
-    console.log('accessToken', accessToken)
-
     try {
       const response = await fetch('https://discord.com/api/users/@me/guilds', {
         headers: {

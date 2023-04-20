@@ -32,7 +32,7 @@ export const SignMessageLayout = ({
           <div className="md:bg-warm-gray-50 m-auto space-y-8 rounded-none border-none bg-none p-8 py-8 shadow-none dark:bg-slate-900 md:rounded-lg md:border md:border-solid md:p-4 md:shadow-sm">
             {children}
 
-            {isConnected && !address && !message ? (
+            {isConnected && !message ? (
               <LoaderSpinner />
             ) : (
               <ConnectButton

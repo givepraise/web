@@ -1,11 +1,11 @@
-import LandingLayout from '@/components/layout/LandingLayout'
 import PraiseHands from '@/components/landing/PraiseHands'
 import Link from 'next/link'
 import WaitlistForm from '@/components/landing/WaitListForm'
+import MainLayout from '@/components/layout/MainLayout'
 
 export default function Waitlist() {
   return (
-    <LandingLayout>
+    <MainLayout>
       <div className="mx-auto mt-12 max-w-2xl text-center">
         <div className="mb-12 text-8xl">Get Praise, join the waiting list!</div>
         <div className="text-3xl">
@@ -35,6 +35,6 @@ export default function Waitlist() {
           easy setup instructions
         </Link>
       </p>
-    </LandingLayout>
+    </MainLayout>
   )
 }

@@ -1,6 +1,4 @@
-import { API_URL } from '@/utils/config'
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { API_KEY } from '../../utils/config'
 
 interface ILinkBotCommunityRequest extends NextApiRequest {
   body: {
@@ -8,6 +6,9 @@ interface ILinkBotCommunityRequest extends NextApiRequest {
     communityId: string
   }
 }
+
+const API_URL = process.env.API_URL
+const API_KEY = process.env.API_KEY
 
 export default async function handler(
   req: ILinkBotCommunityRequest,

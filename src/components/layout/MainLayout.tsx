@@ -1,12 +1,12 @@
 import { ReactNode } from 'react'
 import styles from './Layout.module.css'
 
-interface LandingLayoutProps {
+interface MainLayoutProps {
   children: ReactNode
 }
 
-const LandingLayout = (props: LandingLayoutProps) => {
+const MainLayout = (props: MainLayoutProps) => {
   return <div className={styles.landingContainer}>{props.children}</div>
 }
 
-export default LandingLayout
+export default MainLayout

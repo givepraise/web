@@ -1,7 +1,6 @@
 import { WaitlistFormData } from '@/types/waitlistFormData.type'
 import { NextApiRequest, NextApiResponse } from 'next'
-
-const hubspot = require('@hubspot/api-client')
+import { Client } from '@hubspot/api-client'
 
 const HUBSPOT_ACCESS_TOKEN = process.env.HUBSPOT_ACCESS_TOKEN
 
@@ -62,17 +61,14 @@ export default async function handler(
       }
     }
 
-    const hubspotClient = new hubspot.Client({
-      accessToken: HUBSPOT_ACCESS_TOKEN,
-    })
+    const hubspotClient = new Client({ accessToken: HUBSPOT_ACCESS_TOKEN })
 
     try {
       const response = await hubspotClient.crm.contacts.basicApi.create({
         properties: data,
       })
 
-      const jsonResponse = await response.json()
-      return res.status(response.status).json(jsonResponse)
+      return res.status(200).json('Form submitted successfully')
     } catch (error) {
       if (error instanceof Error) {
         return res.status(500).end(error.message)
