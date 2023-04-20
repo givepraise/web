@@ -1,12 +1,17 @@
 import { Head } from '@/components/layout/Head'
-import { Form } from '@/components/ui/form/Form'
 import { CommunitySuccessPage } from '../components/communitySuccess'
 import { useRecoilState } from 'recoil'
 import { communityState } from '@/services/community'
 import { SetupLayout } from '@/components/layout/SetupLayout'
 import { ToastContainer } from 'react-toastify'
 import PraiseHands from '@/components/landing/PraiseHands'
+import dynamic from 'next/dynamic'
 import CircleNumber from '@/components/ui/CircleNumber'
+
+const DynamicForm = dynamic(() => import('@/components/ui/form/Form'), {
+  loading: () => <p>Loading...</p>,
+  ssr: false,
+})
 
 export default function Home() {
   const [community] = useRecoilState(communityState)
@@ -51,7 +56,7 @@ export default function Home() {
                 </div>
               </main>
 
-              <Form />
+              <DynamicForm />
             </div>
           )}
         </div>

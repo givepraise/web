@@ -12,10 +12,8 @@ import { communityState } from '@/services/community'
 import { ConnectButton } from '@rainbow-me/rainbowkit'
 import { FaDiscord, FaEnvelope, FaUser, FaUsers } from 'react-icons/fa'
 import { EthAccount } from '../account/EthAccount'
-import { saveComunnityData } from '@/pages/api/community'
-import { fetchDiscordGuilds } from '@/pages/api/discord'
 
-export const Form = () => {
+const Form = () => {
   const { data: session } = useSession()
   const { address, isConnected } = useAccount()
 
@@ -39,7 +37,17 @@ export const Form = () => {
       setFormData(data)
 
       try {
-        const response = await saveComunnityData(data, address)
+        const response = await fetch('/api/save-community', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            data,
+            address,
+          }),
+        }).then((res) => res.json())
+
         reset()
         toast.success('Form submitted successfully')
         setSubmitting(false)
@@ -71,7 +79,16 @@ export const Form = () => {
       }
 
       try {
-        const data = await fetchDiscordGuilds(session.accessToken)
+        const data = await fetch(
+          `/api/fetch-discord-guilds?accessToken=${session.accessToken}`,
+          {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          }
+        ).then((res) => res.json())
+
         if (data && data.length > 0) {
           setGuildOptions(
             data.map((guild: any) => ({
@@ -269,3 +286,5 @@ export const Form = () => {
     </div>
   )
 }
+
+export default Form
