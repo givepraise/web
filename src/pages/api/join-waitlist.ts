@@ -23,6 +23,14 @@ export default async function handler(
   res: NextApiResponse
 ) {
   if (req.method === 'POST') {
+    if (!HUBSPOT_ACCESS_TOKEN) {
+      return res
+        .status(500)
+        .end(
+          `Internal server error: Missing environment variable HUBSPOT_ACCESS_TOKEN`
+        )
+    }
+
     const { data } = req.body
 
     const { company, website, firstname, email } = data
