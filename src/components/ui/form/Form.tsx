@@ -12,7 +12,6 @@ import { communityState } from '@/services/community'
 import { ConnectButton } from '@rainbow-me/rainbowkit'
 import { FaDiscord, FaEnvelope, FaUser, FaUsers } from 'react-icons/fa'
 import { EthAccount } from '../account/EthAccount'
-import { saveComunnityData } from '@/pages/api/community'
 import { fetchDiscordGuilds } from '@/pages/api/discord'
 
 export const Form = () => {
@@ -39,7 +38,16 @@ export const Form = () => {
       setFormData(data)
 
       try {
-        const response = await saveComunnityData(data, address)
+        const response = await fetch('/api/save-community', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            data,
+            address,
+          }),
+        }).then((res) => res.json())
         reset()
         toast.success('Form submitted successfully')
         setSubmitting(false)
@@ -105,7 +113,7 @@ export const Form = () => {
 
   return (
     <div className="black-section">
-      <div className="mt-2 mb-12 justify-center text-center">
+      <div className="mb-12 mt-2 justify-center text-center">
         <h1 className="text-4xl">Create Community</h1>
       </div>
 
@@ -131,7 +139,7 @@ export const Form = () => {
             </p>
           )}
 
-          <label className="mt-8 mb-6 block font-bold" htmlFor="name">
+          <label className="mb-6 mt-8 block font-bold" htmlFor="name">
             Creator
           </label>
           {!address ? (
@@ -159,7 +167,7 @@ export const Form = () => {
         )}
 
         <div className="mb-4 text-left text-xl">
-          <label className="mt-8 mb-6 block text-left font-bold" htmlFor="name">
+          <label className="mb-6 mt-8 block text-left font-bold" htmlFor="name">
             Owners
           </label>
           <p>
@@ -202,7 +210,7 @@ export const Form = () => {
           )}
         </div>
         <div className="mb-4 text-left text-xl">
-          <label className="mt-8 mb-6 block font-bold" htmlFor="name">
+          <label className="mb-6 mt-8 block font-bold" htmlFor="name">
             Email
           </label>
           <p>Where can we reach you for occasional updates?</p>
@@ -233,7 +241,7 @@ export const Form = () => {
         </div>
         <>
           <div className="mb-4 text-left">
-            <label className="mt-8 mb-6 block font-bold" htmlFor="name">
+            <label className="mb-6 mt-8 block font-bold" htmlFor="name">
               Discord
             </label>
             <p>
