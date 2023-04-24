@@ -1,10 +1,9 @@
 import DiscordProvider from 'next-auth/providers/discord'
 import NextAuth from 'next-auth'
-import {
-  DISCORD_CLIENT_ID,
-  DISCORD_CLIENT_SECRET,
-  NEXTAUTH_SECRET,
-} from '@/utils/config'
+
+const NEXTAUTH_SECRET = process.env.NEXTAUTH_SECRET as string
+const DISCORD_CLIENT_ID = process.env.DISCORD_CLIENT_ID as string
+const DISCORD_CLIENT_SECRET = process.env.DISCORD_CLIENT_SECRET as string
 
 // https://discord.com/developers/docs/topics/oauth2#shared-resources-oauth2-scopes
 const scopes = ['identify', 'guilds'].join(' ')

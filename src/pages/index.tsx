@@ -1,6 +1,6 @@
 import GetPraiseButton from '@/components/landing/GetPraiseButton'
-import LandingLayout from '@/components/layout/LandingLayout'
 import PraiseHands from '@/components/landing/PraiseHands'
+import MainLayout from '@/components/layout/MainLayout'
 import { TwitterTweetEmbed } from 'react-twitter-embed'
 
 export default function Landing() {
@@ -26,7 +26,7 @@ export default function Landing() {
       </blockquote>`
 
   return (
-    <LandingLayout>
+    <MainLayout>
       <div className="heroContainer">
         <div className="heroHeader">Praise</div>
         <div className="text-3xl">
@@ -89,6 +89,6 @@ export default function Landing() {
         communities, this can be especially important for creating a sense of
         community and fostering cooperation.
       </p>
-    </LandingLayout>
+    </MainLayout>
   )
 }

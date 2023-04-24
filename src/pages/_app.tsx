@@ -7,6 +7,7 @@ import { SessionProvider } from 'next-auth/react'
 import { RecoilRoot } from 'recoil'
 import Footer from '@/components/Footer'
 import Header from '@/components/Header'
+import { Web3Provider } from '@/providers/Web3'
 
 export default function App({
   Component,
@@ -17,7 +18,9 @@ export default function App({
       <RecoilRoot>
         <Header />
         <SessionProvider session={session}>
-          <Component {...pageProps} />
+          <Web3Provider>
+            <Component {...pageProps} />
+          </Web3Provider>
         </SessionProvider>
         <Footer />
       </RecoilRoot>

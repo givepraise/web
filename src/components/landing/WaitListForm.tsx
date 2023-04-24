@@ -1,14 +1,7 @@
 import React, { useState, ChangeEvent, FormEvent } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSpinner } from '@fortawesome/free-solid-svg-icons'
-import axios from 'axios'
-
-interface FormData {
-  company: string
-  website: string
-  firstname: string
-  email: string
-}
+import { WaitlistFormData } from '@/types/waitlistFormData.type'
 
 interface Errors {
   company?: string
@@ -18,7 +11,7 @@ interface Errors {
 }
 
 const WaitlistForm: React.FC = () => {
-  const [formData, setFormData] = useState<FormData>({
+  const [formData, setFormData] = useState<WaitlistFormData>({
     company: '',
     website: '',
     firstname: '',
@@ -71,10 +64,16 @@ const WaitlistForm: React.FC = () => {
 
     setSubmitting(true)
     try {
-      const response = await axios.post(
-        '/.netlify/functions/submitForm',
-        formData
-      )
+      await fetch('/api/join-waitlist', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          formData,
+        }),
+      }).then((res) => res.json())
+
       setSubmitting(false)
       setSubmitted(true)
     } catch (error: any) {
