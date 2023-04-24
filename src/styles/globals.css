@@ -91,3 +91,7 @@ ul {
 .twitter-tweet {
   @apply mx-auto;
 }
+
+.connectbutton button {
+  @apply !rounded-full !px-4 !py-2 hover:!bg-themecolor-4;
+}

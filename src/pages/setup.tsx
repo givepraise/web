@@ -68,7 +68,7 @@ export default function Home() {
                 Praise uses Ethereum for identification, connect wallet to get
                 started
               </div>
-              <div className="flex h-full items-center justify-center">
+              <div className="connectbutton flex h-full items-center justify-center">
                 <ConnectButton
                   accountStatus="address"
                   showBalance={false}
