@@ -29,7 +29,7 @@ export const Button = ({
   const disabledModifier =
     'disabled:cursor-default disabled:bg-themecolor-3/50 disabled:text-black/50'
 
-  const defaultClass = `px-4 py-2 font-bold text-black rounded-md bg-themecolor-3 hover:bg-themecolor-4 ${disabledModifier}`
+  const defaultClass = `px-4 py-2 font-bold text-white bg-themecolor-3 hover:bg-themecolor-4 ${disabledModifier} rounded-full`
   const outlineClass = `border-2 border-themecolor-3 px-4 py-2 font-bold text-black rounded-md bg-themecolor-3 hover:bg-themecolor-4 ${disabledModifier}`
   const roundClass = `flex items-center justify-center rounded-full hover:bg-warm-gray-300 w-7 h-7 dark:text-black dark:hover:bg-slate-800 ${disabledModifier}`
 

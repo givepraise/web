@@ -1,12 +1,16 @@
-import { Head } from '@/components/layout/Head'
-import { CommunitySuccessPage } from '../components/communitySuccess'
-import { useRecoilState } from 'recoil'
-import { communityState } from '@/services/community'
-import { ToastContainer } from 'react-toastify'
-import PraiseHands from '@/components/landing/PraiseHands'
-import dynamic from 'next/dynamic'
 import CircleNumber from '@/components/ui/CircleNumber'
+import { CommunitySuccessPage } from '../components/communitySuccess'
+import { ConnectButton } from '@rainbow-me/rainbowkit'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { Head } from '@/components/layout/Head'
 import MainLayout from '@/components/layout/MainLayout'
+import PraiseHands from '@/components/landing/PraiseHands'
+import { ToastContainer } from 'react-toastify'
+import { communityState } from '@/services/community'
+import dynamic from 'next/dynamic'
+import { faEthereum } from '@fortawesome/free-brands-svg-icons'
+import { useAccount } from 'wagmi'
+import { useRecoilState } from 'recoil'
 
 const DynamicForm = dynamic(() => import('@/components/ui/form/Form'), {
   loading: () => <div className="mt-20 h-[700px] rounded bg-gray-200" />,
@@ -15,48 +19,63 @@ const DynamicForm = dynamic(() => import('@/components/ui/form/Form'), {
 
 export default function Home() {
   const [community] = useRecoilState(communityState)
+  const { address, isConnected } = useAccount()
 
   return (
     <MainLayout>
       <ToastContainer />
-      <div className="w-full py-6">
-        <Head />
-        {community.name && community.hostname ? (
-          <CommunitySuccessPage />
-        ) : (
-          <div className="">
-            <main className="justify-center">
-              <h1 className="mt-10 font-normal text-center text-9xl">
-                Get Praise!
-              </h1>
-              <div className="my-12">
-                <PraiseHands />
-              </div>
-              <div className="px-2 text-xl text-center">
-                Start building a culture of giving and gratitude, give your
-                community its memory back! Who did{' '}
-                <span className="font-bold underline">what</span>,{' '}
-                <span className="font-bold underline">when</span> and to{' '}
-                <span className="font-bold underline">what</span> impact.
-              </div>
-
-              <div className="flex justify-center mt-12 mb-6">
-                <CircleNumber number={1} />
-              </div>
-              <div className="text-xl text-center">Create Praise community</div>
-
-              <div className="flex justify-center mt-12 mb-6">
-                <CircleNumber number={2} />
-              </div>
-              <div className="text-xl text-center">
-                Invite Discord Bot to your server
-              </div>
-            </main>
-
-            <DynamicForm />
+      <Head />
+      {community.name && community.hostname ? (
+        <CommunitySuccessPage />
+      ) : (
+        <>
+          <h1>
+            Start building a culture of giving and gratitude, give your
+            community its memory back! Who did{' '}
+            <span className="font-bold underline">what</span>,{' '}
+            <span className="font-bold underline">when</span> and to{' '}
+            <span className="font-bold underline">what</span> impact.
+          </h1>
+          <PraiseHands />
+          <div className="prose-2xl">
+            Setting up Praise is a two step process and takes less than 5
+            minutes:
           </div>
-        )}
-      </div>
+
+          <div className="flex justify-center">
+            <CircleNumber number={1} />
+          </div>
+          <div className="prose-2xl">Create Praise community</div>
+
+          <div className="flex justify-center">
+            <CircleNumber number={2} />
+          </div>
+          <div className="prose-2xl">Invite Discord Bot to your server</div>
+
+          {!address && (
+            <>
+              <div className="flex justify-center">
+                <div className="flex h-14 w-14 items-center justify-center rounded-full bg-[#e6007e] text-white">
+                  <FontAwesomeIcon icon={faEthereum} />
+                </div>
+              </div>
+              <div className="prose-2xl">
+                Praise uses Ethereum for identification, connect wallet to get
+                started
+              </div>
+              <div className="flex h-full items-center justify-center">
+                <ConnectButton
+                  accountStatus="address"
+                  showBalance={false}
+                  chainStatus={'none'}
+                />
+              </div>
+            </>
+          )}
+
+          <DynamicForm />
+        </>
+      )}
     </MainLayout>
   )
 }

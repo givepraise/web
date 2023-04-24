@@ -1,17 +1,19 @@
-import { useEffect, useState } from 'react'
-import { useForm, SubmitHandler } from 'react-hook-form'
-import { FormSelect } from './FormSelect'
-import { FormInput } from './FormInput'
-import { signIn, signOut, useSession } from 'next-auth/react'
-import { formDataState, guildOptionsState } from '@/services/form'
-import { useRecoilState } from 'recoil'
-import { FormData } from '@/types/formData.type'
-import { useAccount } from 'wagmi'
-import { toast } from 'react-toastify'
-import { communityState } from '@/services/community'
-import { ConnectButton } from '@rainbow-me/rainbowkit'
 import { FaDiscord, FaEnvelope, FaUser, FaUsers } from 'react-icons/fa'
+import { SubmitHandler, useForm } from 'react-hook-form'
+import { formDataState, guildOptionsState } from '@/services/form'
+import { signIn, signOut, useSession } from 'next-auth/react'
+import { useEffect, useState } from 'react'
+
+import { Button } from '../Button'
+import { ConnectButton } from '@rainbow-me/rainbowkit'
 import { EthAccount } from '../account/EthAccount'
+import { FormData } from '@/types/formData.type'
+import { FormInput } from './FormInput'
+import { FormSelect } from './FormSelect'
+import { communityState } from '@/services/community'
+import { toast } from 'react-toastify'
+import { useAccount } from 'wagmi'
+import { useRecoilState } from 'recoil'
 
 const Form = () => {
   const { data: session } = useSession()
@@ -121,12 +123,10 @@ const Form = () => {
 
   return (
     <div className="black-section">
-      <div className="justify-center mt-2 mb-12 text-center">
-        <h1 className="text-4xl">Create Community</h1>
-      </div>
+      <h2>Create Community</h2>
 
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="mb-4 text-xl text-left">
+        <div className="mb-4 text-left text-xl">
           <FormInput
             name="name"
             type="text"
@@ -147,35 +147,20 @@ const Form = () => {
             </p>
           )}
 
-          <label className="block mt-8 mb-6 font-bold" htmlFor="name">
+          <label className="mb-6 mt-8 block font-bold" htmlFor="name">
             Creator
           </label>
-          {!address ? (
-            <p>
-              Praise uses ETH for identification, connect a wallet to get
-              started.
-            </p>
+
+          {address ? (
+            <div className="flex h-full text-left">
+              <EthAccount className="w-36" />
+            </div>
           ) : (
-            <></>
+            <p>Connect your wallet to set community creator.</p>
           )}
         </div>
-
-        {address ? (
-          <div className="flex h-full text-left">
-            <EthAccount className="w-36" />
-          </div>
-        ) : (
-          <div className="flex items-center justify-center h-full">
-            <ConnectButton
-              accountStatus="address"
-              showBalance={false}
-              chainStatus={'none'}
-            />
-          </div>
-        )}
-
-        <div className="mb-4 text-xl text-left">
-          <label className="block mt-8 mb-6 font-bold text-left" htmlFor="name">
+        <div className="mb-4 text-left text-xl">
+          <label className="mb-6 mt-8 block text-left font-bold" htmlFor="name">
             Owners
           </label>
           <p>
@@ -217,8 +202,8 @@ const Form = () => {
             </p>
           )}
         </div>
-        <div className="mb-4 text-xl text-left">
-          <label className="block mt-8 mb-6 font-bold" htmlFor="name">
+        <div className="mb-4 text-left text-xl">
+          <label className="mb-6 mt-8 block font-bold" htmlFor="name">
             Email
           </label>
           <p>Where can we reach you for occasional updates?</p>
@@ -249,7 +234,7 @@ const Form = () => {
         </div>
         <>
           <div className="mb-4 text-left">
-            <label className="block mt-8 mb-6 font-bold" htmlFor="name">
+            <label className="mb-6 mt-8 block font-bold" htmlFor="name">
               Discord
             </label>
             <p>
@@ -273,12 +258,12 @@ const Form = () => {
             />
           </div>
           <div className="flex justify-center">
-            <button
+            <Button
               type="submit"
-              className="mt-12 button button--secondary button--lg"
+              className="button button--secondary button--lg mt-12"
               disabled={submitting || !isConnected}>
               {submitting ? 'Submitting...' : 'Create'}
-            </button>
+            </Button>
           </div>
         </>
       </form>

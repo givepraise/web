@@ -1,4 +1,5 @@
-import { FunctionComponent, ChangeEvent, ReactNode } from 'react'
+import { ChangeEvent, FunctionComponent, ReactNode } from 'react'
+
 import { UseFormRegister } from 'react-hook-form'
 
 interface FormInputProps {
@@ -22,12 +23,13 @@ export const FormInput: FunctionComponent<FormInputProps> = ({
   validationRules,
   disabled,
 }) => {
+  const iconColour = disabled ? 'text-gray-400' : 'text-white'
   return (
     <div className="relative w-full">
       <div className="flex items-center">
-        {icon && <span className="mr-2">{icon}</span>}
+        {icon && <span className={`mr-2 pb-1 ${iconColour}`}>{icon}</span>}
         <input
-          className="form-input w-full rounded-none border-none border-transparent bg-transparent px-3 py-2 placeholder-gray-400 focus:border-transparent focus:outline-none focus:ring-0"
+          className="form-input w-full rounded-none border-none border-transparent bg-transparent px-0 py-2 placeholder-gray-400 focus:border-transparent focus:outline-none focus:ring-0"
           id={name}
           type={type}
           placeholder={placeholder}

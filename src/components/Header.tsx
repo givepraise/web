@@ -1,9 +1,10 @@
-import Link from 'next/link'
-import { FaGithub, FaDiscord, FaTwitter, FaBars } from 'react-icons/fa'
+import { FaBars, FaDiscord, FaGithub, FaTwitter } from 'react-icons/fa'
 import { useEffect, useState } from 'react'
-import Image from 'next/image'
-import GetPraiseButton from './landing/GetPraiseButton'
+
+import { Button } from './ui/Button'
 import CloseButton from './ui/CloseButton'
+import Image from 'next/image'
+import Link from 'next/link'
 
 const Header = () => {
   const [isSticky, setIsSticky] = useState(false)
@@ -35,10 +36,7 @@ const Header = () => {
   }
 
   return (
-    <header
-      className={`${
-        isSticky ? 'fixed top-0 left-0 z-50 w-full bg-white ' : ''
-      }`}>
+    <header className={`${isSticky ? 'fixed left-0 top-0 z-50 w-full ' : ''}`}>
       <nav className="mx-auto flex items-center px-4 py-4">
         <button
           className="ml-2 text-gray-800 hover:text-pink-600 sm:hidden"
@@ -64,7 +62,9 @@ const Header = () => {
           <Link href="https://mirror.xyz/givepraise.eth" target="_blank">
             <span className="ml-2 text-gray-800 hover:text-pink-600">Blog</span>
           </Link>
-          <GetPraiseButton />
+          <Button onClick={() => (window.location.href = '/waitlist')}>
+            Get Praise!
+          </Button>
         </div>
 
         {/* Small screens menu items */}
@@ -73,7 +73,7 @@ const Header = () => {
             isMenuOpen ? 'flex' : 'hidden'
           } fixed inset-0 z-50 justify-center bg-white`}
           style={{ overflowY: isMenuOpen ? 'auto' : 'hidden' }}>
-          <div className="absolute top-2 left-4 flex">
+          <div className="absolute left-4 top-2 flex">
             <div className="mt-2">
               <Link href="/" onClick={handleMenuToggle}>
                 <Image src="/img/icon.png" alt="Logo" width={32} height={32} />
@@ -81,7 +81,7 @@ const Header = () => {
             </div>
             <div className="mt-2.5">
               <Link href="/">
-                <span className="mt-4 ml-2 font-bold text-gray-800 hover:text-pink-600">
+                <span className="ml-2 mt-4 font-bold text-gray-800 hover:text-pink-600">
                   Praise
                 </span>
               </Link>

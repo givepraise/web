@@ -1,3 +1,87 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@font-face {
+  font-family: 'HelveticaNeue';
+  src: url('/font/HelveticaNeue-Light-08.ttf');
+  font-weight: 300;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'HelveticaNeue';
+  src: url('/font/HelveticaNeue-01.ttf');
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'HelveticaNeue';
+  src: url('/font/HelveticaNeue-Medium-11.ttf');
+  font-weight: 500;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'HelveticaNeue';
+  src: url('/font/HelveticaNeue-Bold-02.ttf');
+  font-weight: 700;
+  font-style: normal;
+}
+
+.root {
+  background-image: radial-gradient(
+      circle at 80.99% 40%,
+      #e1007f7e,
+      transparent 59%
+    ),
+    radial-gradient(circle at 50% 50%, #ffffff, #ffffff 100%);
+}
+
+.main-layout {
+  @apply prose prose-xl mx-auto w-[700px];
+}
+
+.main-layout a {
+  @apply underline;
+}
+
+@media screen and (max-width: 750px) {
+  .main-layout {
+    width: 100%;
+  }
+}
+
+strong {
+  @apply font-bold;
+}
+
+.footer .container {
+  max-width: 600px;
+}
+
+svg {
+  @apply !inline-block;
+}
+
+ul {
+  @apply ml-8 list-disc;
+}
+
+.black-section {
+  @apply my-20 bg-black p-12 pb-12 text-white;
+}
+
+.black-section h2 {
+  @apply mt-5 text-white;
+}
+
+.black-section p {
+  @apply mb-8;
+}
+
+.hbspt-form {
+  @apply mb-20;
+}
+
+.twitter-tweet {
+  @apply mx-auto;
+}

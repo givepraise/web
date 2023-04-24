@@ -1,26 +1,18 @@
-import PraiseHands from '@/components/landing/PraiseHands'
 import Link from 'next/link'
-import WaitlistForm from '@/components/landing/WaitListForm'
 import MainLayout from '@/components/layout/MainLayout'
+import PraiseHands from '@/components/landing/PraiseHands'
+import WaitlistForm from '@/components/landing/WaitListForm'
 
 export default function Waitlist() {
   return (
     <MainLayout>
-      <div className="mx-auto mt-12 max-w-2xl text-center">
-        <div className="mb-12 text-8xl">Get Praise, join the waiting list!</div>
-        <div className="text-3xl">
-          Unlock the full potential of your community with reputation scores,
-          rewards and deep insights.
-        </div>
-      </div>
-      <div className="my-12">
-        <PraiseHands />
-      </div>
-      <p>
+      <h1>
+        {' '}
         For a limited time, we&apos;re offering free deployment and setup
         services to selected communities. Join the waiting list and be the first
         to know when a new slot becomes available.
-      </p>
+      </h1>
+
       <div className="black-section">
         <h2>Get Praise - Waitlist</h2>
         <WaitlistForm />
