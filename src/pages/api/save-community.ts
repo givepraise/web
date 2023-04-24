@@ -45,7 +45,6 @@ export default async function handler(
         },
         body: JSON.stringify(postData),
       })
-
       const jsonResponse = await response.json()
       return res.status(response.status).json(jsonResponse)
     } catch (error) {

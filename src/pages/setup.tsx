@@ -26,13 +26,13 @@ export default function Home() {
         ) : (
           <div className="">
             <main className="justify-center">
-              <h1 className="mt-10 text-center text-9xl font-normal">
+              <h1 className="mt-10 font-normal text-center text-9xl">
                 Get Praise!
               </h1>
               <div className="my-12">
                 <PraiseHands />
               </div>
-              <div className="px-2 text-center text-xl">
+              <div className="px-2 text-xl text-center">
                 Start building a culture of giving and gratitude, give your
                 community its memory back! Who did{' '}
                 <span className="font-bold underline">what</span>,{' '}
@@ -40,15 +40,15 @@ export default function Home() {
                 <span className="font-bold underline">what</span> impact.
               </div>
 
-              <div className="mt-12 mb-6 flex justify-center">
+              <div className="flex justify-center mt-12 mb-6">
                 <CircleNumber number={1} />
               </div>
-              <div className="text-center text-xl">Create Praise community</div>
+              <div className="text-xl text-center">Create Praise community</div>
 
-              <div className="mt-12 mb-6 flex justify-center">
+              <div className="flex justify-center mt-12 mb-6">
                 <CircleNumber number={2} />
               </div>
-              <div className="text-center text-xl">
+              <div className="text-xl text-center">
                 Invite Discord Bot to your server
               </div>
             </main>

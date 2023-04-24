@@ -47,7 +47,6 @@ const Form = () => {
             address,
           }),
         }).then((res) => res.json())
-
         reset()
         toast.success('Form submitted successfully')
         setSubmitting(false)
@@ -122,12 +121,12 @@ const Form = () => {
 
   return (
     <div className="black-section">
-      <div className="mt-2 mb-12 justify-center text-center">
+      <div className="justify-center mt-2 mb-12 text-center">
         <h1 className="text-4xl">Create Community</h1>
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="mb-4 text-left text-xl">
+        <div className="mb-4 text-xl text-left">
           <FormInput
             name="name"
             type="text"
@@ -148,7 +147,7 @@ const Form = () => {
             </p>
           )}
 
-          <label className="mt-8 mb-6 block font-bold" htmlFor="name">
+          <label className="block mt-8 mb-6 font-bold" htmlFor="name">
             Creator
           </label>
           {!address ? (
@@ -166,7 +165,7 @@ const Form = () => {
             <EthAccount className="w-36" />
           </div>
         ) : (
-          <div className="flex h-full items-center justify-center">
+          <div className="flex items-center justify-center h-full">
             <ConnectButton
               accountStatus="address"
               showBalance={false}
@@ -175,8 +174,8 @@ const Form = () => {
           </div>
         )}
 
-        <div className="mb-4 text-left text-xl">
-          <label className="mt-8 mb-6 block text-left font-bold" htmlFor="name">
+        <div className="mb-4 text-xl text-left">
+          <label className="block mt-8 mb-6 font-bold text-left" htmlFor="name">
             Owners
           </label>
           <p>
@@ -218,8 +217,8 @@ const Form = () => {
             </p>
           )}
         </div>
-        <div className="mb-4 text-left text-xl">
-          <label className="mt-8 mb-6 block font-bold" htmlFor="name">
+        <div className="mb-4 text-xl text-left">
+          <label className="block mt-8 mb-6 font-bold" htmlFor="name">
             Email
           </label>
           <p>Where can we reach you for occasional updates?</p>
@@ -250,7 +249,7 @@ const Form = () => {
         </div>
         <>
           <div className="mb-4 text-left">
-            <label className="mt-8 mb-6 block font-bold" htmlFor="name">
+            <label className="block mt-8 mb-6 font-bold" htmlFor="name">
               Discord
             </label>
             <p>
@@ -276,7 +275,7 @@ const Form = () => {
           <div className="flex justify-center">
             <button
               type="submit"
-              className="button button--secondary button--lg mt-12"
+              className="mt-12 button button--secondary button--lg"
               disabled={submitting || !isConnected}>
               {submitting ? 'Submitting...' : 'Create'}
             </button>
