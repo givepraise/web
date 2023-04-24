@@ -36,7 +36,8 @@ const Header = () => {
   }
 
   return (
-    <header className={`${isSticky ? 'fixed left-0 top-0 z-50 w-full ' : ''}`}>
+    <header
+      className={`${isSticky ? 'fixed left-0 top-0 z-50 w-full ' : 'z-10'}`}>
       <nav className="mx-auto flex items-center px-4 py-4">
         <button
           className="ml-2 text-gray-800 hover:text-pink-600 sm:hidden"

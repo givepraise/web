@@ -28,16 +28,22 @@
 }
 
 .root {
+  @apply relative;
+}
+
+.bg {
+  @apply absolute bottom-0 left-0 top-0 w-full flex-grow;
   background-image: radial-gradient(
       circle at 80.99% 40%,
-      #e1007f7e,
-      transparent 59%
+      #ad1a7e83,
+      transparent 50%
     ),
-    radial-gradient(circle at 50% 50%, #ffffff, #ffffff 100%);
+    url(/img/noise.svg);
+  filter: contrast(1.8);
 }
 
 .main-layout {
-  @apply prose prose-xl mx-auto w-[700px];
+  @apply prose prose-xl relative z-10 mx-auto w-[700px];
 }
 
 .main-layout a {

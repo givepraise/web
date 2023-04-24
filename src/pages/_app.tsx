@@ -14,6 +14,7 @@ export default function App({
 }: AppProps) {
   return (
     <div className="root flex w-full flex-col text-center">
+      <div className="bg"></div>
       <RecoilRoot>
         <Header />
         <SessionProvider session={session}>
