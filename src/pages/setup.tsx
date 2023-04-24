@@ -1,12 +1,17 @@
 import { Head } from '@/components/layout/Head'
-import { Form } from '@/components/ui/form/Form'
 import { CommunitySuccessPage } from '../components/communitySuccess'
 import { useRecoilState } from 'recoil'
 import { communityState } from '@/services/community'
 import { SetupLayout } from '@/components/layout/SetupLayout'
 import { ToastContainer } from 'react-toastify'
+import dynamic from 'next/dynamic'
 import PraiseHands from '@/components/landing/PraiseHands'
 import CircleNumber from '@/components/ui/CircleNumber'
+
+const DynamicForm = dynamic(() => import('@/components/ui/form/Form'), {
+  loading: () => <p>Loading...</p>,
+  ssr: false,
+})
 
 export default function Home() {
   const [community] = useRecoilState(communityState)
@@ -36,14 +41,14 @@ export default function Home() {
                   <span className="font-bold underline">what</span> impact.
                 </div>
 
-                <div className="mt-12 mb-6 flex justify-center">
+                <div className="mb-6 mt-12 flex justify-center">
                   <CircleNumber number={1} />
                 </div>
                 <div className="text-center text-xl">
                   Create Praise community
                 </div>
 
-                <div className="mt-12 mb-6 flex justify-center">
+                <div className="mb-6 mt-12 flex justify-center">
                   <CircleNumber number={2} />
                 </div>
                 <div className="text-center text-xl">
@@ -51,7 +56,7 @@ export default function Home() {
                 </div>
               </main>
 
-              <Form />
+              <DynamicForm />
             </div>
           )}
         </div>

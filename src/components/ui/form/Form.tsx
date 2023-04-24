@@ -14,7 +14,7 @@ import { FaDiscord, FaEnvelope, FaUser, FaUsers } from 'react-icons/fa'
 import { EthAccount } from '../account/EthAccount'
 import { fetchDiscordGuilds } from '@/pages/api/discord'
 
-export const Form = () => {
+const Form = () => {
   const { data: session } = useSession()
   const { address, isConnected } = useAccount()
 
@@ -277,3 +277,5 @@ export const Form = () => {
     </div>
   )
 }
+
+export default Form
