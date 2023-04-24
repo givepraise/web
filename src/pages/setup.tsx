@@ -1,7 +1,6 @@
 import CircleNumber from '@/components/ui/CircleNumber'
 import { CommunitySuccessPage } from '../components/communitySuccess'
-import { ConnectButton } from '@rainbow-me/rainbowkit'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+
 import { Head } from '@/components/layout/Head'
 import MainLayout from '@/components/layout/MainLayout'
 import PraiseHands from '@/components/landing/PraiseHands'
@@ -9,8 +8,7 @@ import React from 'react'
 import { ToastContainer } from 'react-toastify'
 import { communityState } from '@/services/community'
 import dynamic from 'next/dynamic'
-import { faEthereum } from '@fortawesome/free-brands-svg-icons'
-import { useAccount } from 'wagmi'
+
 import { useRecoilState } from 'recoil'
 
 const DynamicForm = dynamic(() => import('@/components/ui/form/Form'), {
@@ -18,14 +16,15 @@ const DynamicForm = dynamic(() => import('@/components/ui/form/Form'), {
   ssr: false,
 })
 
+const DynamicConnectWalletSetup = dynamic(
+  () => import('@/components/setup/ConnectWalletSetup'),
+  {
+    ssr: false,
+  }
+)
+
 export default function Home() {
   const [community] = useRecoilState(communityState)
-  const { address } = useAccount()
-  const [showConnect, setShowConnect] = React.useState(false)
-
-  React.useEffect(() => {
-    setShowConnect(!address)
-  }, [address])
 
   return (
     <MainLayout>
@@ -56,28 +55,7 @@ export default function Home() {
             <CircleNumber number={2} />
           </div>
           <div className="prose-2xl">Invite Discord Bot to your server</div>
-
-          {showConnect && (
-            <>
-              <div className="flex justify-center">
-                <div className="flex h-14 w-14 items-center justify-center rounded-full bg-[#e6007e] text-white">
-                  <FontAwesomeIcon icon={faEthereum} />
-                </div>
-              </div>
-              <div className="prose-2xl">
-                Praise uses Ethereum for identification, connect wallet to get
-                started
-              </div>
-              <div className="connectbutton flex h-full items-center justify-center">
-                <ConnectButton
-                  accountStatus="address"
-                  showBalance={false}
-                  chainStatus={'none'}
-                />
-              </div>
-            </>
-          )}
-
+          <DynamicConnectWalletSetup />
           <DynamicForm />
         </>
       )}
