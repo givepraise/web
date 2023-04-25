@@ -5,7 +5,6 @@ import { signIn, signOut, useSession } from 'next-auth/react'
 import { useEffect, useState } from 'react'
 
 import { Button } from '../Button'
-import { ConnectButton } from '@rainbow-me/rainbowkit'
 import { EthAccount } from '../account/EthAccount'
 import { FormData } from '@/types/formData.type'
 import { FormInput } from './FormInput'
@@ -49,20 +48,30 @@ const Form = () => {
             address,
           }),
         }).then((res) => res.json())
-        reset()
-        toast.success('Form submitted successfully')
-        setSubmitting(false)
-        setFormData({
-          name: '',
-          email: '',
-          owners: '',
-          guild: '',
-        })
 
-        setCommunity({
-          name: response.name,
-          hostname: response.hostname,
-        })
+        if (!response.error) {
+          reset()
+          toast.success('Form submitted successfully')
+          setSubmitting(false)
+          setFormData({
+            name: '',
+            email: '',
+            owners: '',
+            guild: '',
+          })
+
+          setCommunity({
+            name: response.name,
+            hostname: response.hostname,
+          })
+        } else {
+          const errorMessage =
+            response.message && Array.isArray(response.message)
+              ? response.message.join(', ')
+              : response.message
+          toast.error(errorMessage)
+          setSubmitting(false)
+        }
       } catch (error) {
         console.error(error)
         toast.error('There was an error submitting the form')

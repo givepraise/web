@@ -69,10 +69,11 @@ export default async function handler(
       })
 
       return res.status(200).json('Form submitted successfully')
-    } catch (error) {
-      if (error instanceof Error) {
-        return res.status(500).end(error.message)
+    } catch (error: any) {
+      if (error.body) {
+        return res.status(400).json(error.body)
       }
+
       return res.status(500).end('Internal server error')
     }
   }

@@ -5,7 +5,7 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 interface ISaveCommunityRequest extends NextApiRequest {
   body: {
     data: FormData
-    creator: string
+    address: string
   }
 }
 
@@ -25,14 +25,14 @@ export default async function handler(
           `Internal server error: Missing environment variable ${missingEnvVar}`
         )
     }
-    const { data, creator } = req.body
-    const ownersString = data.owners.split(', ').concat(creator).join(', ')
+    const { data, address } = req.body
+    const ownersString = data.owners.split(', ').concat(address).join(', ')
 
     const postData = {
       hostname: `${data.name.toLowerCase().replace(/ /g, '-')}.givepraise.xyz`,
       name: data.name,
       owners: ownersString.split(/,\s*/),
-      creator,
+      creator: address,
       email: data.email,
     }
 
