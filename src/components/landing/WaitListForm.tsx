@@ -9,8 +9,8 @@ import {
 
 import { Button } from '../ui/Button'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { FormInput } from '../ui/form/FormInput'
 import { WaitlistFormData } from '@/types/waitlistFormData.type'
+import { toast } from 'react-toastify'
 
 interface Errors {
   company?: string
@@ -28,6 +28,7 @@ const WaitlistForm: React.FC = () => {
   })
 
   const [errors, setErrors] = useState<Errors>({})
+  const [formError, setFormError] = useState<string | undefined>(undefined)
   const [submitting, setSubmitting] = useState<boolean>(false)
   const [submitted, setSubmitted] = useState<boolean>(false)
 
@@ -73,20 +74,33 @@ const WaitlistForm: React.FC = () => {
 
     setSubmitting(true)
     try {
-      await fetch('/api/join-waitlist', {
+      const response = await fetch('/api/join-waitlist', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          formData,
+          data: formData,
         }),
       }).then((res) => res.json())
 
+      console.log('RESPONSE:', response)
+
+      if (response.status && response.message && response.status === 'error') {
+        setFormError(response.message)
+      } else {
+        setSubmitted(true)
+        setFormData({
+          company: '',
+          website: '',
+          firstname: '',
+          email: '',
+        })
+      }
+
       setSubmitting(false)
-      setSubmitted(true)
     } catch (error: any) {
-      setErrors(error.response.data)
+      setFormError('There was an error submitting the form')
       setSubmitting(false)
     }
   }
@@ -201,6 +215,11 @@ const WaitlistForm: React.FC = () => {
       {submitted && (
         <div className="mt-5 flex justify-center">
           <div className="">✅ Thanks for submitting your community!</div>
+        </div>
+      )}
+      {formError && (
+        <div className="mt-5 flex justify-center text-red-500">
+          <div className="">{formError}</div>
         </div>
       )}
     </form>
