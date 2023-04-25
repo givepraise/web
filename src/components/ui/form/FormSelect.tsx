@@ -1,5 +1,6 @@
+import { ChangeEvent, FunctionComponent, ReactNode, useState } from 'react'
+
 import { SignInResponse } from 'next-auth/react'
-import { FunctionComponent, useState, ChangeEvent, ReactNode } from 'react'
 import { UseFormRegister } from 'react-hook-form'
 
 interface FormSelectProps {
@@ -32,10 +33,12 @@ export const FormSelect: FunctionComponent<FormSelectProps> = ({
     }
   }
 
+  const iconColour = disabled ? 'text-gray-400' : 'text-white'
+
   return (
     <div className="relative w-full">
       <div className="flex items-center">
-        {icon && <span className="mr-2">{icon}</span>}
+        {icon && <span className={`mr-2 pb-1 ${iconColour}`}>{icon}</span>}
         <select
           className="form-select w-full rounded-none border-none bg-transparent px-3 py-2 text-white placeholder-gray-400 focus:border-transparent focus:placeholder-white focus:outline-none focus:ring-0"
           id={name}

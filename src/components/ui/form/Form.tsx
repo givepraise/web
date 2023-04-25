@@ -1,20 +1,21 @@
-import { useEffect, useState } from 'react'
-import { useForm, SubmitHandler } from 'react-hook-form'
-import { FormSelect } from './FormSelect'
-import { FormInput } from './FormInput'
-import { signIn, signOut, useSession } from 'next-auth/react'
-import { formDataState, guildOptionsState } from '@/services/form'
-import { useRecoilState } from 'recoil'
-import { fetchDiscordGuilds, saveComunnityData } from '@/services/api'
-import { FormData } from '@/types/formData.type'
-import { useAccount } from 'wagmi'
-import { toast } from 'react-toastify'
-import { communityState } from '@/services/community'
-import { ConnectButton } from '@rainbow-me/rainbowkit'
 import { FaDiscord, FaEnvelope, FaUser, FaUsers } from 'react-icons/fa'
-import { EthAccount } from '../account/EthAccount'
+import { SubmitHandler, useForm } from 'react-hook-form'
+import { formDataState, guildOptionsState } from '@/services/form'
+import { signIn, signOut, useSession } from 'next-auth/react'
+import { useEffect, useState } from 'react'
 
-export const Form = () => {
+import { Button } from '../Button'
+import { ConnectButton } from '@rainbow-me/rainbowkit'
+import { EthAccount } from '../account/EthAccount'
+import { FormData } from '@/types/formData.type'
+import { FormInput } from './FormInput'
+import { FormSelect } from './FormSelect'
+import { communityState } from '@/services/community'
+import { toast } from 'react-toastify'
+import { useAccount } from 'wagmi'
+import { useRecoilState } from 'recoil'
+
+const Form = () => {
   const { data: session } = useSession()
   const { address, isConnected } = useAccount()
 
@@ -38,7 +39,16 @@ export const Form = () => {
       setFormData(data)
 
       try {
-        const response = await saveComunnityData(data, address)
+        const response = await fetch('/api/save-community', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            data,
+            address,
+          }),
+        }).then((res) => res.json())
         reset()
         toast.success('Form submitted successfully')
         setSubmitting(false)
@@ -56,6 +66,7 @@ export const Form = () => {
       } catch (error) {
         console.error(error)
         toast.error('There was an error submitting the form')
+        setSubmitting(false)
       }
     } else {
       toast.error('Please connect your wallet before you submit the form')
@@ -69,7 +80,16 @@ export const Form = () => {
       }
 
       try {
-        const data = await fetchDiscordGuilds(session.accessToken)
+        const data = await fetch(
+          `/api/fetch-discord-guilds?accessToken=${session.accessToken}`,
+          {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          }
+        ).then((res) => res.json())
+
         if (data && data.length > 0) {
           setGuildOptions(
             data.map((guild: any) => ({
@@ -103,9 +123,7 @@ export const Form = () => {
 
   return (
     <div className="black-section">
-      <div className="mt-2 mb-12 justify-center text-center">
-        <h1 className="text-4xl">Create Community</h1>
-      </div>
+      <h2>Create Community</h2>
 
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="mb-4 text-left text-xl">
@@ -129,35 +147,20 @@ export const Form = () => {
             </p>
           )}
 
-          <label className="mt-8 mb-6 block font-bold" htmlFor="name">
+          <label className="mb-6 mt-8 block font-bold" htmlFor="name">
             Creator
           </label>
-          {!address ? (
-            <p>
-              Praise uses ETH for identification, connect a wallet to get
-              started.
-            </p>
+
+          {address ? (
+            <div className="flex h-full text-left">
+              <EthAccount className="w-36" />
+            </div>
           ) : (
-            <></>
+            <p>Connect your wallet to set community creator.</p>
           )}
         </div>
-
-        {address ? (
-          <div className="flex h-full text-left">
-            <EthAccount className="w-36" />
-          </div>
-        ) : (
-          <div className="flex h-full items-center justify-center">
-            <ConnectButton
-              accountStatus="address"
-              showBalance={false}
-              chainStatus={'none'}
-            />
-          </div>
-        )}
-
         <div className="mb-4 text-left text-xl">
-          <label className="mt-8 mb-6 block text-left font-bold" htmlFor="name">
+          <label className="mb-6 mt-8 block text-left font-bold" htmlFor="name">
             Owners
           </label>
           <p>
@@ -200,7 +203,7 @@ export const Form = () => {
           )}
         </div>
         <div className="mb-4 text-left text-xl">
-          <label className="mt-8 mb-6 block font-bold" htmlFor="name">
+          <label className="mb-6 mt-8 block font-bold" htmlFor="name">
             Email
           </label>
           <p>Where can we reach you for occasional updates?</p>
@@ -231,7 +234,7 @@ export const Form = () => {
         </div>
         <>
           <div className="mb-4 text-left">
-            <label className="mt-8 mb-6 block font-bold" htmlFor="name">
+            <label className="mb-6 mt-8 block font-bold" htmlFor="name">
               Discord
             </label>
             <p>
@@ -255,15 +258,17 @@ export const Form = () => {
             />
           </div>
           <div className="flex justify-center">
-            <button
+            <Button
               type="submit"
               className="button button--secondary button--lg mt-12"
               disabled={submitting || !isConnected}>
               {submitting ? 'Submitting...' : 'Create'}
-            </button>
+            </Button>
           </div>
         </>
       </form>
     </div>
   )
 }
+
+export default Form
