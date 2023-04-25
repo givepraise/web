@@ -49,8 +49,6 @@ const Form = () => {
           }),
         }).then((res) => res.json())
 
-        console.log('RESPONSE:', response)
-
         if (!response.error) {
           reset()
           toast.success('Form submitted successfully')
