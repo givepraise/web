@@ -23,7 +23,7 @@ const DynamicConnectWalletSetup = dynamic(
   }
 )
 
-export default function Home() {
+export default function Setup() {
   const [community] = useRecoilState(communityState)
 
   return (
