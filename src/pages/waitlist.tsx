@@ -1,11 +1,12 @@
 import Link from 'next/link'
 import MainLayout from '@/components/layout/MainLayout'
-import PraiseHands from '@/components/landing/PraiseHands'
 import WaitlistForm from '@/components/landing/WaitListForm'
+import { Head } from '@/components/layout/Head'
 
 export default function Waitlist() {
   return (
     <MainLayout>
+      <Head title="Waitlist page" />
       <h1>
         {' '}
         For a limited time, we&apos;re offering free deployment and setup

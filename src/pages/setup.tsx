@@ -29,7 +29,7 @@ export default function Home() {
   return (
     <MainLayout>
       <ToastContainer />
-      <Head />
+      <Head title="SETUP page" />
       {community.name && community.hostname ? (
         <CommunitySuccessPage />
       ) : (

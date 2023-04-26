@@ -2,6 +2,7 @@ import { Button } from '../components/ui/Button'
 import MainLayout from '@/components/layout/MainLayout'
 import PraiseHands from '@/components/landing/PraiseHands'
 import { TwitterTweetEmbed } from 'react-twitter-embed'
+import { Head } from '@/components/layout/Head'
 
 export default function Landing() {
   const tweetHtml: string = `<blockquote className="twitter-tweet">
@@ -27,6 +28,7 @@ export default function Landing() {
 
   return (
     <MainLayout>
+      <Head />
       <h1>
         Unlock the full potential of your community with{' '}
         <u>reputation scores</u>, <u>rewards</u> and <u>deep insights</u>
