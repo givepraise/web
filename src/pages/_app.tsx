@@ -16,6 +16,7 @@ export default function App({
     <div className="root flex w-full flex-col text-center">
       <div className="bg"></div>
       <RecoilRoot>
+        <Header />
         <SessionProvider session={session}>
           <Web3Provider>
             <Component {...pageProps} />
