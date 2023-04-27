@@ -13,6 +13,7 @@ import { communityState } from '@/services/community'
 import { toast } from 'react-toastify'
 import { useAccount } from 'wagmi'
 import { useRecoilState } from 'recoil'
+import { DISCORD_MANAGE_GUILDS_PERMISSION } from '@/utils/config'
 
 const Form = () => {
   const { data: session } = useSession()
@@ -107,12 +108,18 @@ const Form = () => {
         ).then((res) => res.json())
 
         if (data && data.length > 0) {
-          setGuildOptions(
-            data.map((guild: any) => ({
-              value: guild.id,
-              label: guild.name,
-            }))
-          )
+          const guildOptions = data
+            .filter((guild: any) => {
+              return guild.permissions === DISCORD_MANAGE_GUILDS_PERMISSION
+            })
+            .map((guild: any) => {
+              return {
+                value: guild.id,
+                label: guild.name,
+              }
+            })
+
+          setGuildOptions(guildOptions)
 
           toast.success('Discord guilds fetched successfully')
         } else if (data.message && data.message === '401: Unauthorized') {
@@ -142,7 +149,7 @@ const Form = () => {
       <h2>Create Community</h2>
 
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="mb-4 text-xl text-left">
+        <div className="mb-4 text-left text-xl">
           <FormInput
             name="name"
             type="text"
@@ -163,7 +170,7 @@ const Form = () => {
             </p>
           )}
 
-          <label className="block mt-8 mb-6 font-bold" htmlFor="name">
+          <label className="mb-6 mt-8 block font-bold" htmlFor="name">
             Creator
           </label>
 
@@ -175,8 +182,8 @@ const Form = () => {
             <p>Connect your wallet to set community creator.</p>
           )}
         </div>
-        <div className="mb-4 text-xl text-left">
-          <label className="block mt-8 mb-6 font-bold text-left" htmlFor="name">
+        <div className="mb-4 text-left text-xl">
+          <label className="mb-6 mt-8 block text-left font-bold" htmlFor="name">
             Owners
           </label>
           <p>
@@ -218,8 +225,8 @@ const Form = () => {
             </p>
           )}
         </div>
-        <div className="mb-4 text-xl text-left">
-          <label className="block mt-8 mb-6 font-bold" htmlFor="name">
+        <div className="mb-4 text-left text-xl">
+          <label className="mb-6 mt-8 block font-bold" htmlFor="name">
             Email
           </label>
           <p>Where can we reach you for occasional updates?</p>
@@ -250,7 +257,7 @@ const Form = () => {
         </div>
         <>
           <div className="mb-4 text-left">
-            <label className="block mt-8 mb-6 font-bold" htmlFor="name">
+            <label className="mb-6 mt-8 block font-bold" htmlFor="name">
               Discord
             </label>
             <p>
@@ -276,7 +283,7 @@ const Form = () => {
           <div className="flex justify-center">
             <Button
               type="submit"
-              className="mt-12 button button--secondary button--lg"
+              className="button button--secondary button--lg mt-12"
               disabled={submitting || !isConnected}>
               {submitting ? 'Submitting...' : 'Create'}
             </Button>
