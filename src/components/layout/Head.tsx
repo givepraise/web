@@ -1,67 +1,52 @@
+import {
+  SITE_DESCRIPTION,
+  SITE_IMAGE,
+  SITE_NAME,
+  SOCIAL_TWITTER,
+} from '@/utils/config'
+
 import NextHead from 'next/head'
-import { SITE_NAME } from '@/utils/config'
+
 interface HeadProps {
   title?: string
   description?: string
+  image?: string
+  url?: string
 }
 
-export function Head({ title, description }: HeadProps) {
+export function Head({ title, description, image, url }: HeadProps) {
+  const absImageUrl = image
+    ? `${process.env.SITE_URL}${image}`
+    : `${process.env.SITE_URL}${SITE_IMAGE}`
   return (
     <NextHead>
       <title>{title ?? SITE_NAME}</title>
+      <meta name="description" content={description ?? SITE_DESCRIPTION} />
 
-      {/*<!-- Google / Search Engine Tags -->*/}
-      <meta
-        data-rh="true"
-        name="viewport"
-        content="width=device-width,initial-scale=1"
-      />
-      <meta
-        data-rh="true"
-        name="description"
-        content="Praise is a rewards system allowing communities to acknowledge and reward member contributions."
-      />
-      <meta
-        data-rh="true"
-        name="name"
-        content="Building a culture of giving and gratitude | Praise 🙏"
-      />
+      {/* <!-- Google / Search Engine Tags --> */}
+      <meta itemProp="name" content={title ?? SITE_NAME} />
+      <meta itemProp="description" content={description ?? SITE_DESCRIPTION} />
+      <meta itemProp="image" content={absImageUrl} />
 
-      {/*<!-- Facebook Meta Tags -->*/}
+      {/* <!-- Facebook Meta Tags --> */}
+      <meta property="og:url" content={url ?? process.env.SITE_URL} />
+      <meta property="og:type" content="website" />
+      <meta property="og:title" content={title ?? SITE_NAME} />
       <meta
-        data-rh="true"
-        property="og:image"
-        content="https://givepraise.xyz/img/share.png"
-      />
-      <meta
-        data-rh="true"
-        property="og:url"
-        content="https://givepraise.xyz/"
-      />
-      <meta
-        data-rh="true"
-        property="og:title"
-        content="Building a culture of giving and gratitude | Praise 🙏"
-      />
-      <meta
-        data-rh="true"
         property="og:description"
-        content="Praise is a rewards system allowing communities to acknowledge and reward member contributions."
+        content={description ?? SITE_DESCRIPTION}
       />
+      <meta property="og:image" content={absImageUrl} />
 
-      {/*<!-- Twitter Meta Tags -->*/}
+      {/* <!-- Twitter Meta Tags --> */}
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:title" content={title ?? SITE_NAME} />
       <meta
-        data-rh="true"
-        name="twitter:image"
-        content="https://givepraise.xyz/img/share.png"
+        name="twitter:description"
+        content={description ?? SITE_DESCRIPTION}
       />
-      <meta data-rh="true" name="twitter:card" content="summary_large_image" />
-      <meta
-        data-rh="true"
-        property="twitter:title"
-        content="Building a culture of giving and gratitude | Praise 🙏"
-      />
-      <meta data-rh="true" property="twitter:site" content="@givepraise" />
+      <meta name="twitter:image" content={absImageUrl} />
+      <meta data-rh="true" property="twitter:site" content={SOCIAL_TWITTER} />
     </NextHead>
   )
 }

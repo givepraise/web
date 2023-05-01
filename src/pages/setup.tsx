@@ -1,6 +1,5 @@
 import CircleNumber from '@/components/ui/CircleNumber'
 import { CommunitySuccessPage } from '../components/communitySuccess'
-
 import { Head } from '@/components/layout/Head'
 import MainLayout from '@/components/layout/MainLayout'
 import PraiseHands from '@/components/landing/PraiseHands'
@@ -8,7 +7,6 @@ import React from 'react'
 import { ToastContainer } from 'react-toastify'
 import { communityState } from '@/services/community'
 import dynamic from 'next/dynamic'
-
 import { useRecoilState } from 'recoil'
 
 const DynamicForm = dynamic(() => import('@/components/ui/form/Form'), {
@@ -29,7 +27,11 @@ export default function Setup() {
   return (
     <MainLayout>
       <ToastContainer />
-      <Head />
+      <Head
+        title="Get Praise – Setup"
+        image="/img/preview_setup.png"
+        description="Start building a culture of giving and gratitude, give your community its memory back! Setup Praise in less than 5 mins."
+      />
       {community.name && community.hostname ? (
         <CommunitySuccessPage />
       ) : (
