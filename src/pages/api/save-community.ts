@@ -26,7 +26,11 @@ export default async function handler(
         )
     }
     const { data, address } = req.body
-    const ownersString = data.owners.split(', ').concat(address).join(', ')
+
+    const ownersArray = data.owners.split(', ')
+    const ownersString = ownersArray.includes(address)
+      ? data.owners
+      : data.owners.split(', ').concat(address).join(', ')
 
     const postData = {
       hostname: `${data.name.toLowerCase().replace(/ /g, '-')}.givepraise.xyz`,

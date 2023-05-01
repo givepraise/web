@@ -13,6 +13,7 @@ import { communityState } from '@/services/community'
 import { toast } from 'react-toastify'
 import { useAccount } from 'wagmi'
 import { useRecoilState } from 'recoil'
+import { DISCORD_MANAGE_GUILDS_PERMISSION } from '@/utils/config'
 
 const Form = () => {
   const { data: session } = useSession()
@@ -22,13 +23,14 @@ const Form = () => {
   const [submitting, setSubmitting] = useState(false)
   const [guildOptions, setGuildOptions] = useRecoilState(guildOptionsState)
   const [community, setCommunity] = useRecoilState(communityState)
+  const [formErrors, setFormErrors] = useState<any>({
+    name: null,
+    email: null,
+    owners: null,
+    guild: null,
+  })
 
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm<FormData>({
+  const { register, handleSubmit, reset } = useForm<FormData>({
     defaultValues: formData,
   })
 
@@ -49,28 +51,34 @@ const Form = () => {
           }),
         }).then((res) => res.json())
 
-        if (!response.error) {
-          reset()
-          toast.success('Form submitted successfully')
+        if (response.statusCode && response.statusCode === 400) {
+          setFormErrors(response.errors)
           setSubmitting(false)
-          setFormData({
-            name: '',
-            email: '',
-            owners: '',
-            guild: '',
-          })
-
-          setCommunity({
-            name: response.name,
-            hostname: response.hostname,
-          })
-        } else {
+          toast.error('There was an error submitting the form')
+        } else if (response.error) {
           const errorMessage =
             response.message && Array.isArray(response.message)
               ? response.message.join(', ')
               : response.message
           toast.error(errorMessage)
           setSubmitting(false)
+        } else {
+          reset()
+          toast.success('Form submitted successfully')
+          setSubmitting(false)
+
+          setCommunity({
+            name: response.name,
+            hostname: response.hostname,
+            guildId: data.discordGuildId as any,
+          })
+
+          setFormData({
+            name: '',
+            email: '',
+            owners: '',
+            guild: '',
+          })
         }
       } catch (error) {
         console.error(error)
@@ -100,22 +108,28 @@ const Form = () => {
         ).then((res) => res.json())
 
         if (data && data.length > 0) {
-          setGuildOptions(
-            data.map((guild: any) => ({
-              value: guild.id,
-              label: guild.name,
-            }))
-          )
+          const guildOptions = data
+            .filter((guild: any) => {
+              return guild.permissions === DISCORD_MANAGE_GUILDS_PERMISSION
+            })
+            .map((guild: any) => {
+              return {
+                value: guild.id,
+                label: guild.name,
+              }
+            })
+
+          setGuildOptions(guildOptions)
 
           toast.success('Discord guilds fetched successfully')
         } else if (data.message && data.message === '401: Unauthorized') {
           toast.error('Your Discord token has expired')
+          await signOut()
         }
-
-        await signOut()
       } catch (error) {
         console.error(error)
         toast.error('There was an error fetching your Discord guilds')
+        await signOut()
       }
     }
 
@@ -150,9 +164,9 @@ const Form = () => {
             icon={<FaUser />}
             disabled={!isConnected}
           />
-          {errors['name'] && (
+          {formErrors['name'] && (
             <p className="mt-1 text-xs text-red-500">
-              {errors['name']?.message}
+              {formErrors['name']?.message}
             </p>
           )}
 
@@ -205,9 +219,9 @@ const Form = () => {
             icon={<FaUsers />}
             disabled={!isConnected}
           />
-          {errors['owners'] && (
+          {formErrors['owners'] && (
             <p className="mt-1 text-xs text-red-500">
-              {errors['owners']?.message}
+              {formErrors['owners']?.message}
             </p>
           )}
         </div>
@@ -235,9 +249,9 @@ const Form = () => {
             icon={<FaEnvelope />}
             disabled={!isConnected}
           />
-          {errors['email'] && (
+          {formErrors['email'] && (
             <p className="mt-1 text-xs text-red-500">
-              {errors['email']?.message}
+              {formErrors['email']?.message}
             </p>
           )}
         </div>

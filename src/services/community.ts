@@ -5,5 +5,6 @@ export const communityState = atom({
   default: {
     name: null,
     hostname: null,
+    guildId: null,
   },
 })

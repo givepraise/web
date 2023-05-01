@@ -84,8 +84,6 @@ const WaitlistForm: React.FC = () => {
         }),
       }).then((res) => res.json())
 
-      console.log('RESPONSE:', response)
-
       if (response.status && response.message && response.status === 'error') {
         setFormError(response.message)
       } else {
