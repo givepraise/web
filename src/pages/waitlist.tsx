@@ -1,16 +1,21 @@
+import { Head } from '@/components/layout/Head'
 import Link from 'next/link'
 import MainLayout from '@/components/layout/MainLayout'
-import PraiseHands from '@/components/landing/PraiseHands'
 import WaitlistForm from '@/components/landing/WaitListForm'
 
 export default function Waitlist() {
   return (
     <MainLayout>
+      <Head
+        title="Get Praise – Waitlist"
+        image="/img/preview_waitlist.png"
+        description="For a limited time, we're offering free deployment and setup services. Join the waiting list and be the first to know when a new slot becomes available."
+      />
       <h1>
         {' '}
         For a limited time, we&apos;re offering free deployment and setup
-        services to selected communities. Join the waiting list and be the first
-        to know when a new slot becomes available.
+        services. Join the waiting list and be the first to know when a new slot
+        becomes available.
       </h1>
 
       <div className="black-section">
