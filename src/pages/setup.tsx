@@ -4,7 +4,6 @@ import { Head } from '@/components/layout/Head'
 import MainLayout from '@/components/layout/MainLayout'
 import PraiseHands from '@/components/landing/PraiseHands'
 import React from 'react'
-import { ToastContainer } from 'react-toastify'
 import { communityState } from '@/services/community'
 import dynamic from 'next/dynamic'
 import { useRecoilState } from 'recoil'
@@ -26,41 +25,44 @@ export default function Setup() {
 
   return (
     <MainLayout>
-      <ToastContainer />
       <Head
         title="Get Praise – Setup"
         image="/img/preview_setup.png"
         description="Start building a culture of giving and gratitude, give your community its memory back! Setup Praise in less than 5 mins."
       />
-      {community.name && community.hostname ? (
-        <CommunitySuccessPage />
-      ) : (
-        <>
-          <h1>
-            Start building a culture of giving and gratitude, give your
-            community its memory back! Who did{' '}
-            <span className="font-bold underline">what</span>,{' '}
-            <span className="font-bold underline">when</span> and to{' '}
-            <span className="font-bold underline">what</span> impact.
-          </h1>
-          <PraiseHands />
-          <div className="prose-2xl">
-            Setting up Praise is a two step process in less than 5 minutes!
-          </div>
 
-          <div className="flex justify-center">
-            <CircleNumber number={1} />
-          </div>
-          <div className="prose-2xl">Create Praise community</div>
+      <>
+        <h1>
+          Start building a culture of giving and gratitude, give your community
+          its memory back! Who did{' '}
+          <span className="font-bold underline">what</span>,{' '}
+          <span className="font-bold underline">when</span> and to{' '}
+          <span className="font-bold underline">what</span> impact.
+        </h1>
+        <PraiseHands />
+        <div className="prose-2xl">
+          Setting up Praise is a two step process in less than 5 minutes!
+        </div>
 
-          <div className="flex justify-center">
-            <CircleNumber number={2} />
-          </div>
-          <div className="prose-2xl">Invite Discord Bot to your server</div>
-          <DynamicConnectWalletSetup />
-          <DynamicForm />
-        </>
-      )}
+        <div className="flex justify-center">
+          <CircleNumber number={1} />
+        </div>
+        <div className="prose-2xl">Create Praise community</div>
+
+        <div className="flex justify-center">
+          <CircleNumber number={2} />
+        </div>
+        <div className="prose-2xl">Invite Discord Bot to your server</div>
+
+        {community.name && community.hostname ? (
+          <CommunitySuccessPage />
+        ) : (
+          <>
+            <DynamicConnectWalletSetup />
+            <DynamicForm />
+          </>
+        )}
+      </>
     </MainLayout>
   )
 }

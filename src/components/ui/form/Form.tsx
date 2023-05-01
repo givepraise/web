@@ -10,7 +10,7 @@ import { FormData } from '@/types/formData.type'
 import { FormInput } from './FormInput'
 import { FormSelect } from './FormSelect'
 import { communityState } from '@/services/community'
-import { toast } from 'react-toastify'
+import { toast } from 'react-hot-toast'
 import { useAccount } from 'wagmi'
 import { useRecoilState } from 'recoil'
 import { DISCORD_MANAGE_GUILDS_PERMISSION } from '@/utils/config'
@@ -144,18 +144,55 @@ const Form = () => {
     }
   }
 
+  const handleNameInput = async (formData: FormData) => {
+    setFormData(formData)
+
+    if (formData.name.length > 3) {
+      try {
+        const response = await fetch(
+          `/api/community-name?name=${formData.name}`,
+          {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          }
+        ).then((res) => res.json())
+
+        if (response.statusCode && response.statusCode === 400) {
+          toast.error(response.message)
+        } else if (!response.available) {
+          formErrors &&
+            setFormErrors({
+              ...formErrors,
+              name: { message: 'COMMUNITY NAME NOT AVAILABLE' },
+            })
+        } else {
+          formErrors &&
+            setFormErrors({
+              ...formErrors,
+              name: null,
+            })
+        }
+      } catch (error) {
+        console.error(error)
+        toast.error('There was an error fetching name availability')
+      }
+    }
+  }
+
   return (
     <div className="black-section">
       <h2>Create Community</h2>
 
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="mb-4 text-left text-xl">
+        <div className="mb-4 text-xl text-left">
           <FormInput
             name="name"
             type="text"
             placeholder="Name"
             onChange={(event) =>
-              setFormData({ ...formData, name: event.target.value })
+              handleNameInput({ ...formData, name: event.target.value })
             }
             register={register}
             validationRules={{
@@ -170,7 +207,7 @@ const Form = () => {
             </p>
           )}
 
-          <label className="mb-6 mt-8 block font-bold" htmlFor="name">
+          <label className="block mt-8 mb-6 font-bold" htmlFor="name">
             Creator
           </label>
 
@@ -182,8 +219,8 @@ const Form = () => {
             <p>Connect your wallet to set community creator.</p>
           )}
         </div>
-        <div className="mb-4 text-left text-xl">
-          <label className="mb-6 mt-8 block text-left font-bold" htmlFor="name">
+        <div className="mb-4 text-xl text-left">
+          <label className="block mt-8 mb-6 font-bold text-left" htmlFor="name">
             Owners
           </label>
           <p>
@@ -225,8 +262,8 @@ const Form = () => {
             </p>
           )}
         </div>
-        <div className="mb-4 text-left text-xl">
-          <label className="mb-6 mt-8 block font-bold" htmlFor="name">
+        <div className="mb-4 text-xl text-left">
+          <label className="block mt-8 mb-6 font-bold" htmlFor="name">
             Email
           </label>
           <p>Where can we reach you for occasional updates?</p>
@@ -257,7 +294,7 @@ const Form = () => {
         </div>
         <>
           <div className="mb-4 text-left">
-            <label className="mb-6 mt-8 block font-bold" htmlFor="name">
+            <label className="block mt-8 mb-6 font-bold" htmlFor="name">
               Discord
             </label>
             <p>
@@ -283,7 +320,7 @@ const Form = () => {
           <div className="flex justify-center">
             <Button
               type="submit"
-              className="button button--secondary button--lg mt-12"
+              className="mt-12 button button--secondary button--lg"
               disabled={submitting || !isConnected}>
               {submitting ? 'Submitting...' : 'Create'}
             </Button>
