@@ -27,7 +27,7 @@ export default function Waitlist() {
         Don&apos;t want to wait? The open-source version of Praise is available
         now for self-hosting, with{' '}
         <Link
-          href="/docs/category/run-praise-on-a-server"
+          href="https://docs.givepraise.xyz/category/run-praise-on-a-server"
           className="text-pink-600 underline">
           easy setup instructions
         </Link>
