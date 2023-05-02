@@ -1,5 +1,5 @@
 import { SignMessageLayout } from '../components/layout/SignMessageLayout'
-import { toast } from 'react-toastify'
+import { toast } from 'react-hot-toast'
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import { generateLinkBotMessage } from '../services/message'
@@ -71,9 +71,9 @@ export default function LinkBot() {
       onSignSuccess={(signature): void => void onSignSuccess(signature)}
       message={message}
       buttonText="Sign login message">
-      <div className="flex w-full justify-center">
+      <div className="flex justify-center w-full">
         <div>
-          <div className="mb-2 text-center text-xl font-semibold">
+          <div className="mb-2 text-xl font-semibold text-center">
             Link Praise Discord Bot to Community
           </div>
           <div className="text-center">Cool Community</div>

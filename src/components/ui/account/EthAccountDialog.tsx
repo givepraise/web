@@ -10,7 +10,7 @@ import { useDisconnect } from 'wagmi'
 import { useRef } from 'react'
 import { Box } from '../Box'
 import { Button } from '../Button'
-import { toast } from 'react-toastify'
+import { toast } from 'react-hot-toast'
 import { shortenEthAddress } from '@/utils'
 
 interface EthAccountDialogProps {
@@ -44,7 +44,7 @@ export const EthAccountDialog = ({
       onClose={(): void => onClose()}
       className="fixed inset-0 z-50 overflow-y-auto"
       initialFocus={contentRef}>
-      <div className="flex min-h-screen items-center justify-center bg-black/30">
+      <div className="flex items-center justify-center min-h-screen bg-black/30">
         <Box className="p-10" variant="basic" ref={contentRef}>
           <div className="flex justify-end">
             <Button variant={'round'} onClick={onClose}>
@@ -52,8 +52,8 @@ export const EthAccountDialog = ({
             </Button>
           </div>
           <div>
-            <div className="mb-8 flex justify-center">
-              <Jazzicon address={address} className="h-12 w-12" />
+            <div className="flex justify-center mb-8">
+              <Jazzicon address={address} className="w-12 h-12" />
             </div>
             <Dialog.Title className="text-center text-black">
               {shortenEthAddress(address)}

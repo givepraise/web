@@ -4,7 +4,7 @@ import { ConnectButton } from '@rainbow-me/rainbowkit'
 import { useAccount } from 'wagmi'
 import { LoaderSpinner } from '../ui/LoaderSpinner'
 import { SignMessageButton } from '../ui/buttons/SignMessageButton'
-import { toast } from 'react-toastify'
+import { toast } from 'react-hot-toast'
 import { Web3Provider } from '@/providers/Web3'
 
 interface Props {
@@ -25,11 +25,11 @@ export const SignMessageLayout = ({
   return (
     <Web3Provider>
       <div className="w-full">
-        <div className="flex h-screen w-full flex-col">
+        <div className="flex flex-col w-full h-screen">
           <div className="w-full p-5 text-2xl font-bold">
             <FontAwesomeIcon icon={faPrayingHands} size="1x" className="m-2" />
           </div>
-          <div className="md:bg-warm-gray-50 m-auto space-y-8 rounded-none border-none bg-none p-8 py-8 shadow-none dark:bg-slate-900 md:rounded-lg md:border md:border-solid md:p-4 md:shadow-sm">
+          <div className="p-8 py-8 m-auto space-y-8 border-none rounded-none shadow-none md:bg-warm-gray-50 bg-none dark:bg-slate-900 md:rounded-lg md:border md:border-solid md:p-4 md:shadow-sm">
             {children}
 
             {isConnected && !message ? (
@@ -43,7 +43,7 @@ export const SignMessageLayout = ({
             )}
 
             {address && message && (
-              <div className="flex w-full items-center justify-center">
+              <div className="flex items-center justify-center w-full">
                 <SignMessageButton
                   text={buttonText}
                   message={message}
