@@ -9,7 +9,7 @@ export const CommunitySuccessPage = () => {
   const discordClientId = process.env.NEXT_PUBLIC_DISCORD_CLIENT_ID
 
   if (!discordClientId) {
-    toast.error(`Missing environment variable DISCORD_CLIENT_ID`)
+    toast.error(`Missing environment variable NEXT_PUBLIC_DISCORD_CLIENT_ID`)
     return null
   }
 
@@ -30,7 +30,7 @@ export const CommunitySuccessPage = () => {
 
       <a
         href={`https://discord.com/api/oauth2/authorize?client_id=${discordClientId}&permissions=0&scope=bot&guild_id=${guildId}`}>
-        <Button className="mt-12 button button--secondary button--lg">
+        <Button className="button button--secondary button--lg mt-12">
           Invite Praise Bot
         </Button>
       </a>
