@@ -15,6 +15,13 @@ import { useAccount } from 'wagmi'
 import { useRecoilState } from 'recoil'
 import { DISCORD_MANAGE_GUILDS_PERMISSION } from '@/utils/config'
 
+interface SaveCommunityErrors {
+  name?: { message: string } | null
+  email?: { message: string } | null
+  owners?: { message: string } | null
+  guild?: { message: string } | null
+}
+
 const Form = () => {
   const { data: session } = useSession()
   const { address, isConnected } = useAccount()
@@ -23,14 +30,19 @@ const Form = () => {
   const [submitting, setSubmitting] = useState(false)
   const [guildOptions, setGuildOptions] = useRecoilState(guildOptionsState)
   const [community, setCommunity] = useRecoilState(communityState)
-  const [formErrors, setFormErrors] = useState<any>({
+  const [formErrors, setFormErrors] = useState<SaveCommunityErrors>({
     name: null,
     email: null,
     owners: null,
     guild: null,
   })
 
-  const { register, handleSubmit, reset } = useForm<FormData>({
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<FormData>({
     defaultValues: formData,
   })
 
@@ -186,17 +198,29 @@ const Form = () => {
       <h2>Create Community</h2>
 
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="mb-4 text-xl text-left">
+        <div className="mb-4 text-left text-xl">
           <FormInput
             name="name"
             type="text"
-            placeholder="Name"
+            placeholder="Community name"
             onChange={(event) =>
               handleNameInput({ ...formData, name: event.target.value })
             }
             register={register}
             validationRules={{
               required: 'This field is required',
+              minLength: {
+                value: 4,
+                message: 'Name must be at least 4 characters long',
+              },
+              maxLength: {
+                value: 30,
+                message: 'Name must be at most 30 characters long',
+              },
+              pattern: {
+                value: /^[a-z0-9][a-z0-9_.-]{1,28}[a-z0-9]$/,
+                message: 'Name must only contain letters, numbers and dashes',
+              },
             }}
             icon={<FaUser />}
             disabled={!isConnected}
@@ -206,11 +230,12 @@ const Form = () => {
               {formErrors['name']?.message}
             </p>
           )}
-
-          <label className="block mt-8 mb-6 font-bold" htmlFor="name">
+          {errors.name && (
+            <p className="mt-1 text-xs text-red-500">{errors.name.message}</p>
+          )}
+          <label className="mb-6 mt-8 block font-bold" htmlFor="name">
             Creator
           </label>
-
           {address ? (
             <div className="flex h-full text-left">
               <EthAccount className="w-36" />
@@ -219,8 +244,8 @@ const Form = () => {
             <p>Connect your wallet to set community creator.</p>
           )}
         </div>
-        <div className="mb-4 text-xl text-left">
-          <label className="block mt-8 mb-6 font-bold text-left" htmlFor="name">
+        <div className="mb-4 text-left text-xl">
+          <label className="mb-6 mt-8 block text-left font-bold" htmlFor="name">
             Owners
           </label>
           <p>
@@ -251,6 +276,15 @@ const Form = () => {
 
                   return true
                 },
+                noDuplicates: (value: any) => {
+                  const ownersArray = value
+                    .split(',')
+                    .map((element: string) => element.trim())
+
+                  if (new Set(ownersArray).size !== ownersArray.length) {
+                    return 'Owners ETH address should be unique'
+                  }
+                },
               },
             }}
             icon={<FaUsers />}
@@ -261,9 +295,12 @@ const Form = () => {
               {formErrors['owners']?.message}
             </p>
           )}
+          {errors.owners && (
+            <p className="mt-1 text-xs text-red-500">{errors.owners.message}</p>
+          )}
         </div>
-        <div className="mb-4 text-xl text-left">
-          <label className="block mt-8 mb-6 font-bold" htmlFor="name">
+        <div className="mb-4 text-left text-xl">
+          <label className="mb-6 mt-8 block font-bold" htmlFor="name">
             Email
           </label>
           <p>Where can we reach you for occasional updates?</p>
@@ -271,7 +308,7 @@ const Form = () => {
           <FormInput
             name="email"
             type="email"
-            placeholder="spam.please@address.com"
+            placeholder="Contact email"
             onChange={(event) =>
               setFormData({ ...formData, email: event.target.value })
             }
@@ -294,7 +331,7 @@ const Form = () => {
         </div>
         <>
           <div className="mb-4 text-left">
-            <label className="block mt-8 mb-6 font-bold" htmlFor="name">
+            <label className="mb-6 mt-8 block font-bold" htmlFor="name">
               Discord
             </label>
             <p>
@@ -320,7 +357,7 @@ const Form = () => {
           <div className="flex justify-center">
             <Button
               type="submit"
-              className="mt-12 button button--secondary button--lg"
+              className="button button--secondary button--lg mt-12"
               disabled={submitting || !isConnected}>
               {submitting ? 'Submitting...' : 'Create'}
             </Button>
