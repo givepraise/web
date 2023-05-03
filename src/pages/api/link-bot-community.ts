@@ -36,7 +36,7 @@ export default async function handler(
             'x-api-key': API_KEY,
           },
           body: JSON.stringify({
-            signed_message: signedMessage,
+            signedMessage: signedMessage,
           }),
         }
       )
