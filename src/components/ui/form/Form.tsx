@@ -211,14 +211,14 @@ const Form = () => {
               required: 'This field is required',
               minLength: {
                 value: 3,
-                message: 'Name must be at least 3 characters long',
+                message: 'Name must be at least 4 characters long',
               },
               maxLength: {
                 value: 30,
                 message: 'Name must be at most 30 characters long',
               },
               pattern: {
-                value: /^[a-zA-Z0-9-]+$/,
+                value: /^[a-z0-9][a-z0-9_.-]{1,28}[a-z0-9]$/,
                 message: 'Name must only contain letters, numbers and dashes',
               },
             }}
