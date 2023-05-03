@@ -202,7 +202,7 @@ const Form = () => {
           <FormInput
             name="name"
             type="text"
-            placeholder="Name"
+            placeholder="Community name"
             onChange={(event) =>
               handleNameInput({ ...formData, name: event.target.value })
             }
@@ -308,7 +308,7 @@ const Form = () => {
           <FormInput
             name="email"
             type="email"
-            placeholder="spam.please@address.com"
+            placeholder="Contact email"
             onChange={(event) =>
               setFormData({ ...formData, email: event.target.value })
             }
