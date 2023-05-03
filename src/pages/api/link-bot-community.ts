@@ -28,7 +28,7 @@ export default async function handler(
 
     try {
       const response = await fetch(
-        `${API_URL}/community/${communityId}/discord/link`,
+        `${API_URL}/communities/${communityId}/discord/link`,
         {
           method: 'PATCH',
           headers: {
