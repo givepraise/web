@@ -210,7 +210,7 @@ const Form = () => {
             validationRules={{
               required: 'This field is required',
               minLength: {
-                value: 3,
+                value: 4,
                 message: 'Name must be at least 4 characters long',
               },
               maxLength: {
