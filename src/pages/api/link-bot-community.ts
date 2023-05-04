@@ -28,7 +28,7 @@ export default async function handler(
 
     try {
       const response = await fetch(
-        `${API_URL}/community/${communityId}/discord/link`,
+        `${API_URL}/communities/${communityId}/discord/link`,
         {
           method: 'PATCH',
           headers: {
@@ -36,7 +36,7 @@ export default async function handler(
             'x-api-key': API_KEY,
           },
           body: JSON.stringify({
-            signed_message: signedMessage,
+            signedMessage: signedMessage,
           }),
         }
       )

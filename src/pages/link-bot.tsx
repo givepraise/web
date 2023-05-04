@@ -28,7 +28,7 @@ export default function LinkBot() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          signature,
+          signedMessage: signature,
           communityId,
         }),
       }).then((res) => res.json())
