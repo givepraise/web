@@ -19,7 +19,7 @@ interface SaveCommunityErrors {
   name?: { message: string } | null
   email?: { message: string } | null
   owners?: { message: string } | null
-  guild?: { message: string } | null
+  discordGuildId?: { message: string } | null
 }
 
 const Form = () => {
@@ -34,7 +34,7 @@ const Form = () => {
     name: null,
     email: null,
     owners: null,
-    guild: null,
+    discordGuildId: null,
   })
 
   const {
@@ -89,7 +89,7 @@ const Form = () => {
             name: '',
             email: '',
             owners: '',
-            guild: '',
+            discordGuildId: '',
           })
         }
       } catch (error) {

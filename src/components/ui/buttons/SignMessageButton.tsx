@@ -7,6 +7,7 @@ interface Props {
   message: string
   onSignSuccess(signature: string): void
   onSignError(): void
+  disabled?: boolean
 }
 
 const SignMessageButton = ({
@@ -14,6 +15,7 @@ const SignMessageButton = ({
   message,
   onSignSuccess,
   onSignError,
+  disabled,
 }: Props): JSX.Element | null => {
   const { isLoading, isSuccess, signMessage } = useSignMessage({
     message,
@@ -25,10 +27,12 @@ const SignMessageButton = ({
     },
   })
 
-  return isLoading || isSuccess ? (
+  return isLoading ? (
     <LoaderSpinner />
   ) : (
-    <Button onClick={(): void => signMessage()}>{text}</Button>
+    <Button onClick={(): void => signMessage()} disabled={disabled}>
+      {text}
+    </Button>
   )
 }
 
