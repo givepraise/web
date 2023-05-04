@@ -1,5 +1,6 @@
 import { useSignMessage } from 'wagmi'
 import { LoaderSpinner } from '../LoaderSpinner'
+import { Button } from '../Button'
 
 interface Props {
   text: string
@@ -27,7 +28,7 @@ const SignMessageButton = ({
   return isLoading || isSuccess ? (
     <LoaderSpinner />
   ) : (
-    <button onClick={(): void => signMessage()}>{text}</button>
+    <Button onClick={(): void => signMessage()}>{text}</Button>
   )
 }
 
