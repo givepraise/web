@@ -37,21 +37,21 @@ const Header = () => {
 
   return (
     <header
-      className={`${isSticky ? 'fixed left-0 top-0 z-50 w-full ' : 'z-10'}`}>
-      <nav className="mx-auto flex items-center px-4 py-4">
+      className={`${isSticky ? 'fixed left-0 top-0 z-50 w-full ' : 'z-50'}`}>
+      <nav className="flex items-center px-4 py-4 mx-auto ">
         <button
           className="ml-2 text-gray-800 hover:text-pink-600 sm:hidden"
           onClick={handleMenuToggle}>
           <FaBars className="text-2xl" />
         </button>
-        <div className="ml-2 flex items-center">
+        <div className="flex items-center ml-2">
           <Link href="/">
             <Image src="/img/icon.png" alt="Your Logo" width={32} height={32} />
           </Link>
         </div>
 
         {/* Big screens menu items */}
-        <div className="ml-2 hidden items-center space-x-4 sm:flex">
+        <div className="items-center hidden ml-2 space-x-4 sm:flex">
           <Link href="/">
             <span className="font-bold text-gray-800 hover:text-pink-600">
               Praise
@@ -74,7 +74,7 @@ const Header = () => {
             isMenuOpen ? 'flex' : 'hidden'
           } fixed inset-0 z-50 justify-center bg-white`}
           style={{ overflowY: isMenuOpen ? 'auto' : 'hidden' }}>
-          <div className="absolute left-4 top-2 flex">
+          <div className="absolute flex left-4 top-2">
             <div className="mt-2">
               <Link href="/" onClick={handleMenuToggle}>
                 <Image src="/img/icon.png" alt="Logo" width={32} height={32} />
@@ -82,15 +82,15 @@ const Header = () => {
             </div>
             <div className="mt-2.5">
               <Link href="/">
-                <span className="ml-2 mt-4 font-bold text-gray-800 hover:text-pink-600">
+                <span className="mt-4 ml-2 font-bold text-gray-800 hover:text-pink-600">
                   Praise
                 </span>
               </Link>
             </div>
           </div>
-          <div className="mt-12 flex h-full">
+          <div className="flex h-full mt-12">
             <CloseButton onClick={handleMenuToggle} />
-            <div className="mt-8 flex flex-col space-y-8 text-5xl">
+            <div className="flex flex-col mt-8 space-y-8 text-5xl">
               <div className="flex justify-center">
                 <Link
                   href="https://givepraise.xyz/docs/"
