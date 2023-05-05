@@ -1,9 +1,8 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 
-interface ILinkBotCommunityRequest extends NextApiRequest {
-  body: {
-    signedMessage: string
-    communityId: string
+interface ICheckCommunityNameRequest extends NextApiRequest {
+  query: {
+    name: string
   }
 }
 
@@ -11,10 +10,10 @@ const API_URL = process.env.API_URL
 const API_KEY = process.env.API_KEY
 
 export default async function handler(
-  req: ILinkBotCommunityRequest,
+  req: ICheckCommunityNameRequest,
   res: NextApiResponse
 ) {
-  if (req.method === 'PATCH') {
+  if (req.method === 'GET') {
     if (!API_URL || !API_KEY) {
       const missingEnvVar = !API_URL ? 'API_URL' : 'API_KEY'
       return res
@@ -23,25 +22,21 @@ export default async function handler(
           `Internal server error: Missing environment variable ${missingEnvVar}`
         )
     }
-
-    const { signedMessage, communityId } = req.body
+    const { name } = req.query
 
     try {
       const response = await fetch(
-        `${API_URL}/communities/${communityId}/discord/link`,
+        `${API_URL}/communities/isNameAvailable?name=${name}`,
         {
-          method: 'PATCH',
+          method: 'GET',
           headers: {
             'Content-Type': 'application/json',
             'x-api-key': API_KEY,
           },
-          body: JSON.stringify({
-            signedMessage: signedMessage,
-          }),
         }
       )
-
       const jsonResponse = await response.json()
+
       return res.status(response.status).json(jsonResponse)
     } catch (error) {
       if (error instanceof Error) {
@@ -51,6 +46,6 @@ export default async function handler(
     }
   }
 
-  res.setHeader('Allow', ['PATCH'])
+  res.setHeader('Allow', ['GET'])
   return res.status(405).end(`Method ${req.method} Not Allowed`)
 }

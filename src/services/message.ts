@@ -12,9 +12,9 @@ export const generateLinkBotMessage = (
   guildId: string
 ): string => {
   return (
-    'SIGN THIS MESSAGE TO LINK BOT TO YOUR COMMUNITY.\n\n' +
-    `NONCE:\n${nonce}\n\n` +
-    `COMMUNITY ID:\n${communityId}\n\n` +
-    `GUILD ID:\n${guildId}`
+    'SIGN THIS MESSAGE TO LINK THE PRAISE DISCORD BOT TO YOUR COMMUNITY.\n\n' +
+    `DISCORD GUILD ID:\n${guildId}\n\n` +
+    `PRAISE COMMUNITY ID:\n${communityId}\n\n` +
+    `NONCE:\n${nonce}`
   )
 }

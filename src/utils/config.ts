@@ -11,3 +11,5 @@ export const SITE_IMAGE = '/img/preview.png'
 export const SOCIAL_TWITTER = '@givepraise'
 
 export const WEB3_CHAINS = [mainnet, goerli]
+
+export const DISCORD_MANAGE_GUILDS_PERMISSION = 2147483647

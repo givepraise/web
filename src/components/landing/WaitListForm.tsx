@@ -10,7 +10,6 @@ import {
 import { Button } from '../ui/Button'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { WaitlistFormData } from '@/types/waitlistFormData.type'
-import { toast } from 'react-toastify'
 
 interface Errors {
   company?: string
@@ -84,8 +83,6 @@ const WaitlistForm: React.FC = () => {
         }),
       }).then((res) => res.json())
 
-      console.log('RESPONSE:', response)
-
       if (response.status && response.message && response.status === 'error') {
         setFormError(response.message)
       } else {
@@ -110,7 +107,7 @@ const WaitlistForm: React.FC = () => {
       <div className="mb-4 text-lg">
         <div className="relative w-full">
           <div className="flex items-center">
-            <span className="mr-2 pb-1">
+            <span className="pb-1 mr-2">
               <FontAwesomeIcon icon={faHome} />
             </span>
             <input
@@ -120,7 +117,7 @@ const WaitlistForm: React.FC = () => {
               value={formData.company}
               onChange={handleChange}
               placeholder="Community name"
-              className="w-full rounded-none border-none border-transparent bg-transparent px-0 py-2 placeholder-gray-400 focus:border-transparent focus:outline-none focus:ring-0"
+              className="w-full px-0 py-2 placeholder-gray-400 bg-transparent border-transparent border-none rounded-none focus:border-transparent focus:outline-none focus:ring-0"
             />
           </div>
           <div className="absolute bottom-0 left-0 w-full border-b border-gray-400 " />
@@ -132,7 +129,7 @@ const WaitlistForm: React.FC = () => {
       <div className="mb-4">
         <div className="relative w-full">
           <div className="flex items-center">
-            <span className="mr-2 pb-1">
+            <span className="pb-1 mr-2">
               <FontAwesomeIcon icon={faLink} />
             </span>
             <input
@@ -142,7 +139,7 @@ const WaitlistForm: React.FC = () => {
               value={formData.website}
               onChange={handleChange}
               placeholder="Link to your community"
-              className="w-full rounded-none border-none border-transparent bg-transparent px-0 py-2 placeholder-gray-400 focus:border-transparent focus:outline-none focus:ring-0"
+              className="w-full px-0 py-2 placeholder-gray-400 bg-transparent border-transparent border-none rounded-none focus:border-transparent focus:outline-none focus:ring-0"
             />
           </div>
           <div className="absolute bottom-0 left-0 w-full border-b border-gray-400 " />
@@ -154,7 +151,7 @@ const WaitlistForm: React.FC = () => {
       <div className="mb-4">
         <div className="relative w-full">
           <div className="flex items-center">
-            <span className="mr-2 pb-1">
+            <span className="pb-1 mr-2">
               <FontAwesomeIcon icon={faUser} />
             </span>
             <input
@@ -164,7 +161,7 @@ const WaitlistForm: React.FC = () => {
               value={formData.firstname}
               onChange={handleChange}
               placeholder="Contact name"
-              className="w-full rounded-none border-none border-transparent bg-transparent px-0 py-2 placeholder-gray-400 focus:border-transparent focus:outline-none focus:ring-0"
+              className="w-full px-0 py-2 placeholder-gray-400 bg-transparent border-transparent border-none rounded-none focus:border-transparent focus:outline-none focus:ring-0"
             />
           </div>
           <div className="absolute bottom-0 left-0 w-full border-b border-gray-400 " />
@@ -176,7 +173,7 @@ const WaitlistForm: React.FC = () => {
       <div className="mb-4">
         <div className="relative w-full">
           <div className="flex items-center">
-            <span className="mr-2 pb-1">
+            <span className="pb-1 mr-2">
               <FontAwesomeIcon icon={faEnvelope} />
             </span>
             <input
@@ -186,7 +183,7 @@ const WaitlistForm: React.FC = () => {
               value={formData.email}
               onChange={handleChange}
               placeholder="Contact email"
-              className="w-full rounded-none border-none border-transparent bg-transparent px-0 py-2 placeholder-gray-400 focus:border-transparent focus:outline-none focus:ring-0"
+              className="w-full px-0 py-2 placeholder-gray-400 bg-transparent border-transparent border-none rounded-none focus:border-transparent focus:outline-none focus:ring-0"
             />
           </div>
           <div className="absolute bottom-0 left-0 w-full border-b border-gray-400 " />
@@ -197,7 +194,7 @@ const WaitlistForm: React.FC = () => {
         <Button
           type="submit"
           disabled={submitting}
-          className="button button--secondary button--lg mt-5">
+          className="mt-5 button button--secondary button--lg">
           {submitting ? (
             <>
               Submitting <FontAwesomeIcon icon={faSpinner} spin />
@@ -208,17 +205,17 @@ const WaitlistForm: React.FC = () => {
         </Button>
       </div>
       {typeof errors === 'string' && (
-        <div className="mt-5 flex justify-center">
+        <div className="flex justify-center mt-5">
           <div className="text-xs text-red-500">{errors}</div>
         </div>
       )}
       {submitted && (
-        <div className="mt-5 flex justify-center">
+        <div className="flex justify-center mt-5">
           <div className="">✅ Thanks for submitting your community!</div>
         </div>
       )}
       {formError && (
-        <div className="mt-5 flex justify-center text-red-500">
+        <div className="flex justify-center mt-5 text-red-500">
           <div className="">{formError}</div>
         </div>
       )}

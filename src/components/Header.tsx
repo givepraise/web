@@ -57,7 +57,7 @@ const Header = () => {
               Praise
             </span>
           </Link>
-          <Link href="https://givepraise.xyz/docs/" target="_blank">
+          <Link href="https://docs.givepraise.xyz" target="_blank">
             <span className="ml-2 text-gray-800 hover:text-pink-600">Docs</span>
           </Link>
           <Link href="https://mirror.xyz/givepraise.eth" target="_blank">

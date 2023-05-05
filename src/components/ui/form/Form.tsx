@@ -10,9 +10,17 @@ import { FormData } from '@/types/formData.type'
 import { FormInput } from './FormInput'
 import { FormSelect } from './FormSelect'
 import { communityState } from '@/services/community'
-import { toast } from 'react-toastify'
+import { toast } from 'react-hot-toast'
 import { useAccount } from 'wagmi'
 import { useRecoilState } from 'recoil'
+import { DISCORD_MANAGE_GUILDS_PERMISSION } from '@/utils/config'
+
+interface SaveCommunityErrors {
+  name?: { message: string } | null
+  email?: { message: string } | null
+  owners?: { message: string } | null
+  discordGuildId?: { message: string } | null
+}
 
 const Form = () => {
   const { data: session } = useSession()
@@ -22,6 +30,12 @@ const Form = () => {
   const [submitting, setSubmitting] = useState(false)
   const [guildOptions, setGuildOptions] = useRecoilState(guildOptionsState)
   const [community, setCommunity] = useRecoilState(communityState)
+  const [formErrors, setFormErrors] = useState<SaveCommunityErrors>({
+    name: null,
+    email: null,
+    owners: null,
+    discordGuildId: null,
+  })
 
   const {
     register,
@@ -49,28 +63,34 @@ const Form = () => {
           }),
         }).then((res) => res.json())
 
-        if (!response.error) {
-          reset()
-          toast.success('Form submitted successfully')
+        if (response.statusCode && response.statusCode === 400) {
+          setFormErrors(response.errors)
           setSubmitting(false)
-          setFormData({
-            name: '',
-            email: '',
-            owners: '',
-            guild: '',
-          })
-
-          setCommunity({
-            name: response.name,
-            hostname: response.hostname,
-          })
-        } else {
+          toast.error('There was an error submitting the form')
+        } else if (response.error) {
           const errorMessage =
             response.message && Array.isArray(response.message)
               ? response.message.join(', ')
               : response.message
           toast.error(errorMessage)
           setSubmitting(false)
+        } else {
+          reset()
+          toast.success('Form submitted successfully')
+          setSubmitting(false)
+
+          setCommunity({
+            name: response.name,
+            hostname: response.hostname,
+            guildId: data.discordGuildId as any,
+          })
+
+          setFormData({
+            name: '',
+            email: '',
+            owners: '',
+            discordGuildId: '',
+          })
         }
       } catch (error) {
         console.error(error)
@@ -100,22 +120,28 @@ const Form = () => {
         ).then((res) => res.json())
 
         if (data && data.length > 0) {
-          setGuildOptions(
-            data.map((guild: any) => ({
-              value: guild.id,
-              label: guild.name,
-            }))
-          )
+          const guildOptions = data
+            .filter((guild: any) => {
+              return guild.permissions === DISCORD_MANAGE_GUILDS_PERMISSION
+            })
+            .map((guild: any) => {
+              return {
+                value: guild.id,
+                label: guild.name,
+              }
+            })
+
+          setGuildOptions(guildOptions)
 
           toast.success('Discord guilds fetched successfully')
         } else if (data.message && data.message === '401: Unauthorized') {
           toast.error('Your Discord token has expired')
+          await signOut()
         }
-
-        await signOut()
       } catch (error) {
         console.error(error)
         toast.error('There was an error fetching your Discord guilds')
+        await signOut()
       }
     }
 
@@ -130,6 +156,43 @@ const Form = () => {
     }
   }
 
+  const handleNameInput = async (formData: FormData) => {
+    setFormData(formData)
+
+    if (formData.name.length > 3) {
+      try {
+        const response = await fetch(
+          `/api/community-name?name=${formData.name}`,
+          {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          }
+        ).then((res) => res.json())
+
+        if (response.statusCode && response.statusCode === 400) {
+          toast.error(response.message)
+        } else if (!response.available) {
+          formErrors &&
+            setFormErrors({
+              ...formErrors,
+              name: { message: 'COMMUNITY NAME NOT AVAILABLE' },
+            })
+        } else {
+          formErrors &&
+            setFormErrors({
+              ...formErrors,
+              name: null,
+            })
+        }
+      } catch (error) {
+        console.error(error)
+        toast.error('There was an error fetching name availability')
+      }
+    }
+  }
+
   return (
     <div className="black-section">
       <h2>Create Community</h2>
@@ -139,27 +202,40 @@ const Form = () => {
           <FormInput
             name="name"
             type="text"
-            placeholder="Name"
+            placeholder="Community name"
             onChange={(event) =>
-              setFormData({ ...formData, name: event.target.value })
+              handleNameInput({ ...formData, name: event.target.value })
             }
             register={register}
             validationRules={{
               required: 'This field is required',
+              minLength: {
+                value: 4,
+                message: 'Name must be at least 4 characters long',
+              },
+              maxLength: {
+                value: 30,
+                message: 'Name must be at most 30 characters long',
+              },
+              pattern: {
+                value: /^[a-z0-9][a-z0-9_.-]{1,28}[a-z0-9]$/,
+                message: 'Name must only contain letters, numbers and dashes',
+              },
             }}
             icon={<FaUser />}
             disabled={!isConnected}
           />
-          {errors['name'] && (
+          {formErrors['name'] && (
             <p className="mt-1 text-xs text-red-500">
-              {errors['name']?.message}
+              {formErrors['name']?.message}
             </p>
           )}
-
+          {errors.name && (
+            <p className="mt-1 text-xs text-red-500">{errors.name.message}</p>
+          )}
           <label className="mb-6 mt-8 block font-bold" htmlFor="name">
             Creator
           </label>
-
           {address ? (
             <div className="flex h-full text-left">
               <EthAccount className="w-36" />
@@ -200,15 +276,27 @@ const Form = () => {
 
                   return true
                 },
+                noDuplicates: (value: any) => {
+                  const ownersArray = value
+                    .split(',')
+                    .map((element: string) => element.trim())
+
+                  if (new Set(ownersArray).size !== ownersArray.length) {
+                    return 'Owners ETH address should be unique'
+                  }
+                },
               },
             }}
             icon={<FaUsers />}
             disabled={!isConnected}
           />
-          {errors['owners'] && (
+          {formErrors['owners'] && (
             <p className="mt-1 text-xs text-red-500">
-              {errors['owners']?.message}
+              {formErrors['owners']?.message}
             </p>
+          )}
+          {errors.owners && (
+            <p className="mt-1 text-xs text-red-500">{errors.owners.message}</p>
           )}
         </div>
         <div className="mb-4 text-left text-xl">
@@ -220,7 +308,7 @@ const Form = () => {
           <FormInput
             name="email"
             type="email"
-            placeholder="spam.please@address.com"
+            placeholder="Contact email"
             onChange={(event) =>
               setFormData({ ...formData, email: event.target.value })
             }
@@ -235,9 +323,9 @@ const Form = () => {
             icon={<FaEnvelope />}
             disabled={!isConnected}
           />
-          {errors['email'] && (
+          {formErrors['email'] && (
             <p className="mt-1 text-xs text-red-500">
-              {errors['email']?.message}
+              {formErrors['email']?.message}
             </p>
           )}
         </div>
