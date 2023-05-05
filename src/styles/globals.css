@@ -32,7 +32,7 @@
 }
 
 .bg {
-  @apply absolute bottom-0 left-0 top-0 w-full flex-grow;
+  @apply absolute top-0 bottom-0 left-0 flex-grow w-full;
   background-image: radial-gradient(
       circle at 80.99% 40%,
       #ad1a7e83,
@@ -43,7 +43,7 @@
 }
 
 .main-layout {
-  @apply prose prose-xl relative z-10 mx-auto w-[700px];
+  @apply prose prose-base relative z-10 mx-auto w-[700px] md:prose-xl;
 }
 
 .main-layout a {
@@ -73,7 +73,7 @@ ul {
 }
 
 .black-section {
-  @apply my-20 bg-black p-12 pb-12 text-white;
+  @apply p-5 pb-12 my-20 text-white bg-black md:p-12;
 }
 
 .black-section h2 {
