@@ -157,7 +157,7 @@ export default function LinkBot() {
       <PraiseHands />
       {query.nonce && query.communityId && query.guildId ? (
         <>
-          {linkSuccess ? (
+          {!linkSuccess ? (
             <div className="black-section">
               <FontAwesomeIcon icon={faLink} size="1x" className="m-2" />
               <h2>Link Discord Bot</h2>
