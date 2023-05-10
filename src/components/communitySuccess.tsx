@@ -27,7 +27,7 @@ export const CommunitySuccessPage = () => {
       <div className="flex justify-center py-5">
         <div className="px-3 py-2 bg-white rounded-full bg-opacity-20">
           <FontAwesomeIcon icon={faPrayingHands} size="1x" className="mr-2" />
-          {name}name
+          {name}
         </div>
       </div>
       <h2>Next step</h2>
