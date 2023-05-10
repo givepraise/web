@@ -32,7 +32,7 @@ export default function Setup() {
       />
 
       <>
-        <h1>
+        <h1 className="!mb-0">
           Start building a culture of giving and gratitude, give your community
           its memory back! Who did{' '}
           <span className="font-bold underline">what</span>,{' '}

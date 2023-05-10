@@ -29,7 +29,7 @@ export default function Landing() {
   return (
     <MainLayout>
       <Head />
-      <h1>
+      <h1 className="!mb-0">
         Unlock the full potential of your community with{' '}
         <u>reputation scores</u>, <u>rewards</u> and <u>deep insights</u>
       </h1>
@@ -46,7 +46,7 @@ export default function Landing() {
       <div className="black-section">
         <h2>How does it work?</h2>
         <div className="py-6">
-          <div className="not-prose rounded-md bg-white p-3 font-thin text-slate-700">
+          <div className="p-3 font-thin bg-white rounded-md not-prose text-slate-700">
             <code>
               /praise @vitalik.eth for &quot;inventing Ethereum&ldquo;
             </code>
