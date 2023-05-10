@@ -1,18 +1,19 @@
-import { toast } from 'react-hot-toast'
-import { useState, useEffect } from 'react'
-import { useRouter } from 'next/router'
-import { generateLinkBotMessage } from '../../services/message'
-import MainLayout from '@/components/layout/MainLayout'
-import { Head } from '@/components/layout/Head'
-import { faLink } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faLink, faPrayingHands } from '@fortawesome/free-solid-svg-icons'
 import { useAccount, useSignMessage } from 'wagmi'
+import { useEffect, useState } from 'react'
+
 import { ConnectButton } from '@rainbow-me/rainbowkit'
-import { SignMessageButton } from '@/components/ui/buttons/SignMessageButton'
 import { EthAccount } from '@/components/ui/account/EthAccount'
-import PraiseHands from '@/components/landing/PraiseHands'
-import SignMessageSuccess from '@/components/discord-link/SignMessageSuccess'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { Head } from '@/components/layout/Head'
 import { LoaderSpinner } from '@/components/ui/LoaderSpinner'
+import MainLayout from '@/components/layout/MainLayout'
+import PraiseHands from '@/components/landing/PraiseHands'
+import { SignMessageButton } from '@/components/ui/buttons/SignMessageButton'
+import SignMessageSuccess from '@/components/discord-link/SignMessageSuccess'
+import { generateLinkBotMessage } from '../../services/message'
+import { toast } from 'react-hot-toast'
+import { useRouter } from 'next/router'
 
 interface LinkBotProps {
   nonce: string
@@ -156,13 +157,22 @@ export default function LinkBot() {
       <PraiseHands />
       {query.nonce && query.communityId && query.guildId ? (
         <>
-          {!linkSuccess ? (
+          {linkSuccess ? (
             <div className="black-section">
               <FontAwesomeIcon icon={faLink} size="1x" className="m-2" />
+              <h2>Link Discord Bot</h2>
               <div className="flex justify-center w-full">
                 <div>
-                  <h2 className="mb-0">Link Praise Discord Bot to </h2>
-                  <h2 className="mt-0">{community.name}</h2>
+                  <div className="flex justify-center py-5">
+                    <div className="px-3 py-2 bg-white rounded-full bg-opacity-20">
+                      <FontAwesomeIcon
+                        icon={faPrayingHands}
+                        size="1x"
+                        className="mr-2"
+                      />
+                      {community.name}
+                    </div>
+                  </div>
 
                   <p className="text-center">
                     Sign a message with your wallet to secure the connection
