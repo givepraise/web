@@ -14,6 +14,7 @@ import { toast } from 'react-hot-toast'
 import { useAccount } from 'wagmi'
 import { useRecoilState } from 'recoil'
 import { DISCORD_MANAGE_GUILDS_PERMISSION } from '@/utils/config'
+import { LoaderSpinner } from '../LoaderSpinner'
 
 interface SaveCommunityErrors {
   name?: { message: string } | null
@@ -76,7 +77,6 @@ const Form = () => {
           setSubmitting(false)
         } else {
           reset()
-          toast.success('Form submitted successfully')
           setSubmitting(false)
 
           setCommunity({
@@ -359,7 +359,13 @@ const Form = () => {
               type="submit"
               className="button button--secondary button--lg mt-12"
               disabled={submitting || !isConnected}>
-              {submitting ? 'Submitting...' : 'Create'}
+              {submitting ? (
+                <div className="flex">
+                  <LoaderSpinner /> <span className="ml-2">Creating</span>
+                </div>
+              ) : (
+                'Create'
+              )}
             </Button>
           </div>
         </>
