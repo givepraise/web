@@ -21,6 +21,7 @@ import { useAccount } from 'wagmi'
 import { useRecoilState } from 'recoil'
 import { DISCORD_MANAGE_GUILDS_PERMISSION } from '@/utils/config'
 import { LoaderSpinner } from '../LoaderSpinner'
+import { clear } from 'console'
 
 const Form = () => {
   const { data: session } = useSession()
@@ -180,11 +181,13 @@ const Form = () => {
 
     if (nameLength > 3) {
       setNameLoading(true)
-    } else {
+    } else if (nameLength > 0) {
       setNameLoading(false)
       setError('name', {
         message: 'Name must be at least 4 characters long',
       })
+    } else {
+      clearErrors('name')
     }
 
     const timer = setTimeout(async () => {
