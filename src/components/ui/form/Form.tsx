@@ -21,7 +21,6 @@ import { useAccount } from 'wagmi'
 import { useRecoilState } from 'recoil'
 import { DISCORD_MANAGE_GUILDS_PERMISSION } from '@/utils/config'
 import { LoaderSpinner } from '../LoaderSpinner'
-import useDebounce from '@/utils/debounce'
 
 const Form = () => {
   const { data: session } = useSession()
