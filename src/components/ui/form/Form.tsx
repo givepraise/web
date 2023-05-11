@@ -5,7 +5,7 @@ import {
   FaUser,
   FaUsers,
 } from 'react-icons/fa'
-import { SubmitHandler, useForm } from 'react-hook-form'
+import { SubmitHandler, set, useForm } from 'react-hook-form'
 import { formDataState, guildOptionsState } from '@/services/form'
 import { signIn, signOut, useSession } from 'next-auth/react'
 import { useEffect, useState } from 'react'
@@ -23,13 +23,6 @@ import { DISCORD_MANAGE_GUILDS_PERMISSION } from '@/utils/config'
 import { LoaderSpinner } from '../LoaderSpinner'
 import useDebounce from '@/utils/debounce'
 
-interface SaveCommunityErrors {
-  name?: { message: string } | null
-  email?: { message: string } | null
-  owners?: { message: string } | null
-  discordGuildId?: { message: string } | null
-}
-
 const Form = () => {
   const { data: session } = useSession()
   const { address, isConnected } = useAccount()
@@ -38,26 +31,16 @@ const Form = () => {
   const [submitting, setSubmitting] = useState(false)
   const [guildOptions, setGuildOptions] = useRecoilState(guildOptionsState)
   const [community, setCommunity] = useRecoilState(communityState)
-  const [formErrors, setFormErrors] = useState<SaveCommunityErrors>({
-    name: null,
-    email: null,
-    owners: null,
-    discordGuildId: null,
-  })
   const [nameLoading, setNameLoading] = useState(false)
   const [nameAvailable, setNameAvailable] = useState(false)
-
-  const debouncedName = useDebounce({
-    value: formData.name,
-    delay: 3000,
-    setIsLoading: setNameLoading,
-  })
 
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
+    setError,
+    clearErrors,
   } = useForm<FormData>({
     defaultValues: formData,
   })
@@ -80,7 +63,29 @@ const Form = () => {
         }).then((res) => res.json())
 
         if (response.statusCode && response.statusCode === 400) {
-          setFormErrors(response.errors)
+          if (response.errors) {
+            if (response.errors.name) {
+              setError('name', {
+                message: response.errors.name.message,
+              })
+            }
+            if (response.errors.email) {
+              setError('email', {
+                message: response.errors.email.message,
+              })
+            }
+            if (response.errors.owners) {
+              setError('owners', {
+                message: response.errors.owners.message,
+              })
+            }
+            if (response.errors.discordGuildId) {
+              setError('discordGuildId', {
+                message: response.errors.discordGuildId.message,
+              })
+            }
+          }
+
           setSubmitting(false)
           toast.error('There was an error submitting the form')
         } else if (response.error) {
@@ -172,59 +177,75 @@ const Form = () => {
   }
 
   useEffect(() => {
-    const isNameAvailable = async () => {
-      try {
-        const response = await fetch(
-          `/api/community-name?name=${debouncedName}`,
-          {
-            method: 'GET',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-          }
-        )
+    const nameLength = formData.name.length
 
-        const data = await response.json()
+    if (nameLength > 3) {
+      setNameLoading(true)
+    } else {
+      setNameLoading(false)
+      setError('name', {
+        message: 'Name must be at least 4 characters long',
+      })
+    }
 
-        if (response.status === 400) {
-          toast.error(data.message)
-        } else if (!data.available) {
-          setFormErrors((formErrors) => ({
-            ...formErrors,
-            name: { message: 'Name not available' },
-          }))
+    const timer = setTimeout(async () => {
+      if (nameLength > 3) {
+        const nameResponse = await isNameAvailable(formData.name)
+
+        if (!nameResponse.available) {
+          setError('name', {
+            message: 'Name not available',
+          })
           setNameAvailable(false)
         } else {
-          setFormErrors((formErrors) => ({
-            ...formErrors,
-            name: null,
-          }))
+          clearErrors('name')
           setNameAvailable(true)
         }
-      } catch (error) {
-        console.error(error)
-        toast.error('There was an error fetching name availability')
       }
-    }
+    }, 3000)
 
-    if (debouncedName.length > 3) {
-      isNameAvailable()
-    } else {
-      setFormErrors((formErrors) => ({
-        ...formErrors,
-        name: {
-          message: 'Name must be at least 4 characters long',
+    return () => clearTimeout(timer)
+  }, [formData.name, setError, clearErrors])
+
+  const isNameAvailable = async (name: string) => {
+    try {
+      const response = await fetch(`/api/community-name?name=${name}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
         },
-      }))
+      })
+      const data = await response.json()
+
+      if (response.status === 400) {
+        toast.error(data.message)
+        setNameAvailable(false)
+        return
+      }
+
+      return data
+    } catch (error) {
+      console.error(error)
+      toast.error('There was an error fetching name availability')
+    } finally {
+      setNameLoading(false)
     }
-  }, [debouncedName, setFormErrors])
+  }
 
   return (
     <div className="black-section">
       <h2>Create Community</h2>
 
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="mb-4 text-xl text-left">
+        <div className="mb-4 text-left text-xl">
+          <label className="mb-6 mt-8 block text-left font-bold" htmlFor="name">
+            Name
+          </label>
+          <p>
+            Once created, you can access your praise dashboard at{' '}
+            {formData.name ? formData.name : '[name]'}.givepraise.xyz.
+          </p>
+
           <FormInput
             name="name"
             type="text"
@@ -252,11 +273,6 @@ const Form = () => {
             icon={<FaUser />}
             disabled={!isConnected}
           />
-          {!nameLoading && formErrors['name'] && (
-            <p className="mt-1 text-xs text-red-500">
-              {formErrors['name']?.message}
-            </p>
-          )}
           {!nameLoading && errors.name && (
             <p className="mt-1 text-xs text-red-500">{errors.name.message}</p>
           )}
@@ -267,11 +283,11 @@ const Form = () => {
             </p>
           )}
           {nameLoading && (
-            <div className="w-6 mt-3 text-xs">
+            <div className="mt-3 w-6 text-xs">
               <LoaderSpinner />
             </div>
           )}
-          <label className="block mt-8 mb-6 font-bold" htmlFor="name">
+          <label className="mb-6 mt-8 block font-bold" htmlFor="name">
             Creator
           </label>
           {address ? (
@@ -282,8 +298,8 @@ const Form = () => {
             <p>Connect your wallet to set community creator.</p>
           )}
         </div>
-        <div className="mb-4 text-xl text-left">
-          <label className="block mt-8 mb-6 font-bold text-left" htmlFor="name">
+        <div className="mb-4 text-left text-xl">
+          <label className="mb-6 mt-8 block text-left font-bold" htmlFor="name">
             Owners
           </label>
           <p>
@@ -328,17 +344,12 @@ const Form = () => {
             icon={<FaUsers />}
             disabled={!isConnected}
           />
-          {formErrors['owners'] && (
-            <p className="mt-1 text-xs text-red-500">
-              {formErrors['owners']?.message}
-            </p>
-          )}
           {errors.owners && (
             <p className="mt-1 text-xs text-red-500">{errors.owners.message}</p>
           )}
         </div>
-        <div className="mb-4 text-xl text-left">
-          <label className="block mt-8 mb-6 font-bold" htmlFor="name">
+        <div className="mb-4 text-left text-xl">
+          <label className="mb-6 mt-8 block font-bold" htmlFor="name">
             Email
           </label>
           <p>Where can we reach you for occasional updates?</p>
@@ -361,15 +372,10 @@ const Form = () => {
             icon={<FaEnvelope />}
             disabled={!isConnected}
           />
-          {formErrors['email'] && (
-            <p className="mt-1 text-xs text-red-500">
-              {formErrors['email']?.message}
-            </p>
-          )}
         </div>
         <>
           <div className="mb-4 text-left">
-            <label className="block mt-8 mb-6 font-bold" htmlFor="name">
+            <label className="mb-6 mt-8 block font-bold" htmlFor="name">
               Discord
             </label>
             <p>
@@ -395,8 +401,10 @@ const Form = () => {
           <div className="flex justify-center">
             <Button
               type="submit"
-              className="mt-12 button button--secondary button--lg"
-              disabled={submitting || !isConnected}>
+              className="button button--secondary button--lg mt-12"
+              disabled={
+                submitting || !isConnected || guildOptions.length === 0
+              }>
               {submitting ? (
                 <div className="flex">
                   <LoaderSpinner /> <span className="ml-2">Creating</span>
