@@ -1,7 +1,8 @@
-import { faLink } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Button } from '../ui/Button'
+import { FaCheckCircle } from 'react-icons/fa'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Link from 'next/link'
+import { faPrayingHands } from '@fortawesome/free-solid-svg-icons'
 
 interface SignMessageSuccessProps {
   discordGuildId: string
@@ -14,15 +15,26 @@ const SignMessageSuccess = ({
 }: SignMessageSuccessProps) => {
   return (
     <div className="black-section">
-      <FontAwesomeIcon icon={faLink} size="1x" className="m-2" />
+      <div className="mb-5">
+        <FaCheckCircle className="text-5xl fa-beat" />
+      </div>
       <div className="flex justify-center w-full">
         <div>
-          <h2 className="mb-0">Community linked</h2>
+          <h2>Community linked</h2>
 
           <h5 className="text-center">
             The Praise Discord Bot has been linked to
           </h5>
-          <h5 className="mb-12 text-center">{name}.</h5>
+          <div className="flex justify-center py-5">
+            <div className="px-3 py-2 bg-white rounded-full bg-opacity-20">
+              <FontAwesomeIcon
+                icon={faPrayingHands}
+                size="1x"
+                className="mr-2"
+              />
+              {name}
+            </div>
+          </div>
 
           <h5 className="text-center">
             Now would be a good time to send your first praise, head over to

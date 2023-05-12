@@ -5,10 +5,10 @@ interface PraiseHandsProps {
 }
 
 const PraiseHands = ({ size }: PraiseHandsProps) => {
-  const sizeClass = size === 'small' ? 'w-5' : 'w-7'
+  const sizeClass = size === 'small' ? 'w-5 h-5' : 'w-7 h-7'
 
   return (
-    <div className="flex w-full flex-col items-center justify-center">
+    <div className="flex flex-col items-center justify-center w-full">
       <div className={sizeClass}>
         <svg
           viewBox="0 0 224 179"

@@ -1,5 +1,11 @@
-import { FaDiscord, FaEnvelope, FaUser, FaUsers } from 'react-icons/fa'
-import { SubmitHandler, useForm } from 'react-hook-form'
+import {
+  FaCheckCircle,
+  FaDiscord,
+  FaEnvelope,
+  FaUser,
+  FaUsers,
+} from 'react-icons/fa'
+import { SubmitHandler, set, useForm } from 'react-hook-form'
 import { formDataState, guildOptionsState } from '@/services/form'
 import { signIn, signOut, useSession } from 'next-auth/react'
 import { useEffect, useState } from 'react'
@@ -14,13 +20,8 @@ import { toast } from 'react-hot-toast'
 import { useAccount } from 'wagmi'
 import { useRecoilState } from 'recoil'
 import { DISCORD_MANAGE_GUILDS_PERMISSION } from '@/utils/config'
-
-interface SaveCommunityErrors {
-  name?: { message: string } | null
-  email?: { message: string } | null
-  owners?: { message: string } | null
-  discordGuildId?: { message: string } | null
-}
+import { LoaderSpinner } from '../LoaderSpinner'
+import { clear } from 'console'
 
 const Form = () => {
   const { data: session } = useSession()
@@ -30,18 +31,16 @@ const Form = () => {
   const [submitting, setSubmitting] = useState(false)
   const [guildOptions, setGuildOptions] = useRecoilState(guildOptionsState)
   const [community, setCommunity] = useRecoilState(communityState)
-  const [formErrors, setFormErrors] = useState<SaveCommunityErrors>({
-    name: null,
-    email: null,
-    owners: null,
-    discordGuildId: null,
-  })
+  const [nameLoading, setNameLoading] = useState(false)
+  const [nameAvailable, setNameAvailable] = useState(false)
 
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
+    setError,
+    clearErrors,
   } = useForm<FormData>({
     defaultValues: formData,
   })
@@ -64,7 +63,29 @@ const Form = () => {
         }).then((res) => res.json())
 
         if (response.statusCode && response.statusCode === 400) {
-          setFormErrors(response.errors)
+          if (response.errors) {
+            if (response.errors.name) {
+              setError('name', {
+                message: response.errors.name.message,
+              })
+            }
+            if (response.errors.email) {
+              setError('email', {
+                message: response.errors.email.message,
+              })
+            }
+            if (response.errors.owners) {
+              setError('owners', {
+                message: response.errors.owners.message,
+              })
+            }
+            if (response.errors.discordGuildId) {
+              setError('discordGuildId', {
+                message: response.errors.discordGuildId.message,
+              })
+            }
+          }
+
           setSubmitting(false)
           toast.error('There was an error submitting the form')
         } else if (response.error) {
@@ -76,7 +97,6 @@ const Form = () => {
           setSubmitting(false)
         } else {
           reset()
-          toast.success('Form submitted successfully')
           setSubmitting(false)
 
           setCommunity({
@@ -132,7 +152,6 @@ const Form = () => {
             })
 
           setGuildOptions(guildOptions)
-
           toast.success('Discord guilds fetched successfully')
         } else if (data.message && data.message === '401: Unauthorized') {
           toast.error('Your Discord token has expired')
@@ -156,40 +175,61 @@ const Form = () => {
     }
   }
 
-  const handleNameInput = async (formData: FormData) => {
-    setFormData(formData)
+  useEffect(() => {
+    const nameLength = formData.name.length
 
-    if (formData.name.length > 3) {
-      try {
-        const response = await fetch(
-          `/api/community-name?name=${formData.name}`,
-          {
-            method: 'GET',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-          }
-        ).then((res) => res.json())
+    if (nameLength > 3) {
+      setNameLoading(true)
+    } else if (nameLength > 0) {
+      setNameLoading(false)
+      setError('name', {
+        message: 'Name must be at least 4 characters long',
+      })
+    } else {
+      clearErrors('name')
+    }
 
-        if (response.statusCode && response.statusCode === 400) {
-          toast.error(response.message)
-        } else if (!response.available) {
-          formErrors &&
-            setFormErrors({
-              ...formErrors,
-              name: { message: 'COMMUNITY NAME NOT AVAILABLE' },
-            })
+    const timer = setTimeout(async () => {
+      if (nameLength > 3) {
+        const nameResponse = await isNameAvailable(formData.name)
+
+        if (!nameResponse.available) {
+          setError('name', {
+            message: 'Name not available',
+          })
+          setNameAvailable(false)
         } else {
-          formErrors &&
-            setFormErrors({
-              ...formErrors,
-              name: null,
-            })
+          clearErrors('name')
+          setNameAvailable(true)
         }
-      } catch (error) {
-        console.error(error)
-        toast.error('There was an error fetching name availability')
       }
+    }, 3000)
+
+    return () => clearTimeout(timer)
+  }, [formData.name, setError, clearErrors])
+
+  const isNameAvailable = async (name: string) => {
+    try {
+      const response = await fetch(`/api/community-name?name=${name}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+      const data = await response.json()
+
+      if (response.status === 400) {
+        toast.error(data.message)
+        setNameAvailable(false)
+        return
+      }
+
+      return data
+    } catch (error) {
+      console.error(error)
+      toast.error('There was an error fetching name availability')
+    } finally {
+      setNameLoading(false)
     }
   }
 
@@ -198,13 +238,21 @@ const Form = () => {
       <h2>Create Community</h2>
 
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="mb-4 text-left text-xl">
+        <div className="mb-4 text-xl text-left">
+          <label className="block mt-8 mb-6 font-bold text-left" htmlFor="name">
+            Name
+          </label>
+          <p>
+            Once created, you can access your praise dashboard at{' '}
+            {formData.name ? formData.name : '[name]'}.givepraise.xyz.
+          </p>
+
           <FormInput
             name="name"
             type="text"
-            placeholder="Community name"
+            placeholder="Community name (lowercase, numbers, dashes)"
             onChange={(event) =>
-              handleNameInput({ ...formData, name: event.target.value })
+              setFormData({ ...formData, name: event.target.value })
             }
             register={register}
             validationRules={{
@@ -219,21 +267,28 @@ const Form = () => {
               },
               pattern: {
                 value: /^[a-z0-9][a-z0-9_.-]{1,28}[a-z0-9]$/,
-                message: 'Name must only contain letters, numbers and dashes',
+                message:
+                  'Name must only contain lowercase letters, numbers and dashes',
               },
             }}
             icon={<FaUser />}
             disabled={!isConnected}
           />
-          {formErrors['name'] && (
-            <p className="mt-1 text-xs text-red-500">
-              {formErrors['name']?.message}
-            </p>
-          )}
-          {errors.name && (
+          {!nameLoading && errors.name && (
             <p className="mt-1 text-xs text-red-500">{errors.name.message}</p>
           )}
-          <label className="mb-6 mt-8 block font-bold" htmlFor="name">
+          {!nameLoading && formData.name.length > 3 && nameAvailable && (
+            <p className="mt-1 text-xs text-green-600">
+              <FaCheckCircle className="mb-[2px] mr-1" />
+              Name available
+            </p>
+          )}
+          {nameLoading && (
+            <p className="w-4 mt-1 text-xs">
+              <LoaderSpinner />
+            </p>
+          )}
+          <label className="block mt-8 mb-6 font-bold" htmlFor="name">
             Creator
           </label>
           {address ? (
@@ -244,8 +299,8 @@ const Form = () => {
             <p>Connect your wallet to set community creator.</p>
           )}
         </div>
-        <div className="mb-4 text-left text-xl">
-          <label className="mb-6 mt-8 block text-left font-bold" htmlFor="name">
+        <div className="mb-4 text-xl text-left">
+          <label className="block mt-8 mb-6 font-bold text-left" htmlFor="name">
             Owners
           </label>
           <p>
@@ -290,17 +345,12 @@ const Form = () => {
             icon={<FaUsers />}
             disabled={!isConnected}
           />
-          {formErrors['owners'] && (
-            <p className="mt-1 text-xs text-red-500">
-              {formErrors['owners']?.message}
-            </p>
-          )}
           {errors.owners && (
             <p className="mt-1 text-xs text-red-500">{errors.owners.message}</p>
           )}
         </div>
-        <div className="mb-4 text-left text-xl">
-          <label className="mb-6 mt-8 block font-bold" htmlFor="name">
+        <div className="mb-4 text-xl text-left">
+          <label className="block mt-8 mb-6 font-bold" htmlFor="name">
             Email
           </label>
           <p>Where can we reach you for occasional updates?</p>
@@ -323,15 +373,10 @@ const Form = () => {
             icon={<FaEnvelope />}
             disabled={!isConnected}
           />
-          {formErrors['email'] && (
-            <p className="mt-1 text-xs text-red-500">
-              {formErrors['email']?.message}
-            </p>
-          )}
         </div>
         <>
           <div className="mb-4 text-left">
-            <label className="mb-6 mt-8 block font-bold" htmlFor="name">
+            <label className="block mt-8 mb-6 font-bold" htmlFor="name">
               Discord
             </label>
             <p>
@@ -357,9 +402,17 @@ const Form = () => {
           <div className="flex justify-center">
             <Button
               type="submit"
-              className="button button--secondary button--lg mt-12"
-              disabled={submitting || !isConnected}>
-              {submitting ? 'Submitting...' : 'Create'}
+              className="mt-12 button button--secondary button--lg"
+              disabled={
+                submitting || !isConnected || guildOptions.length === 0
+              }>
+              {submitting ? (
+                <div className="flex">
+                  <LoaderSpinner /> <span className="ml-2">Creating</span>
+                </div>
+              ) : (
+                'Create'
+              )}
             </Button>
           </div>
         </>

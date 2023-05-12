@@ -1,18 +1,19 @@
-import { toast } from 'react-hot-toast'
-import { useState, useEffect } from 'react'
-import { useRouter } from 'next/router'
-import { generateLinkBotMessage } from '../../services/message'
-import MainLayout from '@/components/layout/MainLayout'
-import { Head } from '@/components/layout/Head'
-import { faLink } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faLink, faPrayingHands } from '@fortawesome/free-solid-svg-icons'
 import { useAccount, useSignMessage } from 'wagmi'
+import { useEffect, useState } from 'react'
+
 import { ConnectButton } from '@rainbow-me/rainbowkit'
-import { SignMessageButton } from '@/components/ui/buttons/SignMessageButton'
 import { EthAccount } from '@/components/ui/account/EthAccount'
-import PraiseHands from '@/components/landing/PraiseHands'
-import SignMessageSuccess from '@/components/discord-link/SignMessageSuccess'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { Head } from '@/components/layout/Head'
 import { LoaderSpinner } from '@/components/ui/LoaderSpinner'
+import MainLayout from '@/components/layout/MainLayout'
+import PraiseHands from '@/components/landing/PraiseHands'
+import { SignMessageButton } from '@/components/ui/buttons/SignMessageButton'
+import SignMessageSuccess from '@/components/discord-link/SignMessageSuccess'
+import { generateLinkBotMessage } from '../../services/message'
+import { toast } from 'react-hot-toast'
+import { useRouter } from 'next/router'
 
 interface LinkBotProps {
   nonce: string
@@ -152,72 +153,69 @@ export default function LinkBot() {
   return (
     <MainLayout>
       <Head title="Link Discord Bot | Praise" />
+      <h1 className="!mb-0">One final step before you can start praising!</h1>
+      <PraiseHands />
       {query.nonce && query.communityId && query.guildId ? (
-        <div className="w-full">
-          <div className="text-3xl">
-            <h1>One final step before you can start praising!</h1>
-          </div>
-          <div className="flex flex-col w-full">
-            <div className="w-full p-5 text-2xl font-bold">
-              <PraiseHands />
-            </div>
-
-            {!linkSuccess ? (
-              <div className="black-section">
-                <FontAwesomeIcon icon={faLink} size="1x" className="m-2" />
-                <div className="flex justify-center w-full">
-                  <div>
-                    <h2 className="mb-0">Link Praise Discord Bot to </h2>
-                    <h2 className="mt-0">{community.name}</h2>
-
-                    <p className="text-center">
-                      Sign a message with your wallet to secure the connection
-                      between the bot and the newly setup community.
-                    </p>
+        <>
+          {!linkSuccess ? (
+            <div className="black-section">
+              <FontAwesomeIcon icon={faLink} size="1x" className="m-2" />
+              <h2>Link Discord Bot</h2>
+              <div className="flex justify-center w-full">
+                <div>
+                  <div className="flex justify-center py-5">
+                    <div className="px-3 py-2 bg-white rounded-full bg-opacity-20">
+                      <FontAwesomeIcon
+                        icon={faPrayingHands}
+                        size="1x"
+                        className="mr-2"
+                      />
+                      {community.name}
+                    </div>
                   </div>
-                </div>
 
-                <div className="flex justify-center">
-                  {isAddressAvailable ? (
-                    <EthAccount className="w-36" />
-                  ) : (
-                    <ConnectButton
-                      accountStatus="full"
-                      showBalance={false}
-                      chainStatus={'none'}
-                    />
-                  )}
+                  <p className="text-center">
+                    Sign a message with your wallet to secure the connection
+                    between the bot and the newly setup community.
+                  </p>
                 </div>
+              </div>
 
-                {isAddressAvailable && message && (
-                  <div className="mt-12">
-                    <SignMessageButton
-                      text="Sign Message"
-                      message={message}
-                      onSignSuccess={onSignSuccess}
-                      onSignError={(): void =>
-                        void toast.error('Linking bot denied')
-                      }
-                      disabled={!communityLoaded}
-                    />
-                  </div>
+              <div className="flex justify-center">
+                {isAddressAvailable ? (
+                  <EthAccount className="w-36" />
+                ) : (
+                  <ConnectButton
+                    accountStatus="full"
+                    showBalance={false}
+                    chainStatus={'none'}
+                  />
                 )}
               </div>
-            ) : (
-              <SignMessageSuccess
-                name={community.name}
-                discordGuildId={community.discordGuildId}
-              />
-            )}
-          </div>
-        </div>
+
+              {isAddressAvailable && message && (
+                <div className="mt-12">
+                  <SignMessageButton
+                    text="Sign Message"
+                    message={message}
+                    onSignSuccess={onSignSuccess}
+                    onSignError={(): void =>
+                      void toast.error('Linking bot denied')
+                    }
+                    disabled={!communityLoaded}
+                  />
+                </div>
+              )}
+            </div>
+          ) : (
+            <SignMessageSuccess
+              name={community.name}
+              discordGuildId={community.discordGuildId}
+            />
+          )}
+        </>
       ) : (
-        <div className="w-full">
-          <div className="text-3xl">
-            <h1>One final step before you can start praising!</h1>
-          </div>
-          <LoaderSpinner />
-        </div>
+        <div className="black-section">Invalid query string.</div>
       )}
     </MainLayout>
   )
