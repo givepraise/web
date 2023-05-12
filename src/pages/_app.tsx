@@ -13,7 +13,7 @@ export default function App({
   pageProps: { session, ...pageProps },
 }: AppProps) {
   return (
-    <div className="flex flex-col w-full text-center root">
+    <div className="flex flex-col w-full min-h-screen text-center root">
       <div className="bg"></div>
       <RecoilRoot>
         <Header />
