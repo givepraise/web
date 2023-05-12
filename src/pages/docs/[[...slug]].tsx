@@ -12,10 +12,10 @@ const extractPath = (url: string | undefined): string => {
 export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
   const path = extractPath(req.url)
 
-  // if (res) {
-  //   res.setHeader('Location', `https://docs.givepraise.xyz/${path}`)
-  //   res.statusCode = 302 // use 302 for a temporary redirect
-  // }
+  if (res) {
+    res.setHeader('Location', `https://docs.givepraise.xyz/${path}`)
+    res.statusCode = 302 // use 302 for a temporary redirect
+  }
 
   return { props: {} }
 }
