@@ -8,7 +8,7 @@ import {
 import { SubmitHandler, set, useForm } from 'react-hook-form'
 import { formDataState, guildOptionsState } from '@/services/form'
 import { signIn, signOut, useSession } from 'next-auth/react'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 import { Button } from '../Button'
 import { EthAccount } from '../account/EthAccount'
@@ -122,6 +122,8 @@ const Form = () => {
     }
   }
 
+  const isFirstRender = useRef(true)
+
   useEffect(() => {
     const fetchGuilds = async () => {
       if (!session?.accessToken) {
@@ -164,10 +166,15 @@ const Form = () => {
       }
     }
 
+    if (isFirstRender.current) {
+      isFirstRender.current = false
+      return
+    }
+
     if (guildOptions.length === 0 && session?.accessToken) {
       fetchGuilds()
     }
-  }, [session, guildOptions, setGuildOptions])
+  }, [session, setGuildOptions, guildOptions.length])
 
   const handleSelectClick = () => {
     if (!session?.accessToken) {
@@ -238,8 +245,8 @@ const Form = () => {
       <h2>Create Community</h2>
 
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="mb-4 text-xl text-left">
-          <label className="block mt-8 mb-6 font-bold text-left" htmlFor="name">
+        <div className="mb-4 text-left text-xl">
+          <label className="mb-6 mt-8 block text-left font-bold" htmlFor="name">
             Name
           </label>
           <p>
@@ -284,11 +291,11 @@ const Form = () => {
             </p>
           )}
           {nameLoading && (
-            <p className="w-4 mt-1 text-xs">
+            <p className="mt-1 w-4 text-xs">
               <LoaderSpinner />
             </p>
           )}
-          <label className="block mt-8 mb-6 font-bold" htmlFor="name">
+          <label className="mb-6 mt-8 block font-bold" htmlFor="name">
             Creator
           </label>
           {address ? (
@@ -299,8 +306,8 @@ const Form = () => {
             <p>Connect your wallet to set community creator.</p>
           )}
         </div>
-        <div className="mb-4 text-xl text-left">
-          <label className="block mt-8 mb-6 font-bold text-left" htmlFor="name">
+        <div className="mb-4 text-left text-xl">
+          <label className="mb-6 mt-8 block text-left font-bold" htmlFor="name">
             Owners
           </label>
           <p>
@@ -349,8 +356,8 @@ const Form = () => {
             <p className="mt-1 text-xs text-red-500">{errors.owners.message}</p>
           )}
         </div>
-        <div className="mb-4 text-xl text-left">
-          <label className="block mt-8 mb-6 font-bold" htmlFor="name">
+        <div className="mb-4 text-left text-xl">
+          <label className="mb-6 mt-8 block font-bold" htmlFor="name">
             Email
           </label>
           <p>Where can we reach you for occasional updates?</p>
@@ -376,7 +383,7 @@ const Form = () => {
         </div>
         <>
           <div className="mb-4 text-left">
-            <label className="block mt-8 mb-6 font-bold" htmlFor="name">
+            <label className="mb-6 mt-8 block font-bold" htmlFor="name">
               Discord
             </label>
             <p>
@@ -402,7 +409,7 @@ const Form = () => {
           <div className="flex justify-center">
             <Button
               type="submit"
-              className="mt-12 button button--secondary button--lg"
+              className="button button--secondary button--lg mt-12"
               disabled={
                 submitting || !isConnected || guildOptions.length === 0
               }>
