@@ -5,16 +5,6 @@ __metadata:
   version: 6
   cacheKey: 8
 
-"@babel/polyfill@npm:^7.12.1":
-  version: 7.12.1
-  resolution: "@babel/polyfill@npm:7.12.1"
-  dependencies:
-    core-js: ^2.6.5
-    regenerator-runtime: ^0.13.4
-  checksum: 3f59a9d85a41b390b044a1be13e11ae6d8efbfcf4e07217964585c7cef337b828eecfc5e164083227189146d2b6efc1affae8f59c831438eb40b848ab6fe5f39
-  languageName: node
-  linkType: hard
-
 "@babel/runtime@npm:^7.12.5, @babel/runtime@npm:^7.17.2, @babel/runtime@npm:^7.20.13, @babel/runtime@npm:^7.20.7":
   version: 7.21.0
   resolution: "@babel/runtime@npm:7.21.0"
@@ -3166,13 +3156,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"core-js@npm:^2.6.5":
-  version: 2.6.12
-  resolution: "core-js@npm:2.6.12"
-  checksum: 44fa9934a85f8c78d61e0c8b7b22436330471ffe59ec5076fe7f324d6e8cf7f824b14b1c81ca73608b13bdb0fef035bd820989bf059767ad6fa13123bb8bd016
-  languageName: node
-  linkType: hard
-
 "create-require@npm:^1.1.0":
   version: 1.1.1
   resolution: "create-require@npm:1.1.1"
@@ -5884,7 +5867,7 @@ __metadata:
     react-hook-form: ^7.43.1
     react-hot-toast: ^2.4.1
     react-icons: ^4.7.1
-    react-overlap: ^0.0.7
+    react-overlap: ^0.0.10
     react-twitter-embed: ^4.0.4
     recoil: ^0.7.6
     recoil-persist: ^4.2.0
@@ -6878,14 +6861,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-overlap@npm:^0.0.7":
-  version: 0.0.7
-  resolution: "react-overlap@npm:0.0.7"
-  dependencies:
-    "@babel/polyfill": ^7.12.1
+"react-overlap@npm:^0.0.10":
+  version: 0.0.10
+  resolution: "react-overlap@npm:0.0.10"
   peerDependencies:
     react: ^18.2.0
-  checksum: eab275ce9779ca30cdaebfba92eb9c888061803eb0bc0b87b450760983f0cad743ca2fa33e4f86e9c716680aa4a00a50a8899c394bb7bb0074e76e54f57f3c1d
+  checksum: adaea352227f8e12569c693a8ece31d9ba302723cb3ba82abf7140c8df2bac95653e6eeea710f162260105c7364a0b16cffde07bed6036cd2622062d09039b57
   languageName: node
   linkType: hard
 
@@ -7023,7 +7004,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"regenerator-runtime@npm:^0.13.11, regenerator-runtime@npm:^0.13.4":
+"regenerator-runtime@npm:^0.13.11":
   version: 0.13.11
   resolution: "regenerator-runtime@npm:0.13.11"
   checksum: 27481628d22a1c4e3ff551096a683b424242a216fee44685467307f14d58020af1e19660bf2e26064de946bad7eff28950eae9f8209d55723e2d9351e632bbb4
@@ -7921,11 +7902,11 @@ __metadata:
 
 "typescript@patch:typescript@4.9.5#~builtin<compat/typescript>":
   version: 4.9.5
-  resolution: "typescript@patch:typescript@npm%3A4.9.5#~builtin<compat/typescript>::version=4.9.5&hash=23ec76"
+  resolution: "typescript@patch:typescript@npm%3A4.9.5#~builtin<compat/typescript>::version=4.9.5&hash=ad5954"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: ab417a2f398380c90a6cf5a5f74badd17866adf57f1165617d6a551f059c3ba0a3e4da0d147b3ac5681db9ac76a303c5876394b13b3de75fdd5b1eaa06181c9d
+  checksum: 8f6260acc86b56bfdda6004bc53f32ea548f543e8baef7071c8e34d29d292f3e375c8416556c8de10b24deef6933cd1c16a8233dc84a3dd43a13a13265d0faab
   languageName: node
   linkType: hard
 
