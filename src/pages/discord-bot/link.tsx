@@ -14,6 +14,8 @@ import SignMessageSuccess from '@/components/discord-link/SignMessageSuccess'
 import { generateLinkBotMessage } from '../../services/message'
 import { toast } from 'react-hot-toast'
 import { useRouter } from 'next/router'
+import { Button } from '@/components/ui/Button'
+import Link from 'next/link'
 
 interface LinkBotProps {
   nonce: string
@@ -161,17 +163,22 @@ export default function LinkBot() {
             <div className="black-section">
               <FontAwesomeIcon icon={faLink} size="1x" className="m-2" />
               <h2>Link Discord Bot</h2>
-              <div className="flex justify-center w-full">
+              <div className="flex w-full justify-center">
                 <div>
                   <div className="flex justify-center py-5">
-                    <div className="px-3 py-2 bg-white rounded-full bg-opacity-20">
-                      <FontAwesomeIcon
-                        icon={faPrayingHands}
-                        size="1x"
-                        className="mr-2"
-                      />
-                      {community.name}
-                    </div>
+                    <a
+                      href={`//${community.hostname}`}
+                      rel="noreferrer"
+                      target="_blank">
+                      <Button className="px-3 py-2">
+                        <FontAwesomeIcon
+                          icon={faPrayingHands}
+                          size="1x"
+                          className="mr-2"
+                        />
+                        {community.name}
+                      </Button>
+                    </a>
                   </div>
 
                   <p className="text-center">

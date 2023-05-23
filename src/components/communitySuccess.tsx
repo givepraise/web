@@ -20,15 +20,17 @@ export const CommunitySuccessPage = () => {
   return (
     <div className="black-section">
       <div className="mb-8">
-        <FaCheckCircle className="text-5xl fa-beat" />
+        <FaCheckCircle className="fa-beat text-5xl" />
       </div>
 
       <h2>Community created</h2>
       <div className="flex justify-center py-5">
-        <div className="px-3 py-2 bg-white rounded-full bg-opacity-20">
-          <FontAwesomeIcon icon={faPrayingHands} size="1x" className="mr-2" />
-          {name}
-        </div>
+        <a href={`//${hostname}`} rel="noreferrer" target="_blank">
+          <Button className="px-3 py-2">
+            <FontAwesomeIcon icon={faPrayingHands} size="1x" className="mr-2" />
+            {name}
+          </Button>
+        </a>
       </div>
       <h2>Next step</h2>
       <p>
