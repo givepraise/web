@@ -38,7 +38,7 @@ export const CommunitySuccessPage = () => {
       </p>
 
       <a
-        href={`https://discord.com/api/oauth2/authorize?client_id=${discordClientId}&permissions=0&scope=bot&guild_id=${guildId}`}>
+        href={`https://discord.com/api/oauth2/authorize?client_id=${discordClientId}&permissions=274878285888&scope=bot&guild_id=${guildId}`}>
         <Button>Invite Praise Bot</Button>
       </a>
     </div>
