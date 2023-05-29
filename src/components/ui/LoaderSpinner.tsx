@@ -8,7 +8,7 @@ export const LoaderSpinner = (): JSX.Element => {
         icon={faPrayingHands}
         size="1x"
         spin
-        className="inline-block text-white"
+        className="inline-block"
       />
     </div>
   )

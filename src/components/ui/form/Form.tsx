@@ -97,8 +97,6 @@ const Form = () => {
           setSubmitting(false)
         } else {
           reset()
-          setSubmitting(false)
-
           setCommunity({
             name: response.name,
             hostname: response.hostname,
@@ -111,6 +109,8 @@ const Form = () => {
             owners: '',
             discordGuildId: '',
           })
+
+          setSubmitting(false)
         }
       } catch (error) {
         console.error(error)
