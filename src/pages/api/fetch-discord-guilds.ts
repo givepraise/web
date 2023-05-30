@@ -1,17 +1,13 @@
-import type { NextApiRequest, NextApiResponse } from 'next'
+import type { NextRequest } from 'next/server'
 
-interface IFetchDiscordGuildsRequest extends NextApiRequest {
-  query: {
-    accessToken: string
-  }
+export const config = {
+  runtime: 'edge',
 }
 
-export default async function handler(
-  req: IFetchDiscordGuildsRequest,
-  res: NextApiResponse
-) {
+export default async function handler(req: NextRequest) {
   if (req.method === 'GET') {
-    const { accessToken } = req.query
+    const { searchParams } = new URL(req.url)
+    const accessToken = searchParams.get('accessToken')
 
     try {
       const response = await fetch('https://discord.com/api/users/@me/guilds', {
@@ -21,15 +17,25 @@ export default async function handler(
       })
 
       const jsonResponse = await response.json()
-      return res.status(response.status).json(jsonResponse)
+      return new Response(JSON.stringify(jsonResponse), {
+        status: response.status,
+      })
     } catch (error) {
       if (error instanceof Error) {
-        return res.status(500).end(error.message)
+        return new Response(JSON.stringify(error.message), {
+          status: 500,
+        })
       }
-      return res.status(500).end('Internal server error')
+      return new Response(JSON.stringify('Internal server error'), {
+        status: 500,
+      })
     }
   }
 
-  res.setHeader('Allow', ['GET'])
-  return res.status(405).end(`Method ${req.method} Not Allowed`)
+  return new Response(JSON.stringify(`Method ${req.method} Not Allowed`), {
+    status: 405,
+    headers: {
+      Allow: 'GET',
+    },
+  })
 }

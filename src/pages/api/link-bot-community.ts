@@ -1,30 +1,32 @@
-import type { NextApiRequest, NextApiResponse } from 'next'
+import type { NextRequest } from 'next/server'
 
-interface ILinkBotCommunityRequest extends NextApiRequest {
-  body: {
-    signedMessage: string
-    communityId: string
-  }
+export const config = {
+  runtime: 'edge',
+}
+
+interface ILinkBotCommunityRequest {
+  signedMessage: string
+  communityId: string
 }
 
 const API_URL = process.env.API_URL
 const API_KEY = process.env.API_KEY
 
-export default async function handler(
-  req: ILinkBotCommunityRequest,
-  res: NextApiResponse
-) {
+export default async function handler(req: NextRequest) {
   if (req.method === 'PATCH') {
     if (!API_URL || !API_KEY) {
       const missingEnvVar = !API_URL ? 'API_URL' : 'API_KEY'
-      return res
-        .status(500)
-        .end(
+      return new Response(
+        JSON.stringify(
           `Internal server error: Missing environment variable ${missingEnvVar}`
-        )
+        ),
+        {
+          status: 500,
+        }
+      )
     }
-
-    const { signedMessage, communityId } = req.body
+    const { signedMessage, communityId } =
+      (await req.json()) as ILinkBotCommunityRequest
 
     try {
       const response = await fetch(
@@ -42,15 +44,25 @@ export default async function handler(
       )
 
       const jsonResponse = await response.json()
-      return res.status(response.status).json(jsonResponse)
+      return new Response(JSON.stringify(jsonResponse), {
+        status: response.status,
+      })
     } catch (error) {
       if (error instanceof Error) {
-        return res.status(500).end(error.message)
+        return new Response(JSON.stringify(error.message), {
+          status: 500,
+        })
       }
-      return res.status(500).end('Internal server error')
+      return new Response(JSON.stringify('Internal server error'), {
+        status: 500,
+      })
     }
   }
 
-  res.setHeader('Allow', ['PATCH'])
-  return res.status(405).end(`Method ${req.method} Not Allowed`)
+  return new Response(JSON.stringify(`Method ${req.method} Not Allowed`), {
+    status: 405,
+    headers: {
+      Allow: 'PATCH',
+    },
+  })
 }
