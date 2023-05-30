@@ -1,29 +1,32 @@
-import type { NextApiRequest, NextApiResponse } from 'next'
+import type { NextRequest } from 'next/server'
 
 import { FormData } from '@/types/formData.type'
 
-interface ISaveCommunityRequest extends NextApiRequest {
-  body: {
-    data: FormData
-    address: string
-  }
+export const config = {
+  runtime: 'edge',
+}
+
+interface ISaveCommunityRequest {
+  data: FormData
+  address: string
 }
 
 const API_URL = process.env.API_URL
 const API_KEY = process.env.API_KEY
 const COMMUNITY_BASE_URL = process.env.COMMUNITY_BASE_URL
 
-export default async function handler(
-  req: ISaveCommunityRequest,
-  res: NextApiResponse
-) {
+export default async function handler(req: NextRequest) {
   if (req.method === 'POST') {
     if (!API_URL || !API_KEY || !COMMUNITY_BASE_URL) {
-      return res
-        .status(500)
-        .end(`Internal server error: ENV not setup correctly.`)
+      return new Response(
+        JSON.stringify('Internal server error: ENV not setup correctly.'),
+        {
+          status: 500,
+        }
+      )
     }
-    const { data, address } = req.body
+
+    const { data, address } = (await req.json()) as ISaveCommunityRequest
 
     const ownersArray = data.owners.split(', ')
     const ownersString = ownersArray.includes(address)
@@ -51,15 +54,25 @@ export default async function handler(
         body: JSON.stringify(postData),
       })
       const jsonResponse = await response.json()
-      return res.status(response.status).json(jsonResponse)
+      return new Response(JSON.stringify(jsonResponse), {
+        status: response.status,
+      })
     } catch (error) {
       if (error instanceof Error) {
-        return res.status(500).end(error.message)
+        return new Response(JSON.stringify(error.message), {
+          status: 500,
+        })
       }
-      return res.status(500).end('Internal server error')
+      return new Response(JSON.stringify('Internal server error'), {
+        status: 500,
+      })
     }
   }
 
-  res.setHeader('Allow', ['POST'])
-  return res.status(405).end(`Method ${req.method} Not Allowed`)
+  return new Response(JSON.stringify(`Method ${req.method} Not Allowed`), {
+    status: 405,
+    headers: {
+      Allow: 'POST',
+    },
+  })
 }

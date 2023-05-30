@@ -97,6 +97,7 @@ const WaitlistForm: React.FC = () => {
 
       setSubmitting(false)
     } catch (error: any) {
+      console.log('error', error)
       setFormError('There was an error submitting the form')
       setSubmitting(false)
     }
