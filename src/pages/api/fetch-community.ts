@@ -1,25 +1,25 @@
-import type { NextApiRequest, NextApiResponse } from 'next'
+import type { NextRequest } from 'next/server'
 
-interface IGetCommunityRequest extends NextApiRequest {
-  query: {
-    communityId: string
-  }
+export const config = {
+  runtime: 'edge',
 }
 
 const API_URL = process.env.API_URL
 const API_KEY = process.env.API_KEY
 
-export default async function handler(
-  req: IGetCommunityRequest,
-  res: NextApiResponse
-) {
+export default async function handler(req: NextRequest) {
   if (req.method === 'GET') {
     if (!API_URL || !API_KEY) {
-      return res
-        .status(500)
-        .end(`Internal server error: ENV not setup correctly.`)
+      return new Response(
+        JSON.stringify('Internal server error: ENV not setup correctly.'),
+        {
+          status: 500,
+        }
+      )
     }
-    const { communityId } = req.query
+
+    const { searchParams } = new URL(req.url)
+    const communityId = searchParams.get('communityId')
 
     try {
       const response = await fetch(`${API_URL}/communities/${communityId}`, {
@@ -31,15 +31,25 @@ export default async function handler(
       })
       const jsonResponse = await response.json()
 
-      return res.status(response.status).json(jsonResponse)
+      return new Response(JSON.stringify(jsonResponse), {
+        status: response.status,
+      })
     } catch (error) {
       if (error instanceof Error) {
-        return res.status(500).end(error.message)
+        return new Response(JSON.stringify(error.message), {
+          status: 500,
+        })
       }
-      return res.status(500).end('Internal server error')
+      return new Response(JSON.stringify('Internal server error'), {
+        status: 500,
+      })
     }
   }
 
-  res.setHeader('Allow', ['GET'])
-  return res.status(405).end(`Method ${req.method} Not Allowed`)
+  return new Response(JSON.stringify(`Method ${req.method} Not Allowed`), {
+    status: 405,
+    headers: {
+      Allow: 'GET',
+    },
+  })
 }
