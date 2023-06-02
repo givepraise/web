@@ -2,6 +2,7 @@ import {
   FaCheckCircle,
   FaDiscord,
   FaEnvelope,
+  FaSync,
   FaUser,
   FaUsers,
 } from 'react-icons/fa'
@@ -390,21 +391,29 @@ const Form = () => {
               Which Discord server do you want to use Praise in? Discord login
               required
             </p>
-
-            <FormSelect
-              name="discordGuildId"
-              options={guildOptions}
-              register={register}
-              onChange={(event) =>
-                setFormData({
-                  ...formData,
-                  discordGuildId: event.target.value,
-                })
-              }
-              onClick={handleSelectClick}
-              icon={<FaDiscord />}
-              disabled={!isConnected}
-            />
+            <div className="flex">
+              <FormSelect
+                name="discordGuildId"
+                options={guildOptions}
+                register={register}
+                onChange={(event) =>
+                  setFormData({
+                    ...formData,
+                    discordGuildId: event.target.value,
+                  })
+                }
+                onClick={handleSelectClick}
+                icon={<FaDiscord />}
+                disabled={!isConnected}
+              />
+              <div className="ml-4 flex items-center">
+                <button
+                  onClick={() => setGuildOptions([])}
+                  className="hover:text-pink-600">
+                  <FaSync />
+                </button>
+              </div>
+            </div>
           </div>
           <div className="flex justify-center">
             <Button
