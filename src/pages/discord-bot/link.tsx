@@ -15,7 +15,6 @@ import { generateLinkBotMessage } from '../../services/message'
 import { toast } from 'react-hot-toast'
 import { useRouter } from 'next/router'
 import { Button } from '@/components/ui/Button'
-import Link from 'next/link'
 
 interface LinkBotProps {
   nonce: string
@@ -216,7 +215,7 @@ export default function LinkBot() {
             </div>
           ) : (
             <SignMessageSuccess
-              name={community.name}
+              community={community}
               discordGuildId={community.discordGuildId}
             />
           )}
