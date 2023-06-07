@@ -3,22 +3,23 @@ import { FaCheckCircle } from 'react-icons/fa'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Link from 'next/link'
 import { faPrayingHands } from '@fortawesome/free-solid-svg-icons'
+import { ICommunity } from '@/pages/discord-bot/link'
 
 interface SignMessageSuccessProps {
   discordGuildId: string
-  name: string
+  community: ICommunity
 }
 
 const SignMessageSuccess = ({
   discordGuildId,
-  name,
+  community,
 }: SignMessageSuccessProps) => {
   return (
     <div className="black-section">
       <div className="mb-5">
-        <FaCheckCircle className="text-5xl fa-beat" />
+        <FaCheckCircle className="fa-beat text-5xl" />
       </div>
-      <div className="flex justify-center w-full">
+      <div className="flex w-full justify-center">
         <div>
           <h2>Community linked</h2>
 
@@ -26,14 +27,19 @@ const SignMessageSuccess = ({
             The Praise Discord Bot has been linked to
           </h5>
           <div className="flex justify-center py-5">
-            <div className="px-3 py-2 bg-white rounded-full bg-opacity-20">
-              <FontAwesomeIcon
-                icon={faPrayingHands}
-                size="1x"
-                className="mr-2"
-              />
-              {name}
-            </div>
+            <a
+              href={`//${community.hostname}`}
+              rel="noreferrer"
+              target="_blank">
+              <Button className="px-3 py-2">
+                <FontAwesomeIcon
+                  icon={faPrayingHands}
+                  size="1x"
+                  className="mr-2"
+                />
+                {community.name}
+              </Button>
+            </a>
           </div>
 
           <h5 className="text-center">
