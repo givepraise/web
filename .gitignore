@@ -46,3 +46,6 @@ next-env.d.ts
 # env
 .env
 .env.local
+
+# yarn cache
+.yarn/cache

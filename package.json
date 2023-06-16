@@ -19,6 +19,7 @@
     "@rainbow-me/rainbowkit": "^0.11.0",
     "@tailwindcss/forms": "^0.5.3",
     "@ukstv/jazzicon-react": "^1.0.0",
+    "cheerio": "^1.0.0-rc.12",
     "classnames": "^2.3.2",
     "eslint-config-next": "13.1.6",
     "next": "13.1.6",
