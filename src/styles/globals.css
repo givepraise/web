@@ -43,7 +43,7 @@
 }
 
 .main-layout {
-  @apply prose prose-base relative z-10 mx-auto w-[700px] md:prose-xl;
+  @apply prose prose-base relative z-10 mx-auto w-[700px] text-black md:prose-xl;
 }
 
 .main-layout a {
