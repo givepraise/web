@@ -14,7 +14,7 @@ export default async function handler(req: NextRequest) {
       )
     }
 
-    const { searchParams } = new URL(req.url)
+    const { searchParams } = new URL(`http://localhost${req.url}`)
     const communityId = searchParams.get('communityId')
 
     try {

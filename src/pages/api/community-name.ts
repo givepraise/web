@@ -17,9 +17,8 @@ export default async function handler(req: NextRequest) {
       )
     }
 
-    const { searchParams } = new URL(req.url)
+    const { searchParams } = new URL(`http://localhost${req.url}`)
     const name = searchParams.get('name')
-    console.log(`${API_URL}/communities/isNameAvailable?name=${name}`)
 
     try {
       const response = await fetch(

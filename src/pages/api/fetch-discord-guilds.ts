@@ -2,7 +2,7 @@ import type { NextRequest } from 'next/server'
 
 export default async function handler(req: NextRequest) {
   if (req.method === 'GET') {
-    const { searchParams } = new URL(req.url)
+    const { searchParams } = new URL(`http://localhost${req.url}`)
     const accessToken = searchParams.get('accessToken')
 
     try {
