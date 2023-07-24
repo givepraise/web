@@ -1,7 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 
 import { FormData } from '@/types/formData.type'
-import { NextRequest } from 'next/server'
 
 interface ISaveCommunityRequest {
   data: FormData
@@ -12,14 +11,17 @@ const API_URL = process.env.API_URL
 const API_KEY = process.env.API_KEY
 const COMMUNITY_BASE_URL = process.env.COMMUNITY_BASE_URL
 
-export default async function handler(req: NextRequest, res: NextApiResponse) {
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
   if (req.method === 'POST') {
     if (!API_URL || !API_KEY || !COMMUNITY_BASE_URL) {
       res.status(500).json('Internal server error: ENV not setup correctly.')
       return
     }
 
-    const { data, address } = (await req.json()) as ISaveCommunityRequest
+    const { data, address } = req.body as ISaveCommunityRequest
 
     const ownersArray = data.owners.split(', ')
     const ownersString = ownersArray.includes(address)

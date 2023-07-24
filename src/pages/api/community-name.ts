@@ -1,10 +1,12 @@
-import { NextApiResponse } from 'next'
-import { NextRequest } from 'next/server'
+import { NextApiRequest, NextApiResponse } from 'next'
 
 const API_URL = process.env.API_URL
 const API_KEY = process.env.API_KEY
 
-export default async function handler(req: NextRequest, res: NextApiResponse) {
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
   if (req.method === 'GET') {
     if (!API_URL || !API_KEY) {
       const missingEnvVar = !API_URL ? 'API_URL' : 'API_KEY'
