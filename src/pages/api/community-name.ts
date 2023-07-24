@@ -1,9 +1,5 @@
 import type { NextRequest } from 'next/server'
 
-export const config = {
-  runtime: 'edge',
-}
-
 const API_URL = process.env.API_URL
 const API_KEY = process.env.API_KEY
 
