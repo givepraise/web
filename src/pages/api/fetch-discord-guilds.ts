@@ -1,9 +1,5 @@
 import type { NextRequest } from 'next/server'
 
-export const config = {
-  runtime: 'edge',
-}
-
 export default async function handler(req: NextRequest) {
   if (req.method === 'GET') {
     const { searchParams } = new URL(req.url)

@@ -1,10 +1,5 @@
-import type { NextRequest } from 'next/server'
-
 import { FormData } from '@/types/formData.type'
-
-export const config = {
-  runtime: 'edge',
-}
+import type { NextRequest } from 'next/server'
 
 interface ISaveCommunityRequest {
   data: FormData

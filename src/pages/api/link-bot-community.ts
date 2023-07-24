@@ -1,9 +1,5 @@
 import type { NextRequest } from 'next/server'
 
-export const config = {
-  runtime: 'edge',
-}
-
 interface ILinkBotCommunityRequest {
   signedMessage: string
   communityId: string
