@@ -1,5 +1,7 @@
+import { NextApiRequest, NextApiResponse } from 'next'
+
 import { FormData } from '@/types/formData.type'
-import type { NextRequest } from 'next/server'
+import { NextRequest } from 'next/server'
 
 interface ISaveCommunityRequest {
   data: FormData
@@ -10,15 +12,11 @@ const API_URL = process.env.API_URL
 const API_KEY = process.env.API_KEY
 const COMMUNITY_BASE_URL = process.env.COMMUNITY_BASE_URL
 
-export default async function handler(req: NextRequest) {
+export default async function handler(req: NextRequest, res: NextApiResponse) {
   if (req.method === 'POST') {
     if (!API_URL || !API_KEY || !COMMUNITY_BASE_URL) {
-      return new Response(
-        JSON.stringify('Internal server error: ENV not setup correctly.'),
-        {
-          status: 500,
-        }
-      )
+      res.status(500).json('Internal server error: ENV not setup correctly.')
+      return
     }
 
     const { data, address } = (await req.json()) as ISaveCommunityRequest
@@ -49,25 +47,17 @@ export default async function handler(req: NextRequest) {
         body: JSON.stringify(postData),
       })
       const jsonResponse = await response.json()
-      return new Response(JSON.stringify(jsonResponse), {
-        status: response.status,
-      })
+      res.status(response.status).json(jsonResponse)
+      return
     } catch (error) {
       if (error instanceof Error) {
-        return new Response(JSON.stringify(error.message), {
-          status: 500,
-        })
+        res.status(500).json(error.message)
+        return
       }
-      return new Response(JSON.stringify('Internal server error'), {
-        status: 500,
-      })
+      res.status(500).json('Internal server error')
+      return
     }
   }
 
-  return new Response(JSON.stringify(`Method ${req.method} Not Allowed`), {
-    status: 405,
-    headers: {
-      Allow: 'POST',
-    },
-  })
+  res.status(405).setHeader('Allow', 'POST')
 }

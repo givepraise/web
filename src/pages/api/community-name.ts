@@ -1,25 +1,21 @@
-import type { NextRequest } from 'next/server'
+import { NextApiResponse } from 'next'
+import { NextRequest } from 'next/server'
 
 const API_URL = process.env.API_URL
 const API_KEY = process.env.API_KEY
 
-export default async function handler(req: NextRequest) {
+export default async function handler(req: NextRequest, res: NextApiResponse) {
   if (req.method === 'GET') {
     if (!API_URL || !API_KEY) {
       const missingEnvVar = !API_URL ? 'API_URL' : 'API_KEY'
-      return new Response(
-        JSON.stringify(
-          `Internal server error: Missing environment variable ${missingEnvVar}`
-        ),
-        {
-          status: 500,
-        }
-      )
+      res.status(500).json({
+        error: `Internal server error: Missing environment variable ${missingEnvVar}`,
+      })
+      return
     }
 
     const { searchParams } = new URL(`http://localhost${req.url}`)
     const name = searchParams.get('name')
-
     try {
       const response = await fetch(
         `${API_URL}/communities/isNameAvailable?name=${name}`,
@@ -31,27 +27,22 @@ export default async function handler(req: NextRequest) {
           },
         }
       )
-      const jsonResponse = await response.json()
-
-      return new Response(JSON.stringify(jsonResponse), {
-        status: response.status,
-      })
+      if (response.status === 200) {
+        res.status(200).json(await response.json())
+        return
+      }
     } catch (error) {
       if (error instanceof Error) {
-        return new Response(JSON.stringify(error.message), {
-          status: 500,
+        res.status(500).json({
+          error: error.message,
         })
+        return
       }
-      return new Response(JSON.stringify('Internal server error'), {
-        status: 500,
+      res.status(500).json({
+        error: 'Internal server error.',
       })
+      return
     }
   }
-
-  return new Response(JSON.stringify(`Method ${req.method} Not Allowed`), {
-    status: 405,
-    headers: {
-      Allow: 'GET',
-    },
-  })
+  res.status(405).setHeader('Allow', 'GET')
 }

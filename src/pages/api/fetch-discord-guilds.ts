@@ -1,6 +1,9 @@
-import type { NextRequest } from 'next/server'
+import { NextApiRequest, NextApiResponse } from 'next'
 
-export default async function handler(req: NextRequest) {
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
   if (req.method === 'GET') {
     const { searchParams } = new URL(`http://localhost${req.url}`)
     const accessToken = searchParams.get('accessToken')
@@ -13,25 +16,17 @@ export default async function handler(req: NextRequest) {
       })
 
       const jsonResponse = await response.json()
-      return new Response(JSON.stringify(jsonResponse), {
-        status: response.status,
-      })
+      res.status(response.status).json(jsonResponse)
+      return
     } catch (error) {
       if (error instanceof Error) {
-        return new Response(JSON.stringify(error.message), {
-          status: 500,
-        })
+        res.status(500).json(error.message)
+        return
       }
-      return new Response(JSON.stringify('Internal server error'), {
-        status: 500,
-      })
+      res.status(500).json('Internal server error')
+      return
     }
   }
 
-  return new Response(JSON.stringify(`Method ${req.method} Not Allowed`), {
-    status: 405,
-    headers: {
-      Allow: 'GET',
-    },
-  })
+  res.status(405).setHeader('Allow', 'GET')
 }

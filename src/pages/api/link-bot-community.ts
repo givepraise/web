@@ -1,4 +1,5 @@
-import type { NextRequest } from 'next/server'
+import { NextApiResponse } from 'next'
+import { NextRequest } from 'next/server'
 
 interface ILinkBotCommunityRequest {
   signedMessage: string
@@ -8,19 +9,16 @@ interface ILinkBotCommunityRequest {
 const API_URL = process.env.API_URL
 const API_KEY = process.env.API_KEY
 
-export default async function handler(req: NextRequest) {
+export default async function handler(req: NextRequest, res: NextApiResponse) {
   if (req.method === 'PATCH') {
     if (!API_URL || !API_KEY) {
       const missingEnvVar = !API_URL ? 'API_URL' : 'API_KEY'
-      return new Response(
-        JSON.stringify(
-          `Internal server error: Missing environment variable ${missingEnvVar}`
-        ),
-        {
-          status: 500,
-        }
-      )
+      res.status(500).json({
+        error: `Internal server error: Missing environment variable ${missingEnvVar}`,
+      })
+      return
     }
+
     const { signedMessage, communityId } =
       (await req.json()) as ILinkBotCommunityRequest
 
@@ -40,25 +38,21 @@ export default async function handler(req: NextRequest) {
       )
 
       const jsonResponse = await response.json()
-      return new Response(JSON.stringify(jsonResponse), {
-        status: response.status,
-      })
+      res.status(response.status).json(jsonResponse)
+      return
     } catch (error) {
       if (error instanceof Error) {
-        return new Response(JSON.stringify(error.message), {
-          status: 500,
+        res.status(500).json({
+          error: error.message,
         })
+        return
       }
-      return new Response(JSON.stringify('Internal server error'), {
-        status: 500,
+      res.status(500).json({
+        error: 'Internal server error.',
       })
+      return
     }
   }
 
-  return new Response(JSON.stringify(`Method ${req.method} Not Allowed`), {
-    status: 405,
-    headers: {
-      Allow: 'PATCH',
-    },
-  })
+  res.status(405).setHeader('Allow', 'PATCH')
 }

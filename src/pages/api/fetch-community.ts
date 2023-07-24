@@ -1,17 +1,19 @@
-import type { NextRequest } from 'next/server'
+import { NextApiRequest, NextApiResponse } from 'next'
 
 const API_URL = process.env.API_URL
 const API_KEY = process.env.API_KEY
 
-export default async function handler(req: NextRequest) {
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
   if (req.method === 'GET') {
     if (!API_URL || !API_KEY) {
-      return new Response(
-        JSON.stringify('Internal server error: ENV not setup correctly.'),
-        {
-          status: 500,
-        }
-      )
+      const missingEnvVar = !API_URL ? 'API_URL' : 'API_KEY'
+      res.status(500).json({
+        error: `Internal server error: Missing environment variable ${missingEnvVar}`,
+      })
+      return
     }
 
     const { searchParams } = new URL(`http://localhost${req.url}`)
@@ -27,25 +29,17 @@ export default async function handler(req: NextRequest) {
       })
       const jsonResponse = await response.json()
 
-      return new Response(JSON.stringify(jsonResponse), {
-        status: response.status,
-      })
+      res.status(response.status).json(jsonResponse)
+      return
     } catch (error) {
       if (error instanceof Error) {
-        return new Response(JSON.stringify(error.message), {
-          status: 500,
-        })
+        res.status(500).json(error.message)
+        return
       }
-      return new Response(JSON.stringify('Internal server error'), {
-        status: 500,
-      })
+      res.status(500).json('Internal server error')
+      return
     }
   }
 
-  return new Response(JSON.stringify(`Method ${req.method} Not Allowed`), {
-    status: 405,
-    headers: {
-      Allow: 'GET',
-    },
-  })
+  res.status(405).setHeader('Allow', 'GET')
 }
