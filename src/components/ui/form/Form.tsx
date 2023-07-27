@@ -241,6 +241,22 @@ const Form = () => {
     }
   }
 
+  useEffect(() => {
+    const wakeup = async () => {
+      void fetch('/api/save-community', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          wakeup:
+            "This is lame, a quickfix for now. The serverless function takes too long to wake up, so we're calling it here.",
+        }),
+      })
+    }
+    wakeup()
+  }, [])
+
   return (
     <div className="black-section">
       <h2>Create Community</h2>
